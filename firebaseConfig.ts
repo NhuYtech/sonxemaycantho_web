@@ -1,6 +1,7 @@
-// firebaseConfig.ts
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, onValue } from "firebase/database";
+"use client";
+
+import { initializeApp, getApps, getApp } from "firebase/app";
+import { getDatabase } from "firebase/database";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
@@ -14,6 +15,8 @@ const firebaseConfig = {
   appId: "1:xxxx:web:xxxxxx",
 };
 
-const app = initializeApp(firebaseConfig);
+// 🟢 Ngăn lỗi "Firebase App already exists"
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+
 export const db = getDatabase(app);
 export const auth = getAuth(app);

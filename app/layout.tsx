@@ -2,8 +2,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Sidebar from "@/components/Sidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,9 +18,9 @@ export const metadata: Metadata = {
   description:
     "Hệ thống giám sát và cảnh báo cháy tại xưởng sơn xe máy Cần Thơ, ứng dụng IoT và Firebase Realtime Database.",
   icons: {
-    icon: "/avt.png",
-    shortcut: "/avt.png",
-    apple: "/avt.png",
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
   },
 };
 
@@ -34,15 +32,7 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-hidden`}>
-        <div className="flex h-screen flex-col">
-          <Header />
-          <div className="flex flex-1 overflow-hidden">
-            <Sidebar />
-            <main className="flex-1 overflow-auto">
-              {children}
-            </main>
-          </div>
-        </div>
+        {children}
       </body>
     </html>
   );

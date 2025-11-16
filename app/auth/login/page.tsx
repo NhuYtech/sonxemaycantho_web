@@ -60,7 +60,7 @@ export default function FireAlertLogin() {
 
           {/* Nút login chính */}
           <button
-            onClick={() => router.push("/dashboard")}
+            onClick={() => router.push("/")}
             className="w-full bg-linear-to-r from-red-600 to-orange-500 hover:from-red-500 hover:to-orange-400 text-white font-bold rounded-full py-3 flex items-center justify-center gap-2 transition shadow-[0_0_15px_rgba(255,80,80,0.5)]"
           >
             🔥 ĐĂNG NHẬP
