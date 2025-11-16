@@ -1,7 +1,9 @@
 // app/layout.tsx
-import type { Metadata } from "next";
+"use client";
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import AuthProvider from "../components/AuthProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,17 +15,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Can Tho FireGuard",
-  description:
-    "Hệ thống giám sát và cảnh báo cháy tại xưởng sơn xe máy Cần Thơ, ứng dụng IoT và Firebase Realtime Database.",
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
-  },
-};
-
 export default function RootLayout({
   children,
 }: {
@@ -32,7 +23,9 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-hidden`}>
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

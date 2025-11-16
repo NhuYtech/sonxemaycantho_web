@@ -25,7 +25,14 @@ export async function logout(): Promise<void> {
   return await signOut(auth);
 }
 
+// Google OAuth sign-in helper
 export async function signInWithGoogle(): Promise<UserCredential> {
   const provider = new GoogleAuthProvider();
+  // Force account picker to show every time
+  provider.setCustomParameters({
+    prompt: "select_account",
+  });
   return await signInWithPopup(auth, provider);
 }
+
+
