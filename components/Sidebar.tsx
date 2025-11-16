@@ -8,7 +8,7 @@ export default function Sidebar() {
     <div className="w-60 bg-[#280E0A]/70 backdrop-blur-md border-r border-red-900/30 flex flex-col p-5">
       
       <div className="text-xl font-bold mb-8 text-orange-400 text-center">
-        🛡️ FireGuard
+        🛡️CanTho FireGuard
       </div>
 
       <nav className="flex flex-col gap-3">

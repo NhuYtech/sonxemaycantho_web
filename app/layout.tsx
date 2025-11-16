@@ -1,3 +1,4 @@
+// app/layout.tsx
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -15,8 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title:
-    "ỨNG DỤNG CẢNH BÁO CHÁY TẠI XƯỞNG SƠN XE MÁY CẦN THƠ",
+  title: "Can Tho FireGuard",
   description:
     "Hệ thống giám sát và cảnh báo cháy tại xưởng sơn xe máy Cần Thơ, ứng dụng IoT và Firebase Realtime Database.",
   icons: {
@@ -28,14 +28,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="vi">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-hidden`}>
         <div className="flex h-screen flex-col">
           <Header />
           <div className="flex flex-1 overflow-hidden">

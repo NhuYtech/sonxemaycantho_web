@@ -5,6 +5,8 @@ import {
   sendPasswordResetEmail,
   signOut,
   UserCredential,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 
 export async function signIn(email: string, password: string): Promise<UserCredential> {
@@ -23,4 +25,7 @@ export async function logout(): Promise<void> {
   return await signOut(auth);
 }
 
-
+export async function signInWithGoogle(): Promise<UserCredential> {
+  const provider = new GoogleAuthProvider();
+  return await signInWithPopup(auth, provider);
+}

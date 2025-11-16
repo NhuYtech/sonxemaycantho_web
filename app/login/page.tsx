@@ -1,118 +1,91 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import { FcGoogle } from "react-icons/fc";
+import { signInWithGoogle } from "@/lib/auth";
 import { useRouter } from "next/navigation";
-import { signIn, register, resetPassword } from "@/lib/auth";
 
-export default function LoginPage() {
+export default function FireAlertLogin() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [mode, setMode] = useState<"login" | "register">("login");
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setLoading(true);
-    try {
-      if (mode === "login") await signIn(email, password);
-      else await register(email, password);
+  const handleGoogleLogin = async () => {
+    try { 
+      await signInWithGoogle();
       router.push("/");
-    } catch (err: any) {
-      setError(err?.message || "Đăng nhập thất bại");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const onResetPassword = async () => {
-    setError(null);
-    if (!email) {
-      setError("Vui lòng nhập email để đặt lại mật khẩu");
-      return;
-    }
-    setLoading(true);
-    try {
-      await resetPassword(email);
-      alert("Đã gửi email đặt lại mật khẩu. Vui lòng kiểm tra hộp thư.");
-    } catch (err: any) {
-      setError(err?.message || "Không thể gửi email đặt lại mật khẩu");
-    } finally {
-      setLoading(false);
+    } catch (err) {
+      console.error("Lỗi đăng nhập Google:", err);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-gray-900 rounded-xl shadow-2xl p-6 md:p-8 border border-gray-800">
-        <h1 className="text-2xl md:text-3xl font-bold mb-2 text-center">
-          {mode === "login" ? "Đăng nhập" : "Đăng ký tài khoản"}
-        </h1>
-        <div className="flex items-center justify-center gap-2 text-sm mb-4">
-          <button
-            type="button"
-            className={`px-3 py-1 rounded-lg border ${mode === "login" ? "bg-cyan-600 text-white border-cyan-600" : "bg-gray-800 border-gray-700"}`}
-            onClick={() => setMode("login")}
-          >
-            Đăng nhập
-          </button>
-          <button
-            type="button"
-            className={`px-3 py-1 rounded-lg border ${mode === "register" ? "bg-cyan-600 text-white border-cyan-600" : "bg-gray-800 border-gray-700"}`}
-            onClick={() => setMode("register")}
-          >
-            Đăng ký
-          </button>
+    <div
+      className="min-h-screen flex items-center justify-center text-white"
+      style={{
+        background:
+          "linear-gradient(180deg, #340800 0%, #B83C1B 70%, #FF884B 100%)",
+      }}
+    >
+      <div className="relative w-full max-w-sm bg-[#1A0A00cc] backdrop-blur-md rounded-2xl p-8 shadow-[0_0_40px_rgba(255,60,60,0.4)] border border-red-700">
+        {/* 🔥 Logo và tiêu đề */}
+        <div className="flex flex-col items-center mb-6">
+          <div className="bg-white/10 p-4 rounded-full border border-red-400 shadow-lg">
+            <img
+              src="/favicon.ico "
+              alt="CanTho FireGuard"
+              className="w-16 h-16"
+            />
+          </div>
+          <h1 className="text-3xl font-extrabold mt-4 tracking-wide">
+            CanTho FireGuard
+          </h1>
+          <p className="text-sm text-gray-300 mt-2">Đăng nhập vào hệ thống</p>
         </div>
-        <form onSubmit={onSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm text-gray-400 mb-1">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-lg bg-gray-800 border border-gray-700 p-3 outline-none focus:ring-2 focus:ring-cyan-500"
-              placeholder="you@example.com"
-              required
-            />
+
+        {/* 🔒 Form đăng nhập */}
+        <div className="space-y-4">
+          {/* Nút Google */}
+          <button
+            onClick={handleGoogleLogin}
+            className="w-full flex items-center justify-center gap-2 bg-white text-gray-800 font-semibold rounded-full py-3 hover:bg-gray-100 transition shadow-md"
+          >
+            <FcGoogle size={22} /> Đăng nhập bằng Google
+          </button>
+
+          {/* hoặc */}
+          <div className="flex items-center justify-center gap-2 text-gray-300 text-sm my-2">
+            <span className="h-px bg-gray-500 w-1/4" />
+            HOẶC
+            <span className="h-px bg-gray-500 w-1/4" />
           </div>
-          <div>
-            <label className="block text-sm text-gray-400 mb-1">Mật khẩu</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg bg-gray-800 border border-gray-700 p-3 outline-none focus:ring-2 focus:ring-cyan-500"
-              placeholder="••••••••"
-              required
-            />
-          </div>
-          {error && (
-            <p className="text-sm text-red-400 bg-red-900/30 border border-red-700 rounded-md p-2">{error}</p>
-          )}
-          <div className="space-y-3">
+
+          {/* Nút login chính */}
+          <button
+            onClick={() => router.push("/dashboard")}
+            className="w-full bg-linear-to-r from-red-600 to-orange-500 hover:from-red-500 hover:to-orange-400 text-white font-bold rounded-full py-3 flex items-center justify-center gap-2 transition shadow-[0_0_15px_rgba(255,80,80,0.5)]"
+          >
+            🔥 ĐĂNG NHẬP
+          </button>
+
+          {/* Liên kết nhỏ */}
+          <div className="flex justify-between text-sm text-gray-300 mt-4">
+            <button className="hover:text-white">Quên mật khẩu?</button>
             <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-cyan-600 hover:bg-cyan-500 disabled:opacity-60 text-white font-semibold rounded-lg p-3 transition"
+              onClick={() => router.push("/register")}
+              className="hover:text-white"
             >
-              {loading ? (mode === "login" ? "Đang đăng nhập..." : "Đang đăng ký...") : (mode === "login" ? "Đăng nhập" : "Đăng ký")}
-            </button>
-            <button
-              type="button"
-              disabled={loading}
-              onClick={onResetPassword}
-              className="w-full bg-gray-800 hover:bg-gray-700 disabled:opacity-60 text-gray-200 font-semibold rounded-lg p-3 transition border border-gray-700"
-            >
-              Quên mật khẩu (gửi email đặt lại)
+              Tạo tài khoản
             </button>
           </div>
-        </form>
+        </div>
+
+        {/* Footer nhỏ */}
+        <div className="text-center mt-6 text-xs text-gray-400">
+          Được phát triển bởi{" "}
+          <span className="text-red-400 font-semibold">
+            SAFEHOME SYSTEMS
+          </span>
+        </div>
       </div>
     </div>
   );
 }
-
-
