@@ -1,25 +1,55 @@
 "use client";
 
 import React, { useState } from "react";
-import { signInWithGoogle } from "@/lib/auth";
+import { registerWithGoogle } from "@/lib/auth";
 import { FcGoogle } from "react-icons/fc";
+import { useRouter } from "next/navigation";
+import { getAdditionalUserInfo } from "firebase/auth";
 
 export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showExistingAccountModal, setShowExistingAccountModal] = useState(false);
+  const router = useRouter();
 
   const handleGoogleRegister = async () => {
     try {
       setLoading(true);
       setError(null);
       console.log("Starting Google register...");
-      await signInWithGoogle();
-      console.log("Google register successful");
+      
+      const result = await registerWithGoogle();
+      const additionalInfo = getAdditionalUserInfo(result);
+      
+      // Check if user already exists
+      if (additionalInfo && !additionalInfo.isNewUser) {
+        console.log("User already exists");
+        setShowExistingAccountModal(true);
+        setLoading(false);
+        return;
+      }
+      
+      console.log("Google register successful - new user created");
     } catch (err: any) {
       console.error("Google register error:", err.code, err.message);
-      setError(err?.message || "Đăng ký bằng Google thất bại. Vui lòng thử lại!");
+      
+      // Handle specific error cases
+      if (err.code === "auth/popup-closed-by-user") {
+        setError("Bạn đã đóng cửa sổ đăng ký. Vui lòng thử lại!");
+      } else if (err.code === "auth/cancelled-popup-request") {
+        setError("Yêu cầu đăng ký bị hủy. Vui lòng thử lại!");
+      } else if (err.code === "auth/unauthorized-domain") {
+        setError("Domain chưa được xác thực. Vui lòng liên hệ quản trị viên!");
+      } else {
+        setError(err?.message || "Đăng ký bằng Google thất bại. Vui lòng thử lại!");
+      }
+      
       setLoading(false);
     }
+  };
+
+  const handleGoToLogin = () => {
+    router.push("/login");
   };
 
   return (
@@ -82,6 +112,27 @@ export default function RegisterPage() {
           <span className="text-red-400 font-semibold">NHƯ Ý</span>
         </div>
       </div>
+
+      {/* Modal - Tài khoản đã tồn tại */}
+      {showExistingAccountModal && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-[#1A0A00] border border-red-700 rounded-2xl p-6 max-w-sm w-full mx-4 shadow-[0_0_40px_rgba(255,60,60,0.4)]">
+            <div className="text-center">
+              <div className="mb-4 text-5xl">⚠️</div>
+              <h2 className="text-xl font-bold mb-2 text-white">Tài khoản đã tồn tại</h2>
+              <p className="text-gray-300 mb-6">
+                Tài khoản này đã được đăng ký. Vui lòng đăng nhập!
+              </p>
+              <button
+                onClick={handleGoToLogin}
+                className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-full py-3 transition shadow-md"
+              >
+                Đi tới Đăng nhập
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

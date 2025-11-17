@@ -17,7 +17,18 @@ export default function FireAlertLogin() {
       console.log("Google login successful");
     } catch (err: any) {
       console.error("Lỗi đăng nhập Google:", err.code, err.message);
-      setError(err?.message || "Đăng nhập bằng Google thất bại. Vui lòng thử lại!");
+      
+      // Handle specific error cases
+      if (err.code === "auth/popup-closed-by-user") {
+        setError("Bạn đã đóng cửa sổ đăng nhập. Vui lòng thử lại!");
+      } else if (err.code === "auth/cancelled-popup-request") {
+        setError("Yêu cầu đăng nhập bị hủy. Vui lòng thử lại!");
+      } else if (err.code === "auth/unauthorized-domain") {
+        setError("Domain chưa được xác thực. Vui lòng liên hệ quản trị viên!");
+      } else {
+        setError(err?.message || "Đăng nhập bằng Google thất bại. Vui lòng thử lại!");
+      }
+      
       setLoading(false);
     }
   };

@@ -6,7 +6,7 @@ export default function StatusBanner({ gas, fire, threshold }: {
   fire: boolean;
   threshold: number;
 }) {
-  let label = "Bình thường";
+  let label = "Chất lượng không khí: Bình thường";
   let bgColor = "from-green-600 to-green-700";
   let shadow = "shadow-[0_0_20px_rgba(34,197,94,0.4)]";
 

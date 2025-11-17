@@ -6,7 +6,7 @@ export default function SensorCard({ state, setState }: any) {
     <div className="bg-[#212836] rounded-lg shadow p-5 mb-4 flex flex-col gap-2">
       <div className="flex justify-between items-center">
         <div>
-          <div className="font-bold text-lg">MQ2 Gas Sensor</div>
+          <div className="font-bold text-lg">Mức gas hiện tại:</div>
           <div className="font-mono text-2xl">{state.gas} ppm</div>
         </div>
         <span className={clsx(
@@ -27,7 +27,7 @@ export default function SensorCard({ state, setState }: any) {
       </div>
 
       <div className="mt-2 flex gap-2 items-center">
-        <span>Ngưỡng MQ2:</span>
+        <span>Ngưỡng cảnh báo:</span>
         <input
           type="range" min={200} max={1000} step={10}
           value={state.threshold}
@@ -38,7 +38,7 @@ export default function SensorCard({ state, setState }: any) {
       </div>
 
       <div className="mt-2 flex gap-2 items-center">
-        <span>Fire Sensor:</span>
+        <span>Cảm biến lửa:</span>
         <span className={clsx(
           "flex gap-1 px-3 py-1 rounded-xl font-semibold",
           state.fire ? 'bg-red-600' : 'bg-green-600'

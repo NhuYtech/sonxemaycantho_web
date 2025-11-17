@@ -5,8 +5,8 @@ export default function ToggleBtn({
   label,
   checked,
   onChange,
-  customOn = "ON",
-  customOff = "OFF",
+  customOn = "BẬT",
+  customOff = "TẮT",
 }: {
   label: string;
   checked: boolean;

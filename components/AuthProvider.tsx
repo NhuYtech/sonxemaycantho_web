@@ -22,9 +22,9 @@ export default function AuthProvider({
         console.log("User authenticated:", user.email);
         setIsAuthenticated(true);
         
-        // If on login or register page, redirect to dashboard
+        // If on login or register page, redirect to home page
         if (pathname === "/login" || pathname === "/register" || pathname === "/auth/login" || pathname === "/auth/register") {
-          router.push("/dashboard");
+          router.push("/");
         }
       } else {
         console.log("User not authenticated");

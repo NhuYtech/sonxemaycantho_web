@@ -11,7 +11,7 @@ export default function ControlCard({
 }) {
   return (
     <div className="bg-[#1A0A00]/80 backdrop-blur-md rounded-xl shadow-[0_0_30px_rgba(255,60,60,0.3)] p-6 border border-red-700/30">
-      <h3 className="font-bold text-lg mb-4 text-gray-200">⚙️ Điều khiển thiết bị</h3>
+      <h3 className="font-bold text-lg mb-4 text-gray-200">Điều khiển thiết bị</h3>
 
       <div className="grid grid-cols-2 gap-4">
         <ToggleBtn
@@ -29,16 +29,16 @@ export default function ControlCard({
         <ToggleBtn
           label="Cửa hút khói"
           checked={state.window}
-          customOn="🔓 OPEN"
-          customOff="🔒 CLOSE"
+          customOn="MỞ"
+          customOff="ĐÓNG"
           onChange={(v) => setState((s: DeviceState) => ({ ...s, window: v }))}
         />
 
         <ToggleBtn
           label="Chế độ"
           checked={state.autoManual === "AUTO"}
-          customOn="🤖 AUTO"
-          customOff="👤 MANUAL"
+          customOn="TỰ ĐỘNG"
+          customOff="THỦ CÔNG"
           onChange={(v) =>
             setState((s: DeviceState) => ({
               ...s,
@@ -49,7 +49,7 @@ export default function ControlCard({
       </div>
 
       <button className="col-span-2 mt-6 w-full bg-linear-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white font-bold py-3 rounded-lg transition-all shadow-[0_0_20px_rgba(220,38,38,0.4)]">
-        🔕 Tắt còi báo động
+        Tắt còi báo động
       </button>
     </div>
   );

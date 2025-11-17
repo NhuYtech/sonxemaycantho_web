@@ -12,12 +12,12 @@ export default function SystemStatus({ state }: any) {
 
       <div className="bg-[#233148] text-xs rounded p-2 mt-2">
         <ul className="ml-3 list-disc">
-          <li>MQ2: {state.gas} ppm</li>
-          <li>Fire: {state.fire ? "Có cháy":"Không cháy"}</li>
-          <li>Relay1: {state.relay1?"ON":"OFF"}</li>
-          <li>Relay2: {state.relay2?"ON":"OFF"}</li>
-          <li>Cửa hút khói: {state.window?"OPEN":"CLOSE"}</li>
-          <li>MODE: {state.autoManual}</li>
+          <li>Nồng độ gas (MQ-2): {state.gas} ppm</li>
+          <li>Ngọn lửa: {state.fire ? "Có cháy" : "Không cháy"}</li>
+          <li>Relay 1: {state.relay1 ? "BẬT" : "TẮT"}</li>
+          <li>Relay 2: {state.relay2 ? "BẬT" : "TẮT"}</li>
+          <li>Cửa hút khói: {state.window ? "MỞ" : "ĐÓNG"}</li>
+          <li>Chế độ: {state.autoManual === "AUTO" ? "TỰ ĐỘNG" : "THỦ CÔNG"}</li>
         </ul>
       </div>
     </div>

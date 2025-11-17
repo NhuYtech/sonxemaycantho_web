@@ -19,7 +19,7 @@ export default function GasChart({
 }) {
   return (
     <div className="bg-[#1A0A00]/80 backdrop-blur-md rounded-xl shadow-[0_0_30px_rgba(255,60,60,0.3)] mt-6 p-6 border border-red-700/30">
-      <div className="font-bold text-lg mb-4 text-gray-200">📊 Biểu đồ Gas MQ2 realtime</div>
+      <div className="font-bold text-lg mb-4 text-gray-200">Biểu đồ khí gas realtime (MQ2)</div>
 
       <ResponsiveContainer width="100%" height={220}>
         <LineChart data={history}>
