@@ -1,7 +1,14 @@
 "use client";
 import clsx from "clsx";
+import { db } from "@/lib/firebase";
+import { ref, set } from "firebase/database";
 
-export default function SensorCard({ state, setState }: any) {
+export default function SensorCard({ state }: any) {
+  const handleThresholdChange = (newThreshold: number) => {
+    // Update Firebase
+    set(ref(db, "/settings/threshold"), newThreshold);
+  };
+
   return (
     <div className="bg-[#212836] rounded-lg shadow p-5 mb-4 flex flex-col gap-2">
       <div className="flex justify-between items-center">
@@ -31,7 +38,7 @@ export default function SensorCard({ state, setState }: any) {
         <input
           type="range" min={200} max={1000} step={10}
           value={state.threshold}
-          onChange={e => setState((s:any)=>({...s, threshold: parseInt(e.target.value)}))}
+          onChange={e => handleThresholdChange(parseInt(e.target.value))}
           className="w-32"
         />
         <span>{state.threshold} ppm</span>

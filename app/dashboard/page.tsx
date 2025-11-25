@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-import { useMockedDevice } from "@/hooks/useMockedDevice";
+import { useFirebaseDevice } from "@/hooks/useFirebaseDevice";
 
 import StatusBanner from "@/components/StatusBanner";
 import SensorCard from "@/components/SensorCard";
@@ -11,7 +11,8 @@ import SystemStatus from "@/components/SystemStatus";
 import GasChart from "@/components/GasChart";
 
 export default function Dashboard() {
-  const [state, setState] = useMockedDevice();
+  const [state, setState] = useFirebaseDevice();
+
 
   return (
 <div
@@ -24,8 +25,8 @@ export default function Dashboard() {
       <StatusBanner gas={state.gas} fire={state.fire} threshold={state.threshold} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        <SensorCard state={state} setState={setState} />
-        <ControlCard state={state} setState={setState} />
+        <SensorCard state={state} />
+        <ControlCard state={state} />
         <SystemStatus state={state} />
       </div>
 

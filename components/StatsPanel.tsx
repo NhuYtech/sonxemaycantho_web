@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Bell, TrendingUp, Activity, Wifi } from "lucide-react";
+import { Bell, TrendingUp, Activity, Shield } from "lucide-react";
 
 export default function StatsPanel({ fireData }: any) {
   const getStatus = (data: any) => {
@@ -40,7 +40,7 @@ export default function StatsPanel({ fireData }: any) {
       </div>
       <div className="bg-gray-800 rounded-lg p-4 border-l-4 border-green-500">
         <div className="flex items-center gap-2 mb-2">
-          <Wifi className="text-green-400" size={20} />
+          <Shield className="text-green-400" size={20} />
           <p className="text-gray-400 text-sm">Trạng thái</p>
         </div>
         <p className="text-3xl font-bold text-green-400">

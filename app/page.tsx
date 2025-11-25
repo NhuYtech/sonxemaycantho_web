@@ -156,10 +156,8 @@ export default function Home() {
               <div>
                 <h3 className="text-2xl font-bold mb-3">4️⃣ Xem trạng thái thiết bị IoT</h3>
                 <ul className="space-y-2 text-gray-200">
-                  <li>• Trạng thái kết nối WiFi</li>
-                  <li>• Trạng thái Blynk/Firebase</li>
+                  <li>• Trạng thái Firebase</li>
                   <li>• Trạng thái relay</li>
-                  <li>• Cửa/sổ hút khói</li>
                   <li>• Còi báo động</li>
                 </ul>
               </div>
@@ -221,7 +219,7 @@ export default function Home() {
             <h3 className="text-2xl font-bold mb-3 text-orange-300">5️⃣ Reset hoặc kiểm tra lại</h3>
             <p className="text-gray-200">
               Trong trường hợp:<br />
-              • IoT mất WiFi<br />
+              • IoT mất kết nối<br />
               • IoT vừa khởi động lại<br />
               <br />
               Bạn chỉ cần vào Dashboard → xem trạng thái thiết bị.
