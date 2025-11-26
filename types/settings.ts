@@ -11,7 +11,7 @@ export type DataInterval = 1 | 2 | 5 | 10; // seconds
 
 export type LogRetention = 7 | 30 | 90; // days
 
-export type Theme = "dark" | "fire" | "high-contrast";
+export type Theme = "dark" | "light";
 
 export type Language = "vi" | "en";
 

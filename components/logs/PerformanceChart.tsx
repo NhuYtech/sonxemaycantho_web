@@ -47,13 +47,13 @@ export default function PerformanceChart({ logs, timeFilter }: PerformanceChartP
 
   return (
     <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6 shadow-lg">
-      <div className="flex items-center gap-3 mb-6">
+      <div className="flex items-center justify-center gap-3 mb-6">
         <BarChart3 className="text-orange-400" size={24} />
         <h3 className="text-xl font-bold text-orange-300">Biểu đồ hoạt động</h3>
       </div>
 
       {/* Legend */}
-      <div className="flex gap-4 mb-4 text-sm">
+      <div className="flex justify-center gap-8 mb-4 text-sm">
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 bg-red-500 rounded"></div>
           <span className="text-gray-400">Cháy</span>

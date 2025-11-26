@@ -2,18 +2,19 @@
 
 import { useState, useMemo } from "react";
 import { useFirebaseLogs } from "@/hooks/useFirebaseLogs";
+import { useUI } from "@/contexts/UIContext";
 import { TimeFilter as TimeFilterType, EventType, LogEvent, LogStats } from "@/types/logs";
 import { Flame, Wind, Zap, Users } from "lucide-react";
 
 import StatsCard from "@/components/logs/StatsCard";
 import PerformanceChart from "@/components/logs/PerformanceChart";
-import TimelineChart from "@/components/logs/TimelineChart";
 import DetailsPanel from "@/components/logs/DetailsPanel";
 import EventTable from "@/components/logs/EventTable";
 import EventModal from "@/components/logs/EventModal";
 import TimeFilter from "@/components/logs/TimeFilter";
 
 export default function LogsPage() {
+  const { t } = useUI();
   const { logs, loading } = useFirebaseLogs();
   const [timeFilter, setTimeFilter] = useState<TimeFilterType>("week");
   const [eventTypeFilter, setEventTypeFilter] = useState<EventType | "all">("all");
@@ -71,7 +72,7 @@ export default function LogsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="text-orange-400 text-xl">Đang tải dữ liệu...</div>
+        <div className="text-orange-400 text-xl">{t("logs.loading")}</div>
       </div>
     );
   }
@@ -80,8 +81,8 @@ export default function LogsPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-orange-300 mb-2">Nhật ký hệ thống</h1>
-        <p className="text-gray-400">Theo dõi và phân tích các sự kiện của hệ thống</p>
+        <h1 className="text-3xl font-bold text-orange-300 mb-2">{t("logs.title")}</h1>
+        <p className="text-gray-400">{t("logs.subtitle")}</p>
       </div>
 
       {/* Filters */}
@@ -95,28 +96,28 @@ export default function LogsPage() {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatsCard
-          title="Phát hiện cháy"
+          title={t("logs.fire")}
           value={stats.fireDetections}
           icon={Flame}
           color="text-red-500"
           bgColor="bg-red-950/30"
         />
         <StatsCard
-          title="Cảnh báo gas"
+          title={t("logs.gas")}
           value={stats.gasWarnings}
           icon={Wind}
           color="text-yellow-500"
           bgColor="bg-yellow-950/30"
         />
         <StatsCard
-          title="Relay kích hoạt"
+          title={t("logs.relay")}
           value={stats.relayActivations}
           icon={Zap}
           color="text-blue-500"
           bgColor="bg-blue-950/30"
         />
         <StatsCard
-          title="Thao tác người dùng"
+          title={t("logs.user")}
           value={stats.userActions}
           icon={Users}
           color="text-green-500"
@@ -125,9 +126,8 @@ export default function LogsPage() {
       </div>
 
       {/* Charts */}
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="w-full">
         <PerformanceChart logs={filteredLogs} timeFilter={timeFilter} />
-        <TimelineChart logs={filteredLogs} timeFilter={timeFilter} />
       </div>
 
       {/* Details Panel */}

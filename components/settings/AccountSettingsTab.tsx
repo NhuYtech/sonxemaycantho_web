@@ -1,14 +1,98 @@
 "use client";
 
-import { UserProfile } from "@/types/settings";
-import { Shield, LogOut, Smartphone } from "lucide-react";
+import { useState, useEffect } from "react";
+import { LogOut, Smartphone, Trash2 } from "lucide-react";
 import Image from "next/image";
+import { auth } from "@/lib/firebase";
+import { logout } from "@/lib/auth";
+import { useRouter } from "next/navigation";
 
-interface AccountSettingsTabProps {
-  profile: UserProfile;
-}
+export default function AccountSettingsTab() {
+  const router = useRouter();
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [sessions, setSessions] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
 
-export default function AccountSettingsTab({ profile }: AccountSettingsTabProps) {
+  useEffect(() => {
+    // Lấy thông tin user hiện tại
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setCurrentUser({
+          name: user.displayName || user.email?.split('@')[0] || "User",
+          email: user.email || "",
+          avatar: user.photoURL || "",
+          uid: user.uid,
+          createdAt: user.metadata.creationTime,
+          lastSignIn: user.metadata.lastSignInTime,
+        });
+
+        // Mock sessions - trong production sẽ lấy từ Firebase hoặc backend
+        const mockSessions = [
+          {
+            id: "current",
+            device: "Chrome - Windows",
+            location: "Cần Thơ, Việt Nam",
+            time: "5 phút trước",
+            isCurrent: true,
+          },
+        ];
+        setSessions(mockSessions);
+      } else {
+        router.push("/login");
+      }
+    });
+
+    return () => unsubscribe();
+  }, [router]);
+
+  const handleLogout = async () => {
+    setLoading(true);
+    try {
+      await logout();
+      router.push("/login");
+    } catch (error) {
+      console.error("Error logging out:", error);
+      alert("Đăng xuất thất bại");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLogoutAllDevices = async () => {
+    if (confirm("Bạn có chắc muốn đăng xuất tất cả thiết bị?")) {
+      setLoading(true);
+      try {
+        // Trong production: Xóa tất cả sessions từ backend
+        await logout();
+        router.push("/login");
+      } catch (error) {
+        console.error("Error logging out all devices:", error);
+        alert("Đăng xuất thất bại");
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
+  const handleRemoveSession = async (sessionId: string) => {
+    if (sessionId === "current") {
+      alert("Không thể xóa phiên hiện tại");
+      return;
+    }
+
+    if (confirm("Đăng xuất thiết bị này?")) {
+      // Trong production: Gọi API xóa session
+      setSessions(sessions.filter((s) => s.id !== sessionId));
+    }
+  };
+
+  if (!currentUser) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-orange-400">Loading...</div>
+      </div>
+    );
+  }
   return (
     <div className="space-y-6">
       {/* Profile */}
@@ -16,39 +100,21 @@ export default function AccountSettingsTab({ profile }: AccountSettingsTabProps)
         <h3 className="text-lg font-bold text-orange-300 mb-4">Thông tin tài khoản</h3>
         <div className="flex items-center gap-4">
           <div className="w-20 h-20 rounded-full bg-linear-to-br from-orange-500 to-red-600 flex items-center justify-center text-white text-2xl font-bold overflow-hidden">
-            {profile.avatar ? (
-              <Image src={profile.avatar} alt={profile.name} width={80} height={80} className="object-cover" />
+            {currentUser.avatar ? (
+              <Image src={currentUser.avatar} alt={currentUser.name} width={80} height={80} className="object-cover" />
             ) : (
-              profile.name.charAt(0).toUpperCase()
+              currentUser.name.charAt(0).toUpperCase()
             )}
           </div>
           <div className="flex-1">
-            <p className="text-xl font-bold text-orange-300">{profile.name}</p>
-            <p className="text-gray-400">{profile.email}</p>
-          </div>
-        </div>
-      </div>
-
-      {/* 2FA */}
-      <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <Shield size={24} className="text-orange-400" />
-            <div>
-              <h3 className="text-lg font-bold text-orange-300">Xác thực 2 yếu tố (2FA)</h3>
-              <p className="text-gray-500 text-sm">Bảo mật tài khoản với Google Authenticator</p>
+            <p className="text-xl font-bold text-orange-300">{currentUser.name}</p>
+            <p className="text-gray-400">{currentUser.email}</p>
+            <div className="mt-2 space-y-1 text-sm text-gray-500">
+              <p>Đăng ký: {new Date(currentUser.createdAt).toLocaleDateString('vi-VN')}</p>
+              <p>Đăng nhập gần nhất: {new Date(currentUser.lastSignIn).toLocaleString('vi-VN')}</p>
             </div>
           </div>
-          <label className="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" checked={profile.twoFactorEnabled} className="sr-only peer" readOnly />
-            <div className="w-14 h-7 bg-red-950/50 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-1 after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-green-600"></div>
-          </label>
         </div>
-        {!profile.twoFactorEnabled && (
-          <button className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all">
-            Kích hoạt 2FA
-          </button>
-        )}
       </div>
 
       {/* Active Sessions */}
@@ -58,31 +124,51 @@ export default function AccountSettingsTab({ profile }: AccountSettingsTabProps)
           Phiên đăng nhập
         </h3>
         <div className="space-y-3">
-          <div className="p-4 bg-red-950/30 rounded-lg border border-red-900/20">
-            <div className="flex items-center justify-between mb-2">
-              <p className="text-gray-300 font-semibold">Chrome - Windows</p>
-              <span className="text-xs text-green-400 bg-green-950/30 px-2 py-1 rounded">Hiện tại</span>
+          {sessions.map((session) => (
+            <div key={session.id} className="p-4 bg-red-950/30 rounded-lg border border-red-900/20">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-gray-300 font-semibold">{session.device}</p>
+                <div className="flex items-center gap-2">
+                  {session.isCurrent ? (
+                    <span className="text-xs text-green-400 bg-green-950/30 px-2 py-1 rounded">Hiện tại</span>
+                  ) : (
+                    <button
+                      onClick={() => handleRemoveSession(session.id)}
+                      className="text-xs text-red-400 hover:text-red-300 flex items-center gap-1"
+                    >
+                      <Trash2 size={14} />
+                      Xóa
+                    </button>
+                  )}
+                </div>
+              </div>
+              <p className="text-gray-500 text-sm">
+                {session.location} • {session.time}
+              </p>
             </div>
-            <p className="text-gray-500 text-sm">Cần Thơ, Việt Nam • 5 phút trước</p>
-          </div>
-
-          <div className="p-4 bg-red-950/30 rounded-lg border border-red-900/20">
-            <div className="flex items-center justify-between mb-2">
-              <p className="text-gray-300 font-semibold">Safari - iPhone</p>
-              <button className="text-xs text-red-400 hover:text-red-300">Đăng xuất</button>
-            </div>
-            <p className="text-gray-500 text-sm">Cần Thơ, Việt Nam • 2 giờ trước</p>
-          </div>
+          ))}
         </div>
       </div>
 
-      {/* Logout All */}
-      <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6">
-        <button className="w-full py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold transition-all flex items-center justify-center gap-2">
+      {/* Logout Buttons */}
+      <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6 space-y-3">
+        <button
+          onClick={handleLogout}
+          disabled={loading}
+          className="w-full py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-lg font-bold transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+        >
           <LogOut size={20} />
-          Đăng xuất tất cả thiết bị
+          {loading ? "Đang đăng xuất..." : "Đăng xuất thiết bị này"}
         </button>
-        <p className="text-gray-500 text-xs text-center mt-2">Bạn sẽ cần đăng nhập lại trên tất cả thiết bị</p>
+        <button
+          onClick={handleLogoutAllDevices}
+          disabled={loading}
+          className="w-full py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+        >
+          <LogOut size={20} />
+          {loading ? "Đang đăng xuất..." : "Đăng xuất tất cả thiết bị"}
+        </button>
+        <p className="text-gray-500 text-xs text-center">Bạn sẽ cần đăng nhập lại trên tất cả thiết bị</p>
       </div>
     </div>
   );

@@ -5,8 +5,10 @@ import { auth } from "@/lib/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { User, LogOut, ChevronDown } from "lucide-react";
+import { useUI } from "@/contexts/UIContext";
 
 export default function Header() {
+  const { t } = useUI();
   const [user, setUser] = useState<any>(null);
   const [showMenu, setShowMenu] = useState(false);
   const router = useRouter();
@@ -82,7 +84,7 @@ export default function Header() {
                   onClick={handleLogout}
                   className="w-full flex items-center gap-2 px-4 py-3 text-red-400 hover:bg-red-900/20 transition text-sm font-medium"
                 >
-                  <LogOut size={16} /> Đăng xuất
+                  <LogOut size={16} /> {t("header.logout")}
                 </button>
 
               </div>

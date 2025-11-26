@@ -25,7 +25,7 @@ export default function LogsSettingsTab({ settings, onSave }: LogsSettingsTabPro
       <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h3 className="text-lg font-bold text-orange-300">Lưu logs</h3>
+            <h3 className="text-lg font-bold text-orange-300">Lưu nhật ký</h3>
             <p className="text-gray-500 text-sm">Ghi lại các sự kiện của hệ thống</p>
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
@@ -42,7 +42,7 @@ export default function LogsSettingsTab({ settings, onSave }: LogsSettingsTabPro
 
       {/* Log Retention */}
       <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6">
-        <h3 className="text-lg font-bold text-orange-300 mb-4">Giới hạn lưu trữ logs</h3>
+        <h3 className="text-lg font-bold text-orange-300 mb-4">Giới hạn lưu trữ nhật ký</h3>
         <div className="grid grid-cols-3 gap-3">
           {[7, 30, 90].map((days) => (
             <button
@@ -58,7 +58,7 @@ export default function LogsSettingsTab({ settings, onSave }: LogsSettingsTabPro
             </button>
           ))}
         </div>
-        <p className="text-gray-500 text-xs mt-2">Logs cũ hơn sẽ tự động bị xóa</p>
+        <p className="text-gray-500 text-xs mt-2">Nhật ký cũ hơn sẽ tự động bị xóa</p>
       </div>
 
       {/* Notifications */}

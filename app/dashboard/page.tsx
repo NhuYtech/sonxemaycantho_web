@@ -3,6 +3,7 @@
 import React from "react";
 import { useFirebaseDevice } from "@/hooks/useFirebaseDevice";
 import { Wind, Flame, Zap, Database } from "lucide-react";
+import { useUI } from "@/contexts/UIContext";
 
 import DashboardAlertBanner from "@/components/dashboard/DashboardAlertBanner";
 import DashboardStatCard from "@/components/dashboard/DashboardStatCard";
@@ -13,6 +14,7 @@ import SystemStatusPanel from "@/components/dashboard/SystemStatusPanel";
 import LogsPreview from "@/components/dashboard/LogsPreview";
 
 export default function Dashboard() {
+  const { t } = useUI();
   const [state] = useFirebaseDevice();
 
   // Determine gas status
@@ -41,30 +43,30 @@ export default function Dashboard() {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <DashboardStatCard
-          title="Gas hiện tại"
+          title={t("dashboard.gas")}
           value={`${state.gas}`}
           icon={Wind}
           status={getGasStatus()}
-          subtitle="ppm"
+          subtitle={t("unit.ppm")}
         />
         <DashboardStatCard
-          title="Trạng thái cháy"
-          value={state.fire ? "Có cháy" : "Không cháy"}
+          title={t("dashboard.fire")}
+          value={state.fire ? t("dashboard.fire.detected") : t("dashboard.fire.none")}
           icon={Flame}
           status={getFireStatus()}
         />
         <DashboardStatCard
-          title="Relay Status"
+          title={t("dashboard.relay")}
           value={`R1: ${state.relay1 ? "ON" : "OFF"} | R2: ${state.relay2 ? "ON" : "OFF"}`}
           icon={Zap}
           status={getRelayStatus()}
         />
         <DashboardStatCard
-          title="Hệ thống"
-          value={state.firebase ? "Connected" : "Offline"}
+          title={t("dashboard.system")}
+          value={state.firebase ? t("dashboard.connected") : t("dashboard.offline")}
           icon={Database}
           status={state.firebase ? "safe" : "danger"}
-          subtitle={`Mode: ${state.autoManual}`}
+          subtitle={`${t("dashboard.mode")}: ${state.autoManual}`}
         />
       </div>
 

@@ -1,8 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Settings as SettingsIcon, Database, FileText, Palette, User } from "lucide-react";
+import { useUI } from "@/contexts/UIContext";
+import { useToast } from "@/contexts/ToastContext";
 import { SettingsTab } from "@/types/settings";
+import { db } from "@/lib/firebase";
+import { ref, set, get } from "firebase/database";
 
 import IoTSettingsTab from "@/components/settings/IoTSettingsTab";
 import LogsSettingsTab from "@/components/settings/LogsSettingsTab";
@@ -10,9 +14,12 @@ import UISettingsTab from "@/components/settings/UISettingsTab";
 import AccountSettingsTab from "@/components/settings/AccountSettingsTab";
 
 export default function SettingsPage() {
+  const { t } = useUI();
+  const toast = useToast();
   const [activeTab, setActiveTab] = useState<SettingsTab>("iot");
+  const [loading, setLoading] = useState(true);
 
-  // Mock data - in production, fetch from Firebase/Auth
+  // Fetch settings from Firebase on mount
   const [iotSettings, setIoTSettings] = useState({
     threshold: 4000,
     autoMode: true,
@@ -24,6 +31,37 @@ export default function SettingsPage() {
     },
     dataInterval: 2 as 1 | 2 | 5 | 10,
   });
+
+  // Load IoT settings from Firebase
+  useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const settingsRef = ref(db, "/settings");
+        const snapshot = await get(settingsRef);
+        
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          setIoTSettings({
+            threshold: data.threshold || 4000,
+            autoMode: data.mode !== false, // mode: true = AUTO, false = MANUAL
+            behavior: {
+              enableBuzzer: data.behavior?.enableBuzzer ?? true,
+              enableRelay1: data.behavior?.enableRelay1 ?? true,
+              enableRelay2: data.behavior?.enableRelay2 ?? false,
+              timeout: data.behavior?.timeout || 60,
+            },
+            dataInterval: data.dataInterval || 2,
+          });
+        }
+      } catch (error) {
+        console.error("Error loading settings:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadSettings();
+  }, []);
 
   const [logsSettings, setLogsSettings] = useState({
     enabled: true,
@@ -50,22 +88,45 @@ export default function SettingsPage() {
   };
 
   const tabs = [
-    { id: "iot" as const, label: "Hệ thống IoT", icon: Database },
-    { id: "logs" as const, label: "Logs & Thông báo", icon: FileText },
-    { id: "ui" as const, label: "Giao diện", icon: Palette },
-    { id: "account" as const, label: "Tài khoản", icon: User },
+    { id: "iot" as const, label: t("settings.tab.iot"), icon: Database },
+    { id: "logs" as const, label: t("settings.tab.logs"), icon: FileText },
+    { id: "ui" as const, label: t("settings.tab.ui"), icon: Palette },
+    { id: "account" as const, label: t("settings.tab.account"), icon: User },
   ];
 
   const handleSaveIoT = async (settings: typeof iotSettings) => {
-    // Save to Firebase
-    setIoTSettings(settings);
-    console.log("Saving IoT settings:", settings);
+    try {
+      // Save to Firebase /settings node
+      const settingsRef = ref(db, "/settings");
+      await set(settingsRef, {
+        threshold: settings.threshold,
+        mode: settings.autoMode, // true = AUTO, false = MANUAL
+        behavior: settings.behavior,
+        dataInterval: settings.dataInterval,
+      });
+      
+      setIoTSettings(settings);
+      toast.success("Đã lưu cài đặt IoT thành công!");
+      console.log("✅ IoT settings saved to Firebase:", settings);
+    } catch (error) {
+      console.error("❌ Error saving IoT settings:", error);
+      toast.error("Lỗi khi lưu cài đặt. Vui lòng thử lại!");
+    }
   };
 
   const handleSaveLogs = async (settings: typeof logsSettings) => {
-    // Save to Firebase
-    setLogsSettings(settings);
-    console.log("Saving Logs settings:", settings);
+    try {
+      // Save to Firebase /logsSettings node
+      const logsSettingsRef = ref(db, "/logsSettings");
+      await set(logsSettingsRef, settings);
+      
+      setLogsSettings(settings);
+      toast.success("Đã lưu cài đặt Logs thành công!");
+      console.log("✅ Logs settings saved to Firebase:", settings);
+    } catch (error) {
+      console.error("❌ Error saving Logs settings:", error);
+      toast.error("Lỗi khi lưu cài đặt. Vui lòng thử lại!");
+    }
   };
 
   const handleSaveUI = async (settings: typeof uiSettings) => {
@@ -82,8 +143,8 @@ export default function SettingsPage() {
           <SettingsIcon className="text-orange-400" size={28} />
         </div>
         <div>
-          <h1 className="text-3xl font-bold text-orange-300">Cài đặt</h1>
-          <p className="text-gray-400">Quản lý hệ thống và tùy chỉnh giao diện</p>
+          <h1 className="text-3xl font-bold text-orange-300">{t("settings.title")}</h1>
+          <p className="text-gray-400">{t("settings.subtitle")}</p>
         </div>
       </div>
 
@@ -114,8 +175,8 @@ export default function SettingsPage() {
       <div>
         {activeTab === "iot" && <IoTSettingsTab settings={iotSettings} onSave={handleSaveIoT} />}
         {activeTab === "logs" && <LogsSettingsTab settings={logsSettings} onSave={handleSaveLogs} />}
-        {activeTab === "ui" && <UISettingsTab settings={uiSettings} onSave={handleSaveUI} />}
-        {activeTab === "account" && <AccountSettingsTab profile={userProfile} />}
+        {activeTab === "ui" && <UISettingsTab />}
+        {activeTab === "account" && <AccountSettingsTab />}
       </div>
     </div>
   );

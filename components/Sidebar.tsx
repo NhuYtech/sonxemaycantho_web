@@ -3,8 +3,10 @@
 import { Home, Activity, Settings, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useUI } from "@/contexts/UIContext";
 
 export default function Sidebar() {
+  const { t } = useUI();
   const pathname = usePathname();
 
   return (
@@ -32,7 +34,7 @@ export default function Sidebar() {
             }
           `}
         >
-          <Home size={20} /> Trang chủ
+          <Home size={20} /> {t("nav.home")}
         </Link>
 
         {/* Dashboard */}
@@ -46,7 +48,7 @@ export default function Sidebar() {
             }
           `}
         >
-          <LayoutDashboard size={20} /> Dashboard
+          <LayoutDashboard size={20} /> {t("nav.dashboard")}
         </Link>
 
         {/* Nhật ký */}
@@ -60,7 +62,7 @@ export default function Sidebar() {
             }
           `}
         >
-          <Activity size={20} /> Nhật ký
+          <Activity size={20} /> {t("nav.logs")}
         </Link>
 
         {/* Cài đặt */}
@@ -74,7 +76,7 @@ export default function Sidebar() {
             }
           `}
         >
-          <Settings size={20} /> Cài đặt
+          <Settings size={20} /> {t("nav.settings")}
         </Link>
       </nav>
 
