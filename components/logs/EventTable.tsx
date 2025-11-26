@@ -50,6 +50,8 @@ export default function EventTable({ logs, onEventClick }: EventTableProps) {
               <th className="text-left py-3 px-4">Thời gian</th>
               <th className="text-left py-3 px-4">Loại</th>
               <th className="text-center py-3 px-4">Gas</th>
+              <th className="text-center py-3 px-4">Temp</th>
+              <th className="text-center py-3 px-4">Hum</th>
               <th className="text-center py-3 px-4">Lửa</th>
               <th className="text-center py-3 px-4">Relay</th>
               <th className="text-center py-3 px-4">Mode</th>
@@ -59,7 +61,7 @@ export default function EventTable({ logs, onEventClick }: EventTableProps) {
           <tbody>
             {logs.length === 0 ? (
               <tr>
-                <td colSpan={7} className="text-center py-8 text-gray-500">
+                <td colSpan={9} className="text-center py-8 text-gray-500">
                   Chưa có sự kiện nào
                 </td>
               </tr>
@@ -84,6 +86,8 @@ export default function EventTable({ logs, onEventClick }: EventTableProps) {
                       </div>
                     </td>
                     <td className="py-3 px-4 text-center text-yellow-400 font-mono">{log.gas}</td>
+                    <td className="py-3 px-4 text-center text-orange-400 font-mono">{log.temperature.toFixed(1)}°</td>
+                    <td className="py-3 px-4 text-center text-cyan-400 font-mono">{log.humidity.toFixed(1)}%</td>
                     <td className="py-3 px-4 text-center">
                       {log.fire ? (
                         <span className="text-red-500 font-bold">🔥</span>

@@ -14,9 +14,15 @@ export default function DetailsPanel({ stats }: DetailsPanelProps) {
     { label: "Cảnh báo gas", value: stats.gasWarnings },
     { label: "Relay kích hoạt", value: stats.relayActivations },
     { label: "Thao tác người dùng", value: stats.userActions },
-    { label: "Gas tối đa", value: stats.maxGas },
-    { label: "Gas tối thiểu", value: stats.minGas },
-    { label: "Gas trung bình", value: Math.round(stats.avgGas) },
+    { label: "Gas tối đa (ppm)", value: stats.maxGas },
+    { label: "Gas TB (ppm)", value: Math.round(stats.avgGas) },
+    { label: "Gas tối thiểu (ppm)", value: stats.minGas },
+    { label: "Nhiệt độ cao nhất (°C)", value: stats.maxTemp.toFixed(1) },
+    { label: "Nhiệt độ TB (°C)", value: stats.avgTemp.toFixed(1) },
+    { label: "Nhiệt độ thấp nhất (°C)", value: stats.minTemp.toFixed(1) },
+    { label: "Độ ẩm cao nhất (%)", value: stats.maxHumidity.toFixed(1) },
+    { label: "Độ ẩm TB (%)", value: stats.avgHumidity.toFixed(1) },
+    { label: "Độ ẩm thấp nhất (%)", value: stats.minHumidity.toFixed(1) },
   ];
 
   return (

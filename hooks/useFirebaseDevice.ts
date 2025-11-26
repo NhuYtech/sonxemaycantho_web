@@ -9,6 +9,8 @@ export function useFirebaseDevice() {
   const [data, setData] = useState<DeviceState>({
     gas: 0,
     fire: false,
+    temperature: 0,
+    humidity: 0,
     relay1: false,
     relay2: false,
     buzzer: false,
@@ -16,6 +18,9 @@ export function useFirebaseDevice() {
     threshold: 4000,
     firebase: true,
     gasHistory: [],
+    tempHistory: [],
+    humidityHistory: [],
+    lastDHT22Update: Date.now(),
   });
 
   useEffect(() => {
@@ -31,10 +36,12 @@ export function useFirebaseDevice() {
       const gas = val.mq2 ?? 0;
       const fire = val.fire === 1;
 
-      const timeStr = new Date().toLocaleTimeString().slice(3, 8);
+      const now = new Date();
+      const timeStr = now.toLocaleString("vi-VN");
+      const day = now.getDate();
 
       setData((prev) => {
-        let history = [...prev.gasHistory, { time: timeStr, value: gas }];
+        let history = [...prev.gasHistory, { time: timeStr, day, value: gas }];
         if (history.length > 20) history.shift();
 
         return {
@@ -70,10 +77,42 @@ export function useFirebaseDevice() {
       }));
     });
 
+    // ----- DHT22 SENSOR -----
+    const dht22Ref = ref(db, "/sensor/dht22");
+    const unsub4 = onValue(dht22Ref, (snap) => {
+      const val = snap.val();
+      if (!val) return;
+
+      const temperature = val.temp ?? 0;
+      const humidity = val.humidity ?? 0;
+      
+      const now = new Date();
+      const timeStr = now.toLocaleString("vi-VN");
+      const day = now.getDate();
+
+      setData((prev) => {
+        let tempHistory = [...prev.tempHistory, { time: timeStr, day, value: temperature }];
+        if (tempHistory.length > 20) tempHistory.shift();
+
+        let humidityHistory = [...prev.humidityHistory, { time: timeStr, day, value: humidity }];
+        if (humidityHistory.length > 20) humidityHistory.shift();
+
+        return {
+          ...prev,
+          temperature,
+          humidity,
+          tempHistory,
+          humidityHistory,
+          lastDHT22Update: Date.now(),
+        };
+      });
+    });
+
     return () => {
       unsub1();
       unsub2();
       unsub3();
+      unsub4();
     };
   }, []);
 

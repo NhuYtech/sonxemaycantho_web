@@ -15,8 +15,8 @@ export default function DashboardAlertBanner({ fire, gas, threshold }: Dashboard
         <div className="flex items-center gap-4">
           <AlertTriangle size={32} className="text-white" />
           <div className="flex-1">
-            <h2 className="text-2xl font-bold text-white">🔥 CẢNH BÁO CHÁY!</h2>
-            <p className="text-red-100">Phát hiện lửa - Hệ thống đang kích hoạt biện pháp an toàn</p>
+            <h2 className="text-2xl font-bold text-white">🔥 PHÁT HIỆN NGUỒN NHIỆT / ÁNH SÁNG BẤT THƯỜNG</h2>
+            <p className="text-red-100">Hệ thống phát hiện ánh sáng cường độ cao - Có thể từ lửa hoặc đèn mạnh</p>
           </div>
           <div className="text-right">
             <p className="text-3xl font-bold text-white">{gas}</p>

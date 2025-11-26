@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import { useFirebaseLogs } from "@/hooks/useFirebaseLogs";
 import { useUI } from "@/contexts/UIContext";
 import { TimeFilter as TimeFilterType, EventType, LogEvent, LogStats } from "@/types/logs";
-import { Flame, Wind, Zap, Users } from "lucide-react";
+import { Flame, Wind, Zap, Users, Thermometer, Droplets } from "lucide-react";
 
 import StatsCard from "@/components/logs/StatsCard";
 import PerformanceChart from "@/components/logs/PerformanceChart";
@@ -57,6 +57,16 @@ export default function LogsPage() {
     const minGas = gasValues.length > 0 ? Math.min(...gasValues) : 0;
     const avgGas = gasValues.length > 0 ? gasValues.reduce((a, b) => a + b, 0) / gasValues.length : 0;
 
+    const tempValues = filteredLogs.map((log) => log.temperature);
+    const maxTemp = tempValues.length > 0 ? Math.max(...tempValues) : 0;
+    const minTemp = tempValues.length > 0 ? Math.min(...tempValues) : 0;
+    const avgTemp = tempValues.length > 0 ? tempValues.reduce((a, b) => a + b, 0) / tempValues.length : 0;
+
+    const humidityValues = filteredLogs.map((log) => log.humidity);
+    const maxHumidity = humidityValues.length > 0 ? Math.max(...humidityValues) : 0;
+    const minHumidity = humidityValues.length > 0 ? Math.min(...humidityValues) : 0;
+    const avgHumidity = humidityValues.length > 0 ? humidityValues.reduce((a, b) => a + b, 0) / humidityValues.length : 0;
+
     return {
       totalEvents,
       fireDetections,
@@ -66,6 +76,12 @@ export default function LogsPage() {
       maxGas,
       minGas,
       avgGas,
+      maxTemp,
+      minTemp,
+      avgTemp,
+      maxHumidity,
+      minHumidity,
+      avgHumidity,
     };
   }, [filteredLogs]);
 
@@ -94,7 +110,7 @@ export default function LogsPage() {
       />
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
         <StatsCard
           title={t("logs.fire")}
           value={stats.fireDetections}
@@ -108,6 +124,20 @@ export default function LogsPage() {
           icon={Wind}
           color="text-yellow-500"
           bgColor="bg-yellow-950/30"
+        />
+        <StatsCard
+          title="Nhiệt độ cao"
+          value={stats.maxTemp > 45 ? Math.floor(stats.maxTemp) : 0}
+          icon={Thermometer}
+          color="text-orange-500"
+          bgColor="bg-orange-950/30"
+        />
+        <StatsCard
+          title="Độ ẩm thấp"
+          value={stats.minHumidity < 25 ? Math.floor(stats.minHumidity) : 0}
+          icon={Droplets}
+          color="text-cyan-500"
+          bgColor="bg-cyan-950/30"
         />
         <StatsCard
           title={t("logs.relay")}

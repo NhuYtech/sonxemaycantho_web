@@ -27,6 +27,8 @@ export function useFirebaseLogs() {
         type: value.type || "user_action",
         gas: value.gas || 0,
         fire: value.fire || false,
+        temperature: value.temperature || 0,
+        humidity: value.humidity || 0,
         relay1: value.relay1 || false,
         relay2: value.relay2 || false,
         buzzer: value.buzzer || false,

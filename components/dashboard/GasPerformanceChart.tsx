@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine, Cell } from "recharts";
 
 interface GasPerformanceChartProps {
-  history: { time: string; value: number }[];
+  history: { time: string; day: number; value: number }[];
   threshold: number;
   mode: "day" | "week" | "month";
 }
@@ -13,27 +13,52 @@ export default function GasPerformanceChart({ history, threshold, mode }: GasPer
   const chartData = useMemo(() => {
     // For now, use the current history data
     // In production, you'd aggregate data based on mode
-    return history.map((item) => ({
-      time: item.time,
+    const data = history.map((item) => ({
+      time: item.time,      // Full datetime for tooltip
+      day: item.day,        // Day number for X axis
       gas: item.value,
       isWarning: item.value > threshold,
     }));
+
+    // If no data, return empty array
+    if (data.length === 0) {
+      return [];
+    }
+
+    return data;
   }, [history, threshold]);
+
+  // Check if there's no data
+  const hasData = chartData.length > 0;
 
   return (
     <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6 shadow-[0_0_30px_rgba(255,100,60,0.2)]">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-xl font-bold text-orange-300 mb-1">Biểu đồ Gas</h3>
-          <p className="text-gray-400 text-sm">Biến động nồng độ khí gas theo thời gian</p>
+          <h3 className="text-xl font-bold text-orange-300 mb-1">📊 Diễn biến mức khí Gas theo thời gian</h3>
+          <p className="text-gray-400 text-sm">Theo dõi sự thay đổi nồng độ khí gas</p>
         </div>
       </div>
 
-      <ResponsiveContainer width="100%" height={300}>
+      {!hasData ? (
+        <div className="flex items-center justify-center h-[300px] text-gray-500">
+          <div className="text-center">
+            <p className="text-lg mb-2">📊 Chưa có dữ liệu</p>
+            <p className="text-sm">Đang chờ dữ liệu từ cảm biến MQ-2...</p>
+          </div>
+        </div>
+      ) : (
+        <ResponsiveContainer width="100%" height={300}>
         <BarChart data={chartData}>
-          <XAxis dataKey="time" stroke="#9ca3af" style={{ fontSize: "12px" }} />
+          <XAxis dataKey="day" stroke="#9ca3af" style={{ fontSize: "12px" }} />
           <YAxis stroke="#9ca3af" style={{ fontSize: "12px" }} />
           <Tooltip
+            labelFormatter={(value, payload) => {
+              if (payload && payload.length > 0 && payload[0].payload) {
+                return payload[0].payload.time;
+              }
+              return value;
+            }}
             contentStyle={{
               backgroundColor: "#280E0A",
               border: "1px solid #991b1b",
@@ -49,17 +74,18 @@ export default function GasPerformanceChart({ history, threshold, mode }: GasPer
             ))}
           </Bar>
         </BarChart>
-      </ResponsiveContainer>
+        </ResponsiveContainer>
+      )}
 
       {/* Legend */}
       <div className="flex gap-4 mt-4 text-sm justify-center">
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 bg-[#FFA83D] rounded"></div>
-          <span className="text-gray-400">Bình thường</span>
+          <span className="text-gray-400">🟩 Mức bình thường</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 bg-[#FF4C29] rounded"></div>
-          <span className="text-gray-400">Vượt ngưỡng</span>
+          <span className="text-gray-400">🟥 Vượt mức an toàn</span>
         </div>
       </div>
     </div>

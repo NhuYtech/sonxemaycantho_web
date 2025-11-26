@@ -46,7 +46,9 @@ export default function EventModal({ event, onClose }: EventModalProps) {
           <div className="grid grid-cols-2 gap-4">
             <InfoItem label="Loại sự kiện" value={eventTypeLabels[event.type] || event.type} />
             <InfoItem label="Thời gian" value={new Date(event.timestamp).toLocaleString("vi-VN")} />
-            <InfoItem label="Gas" value={event.gas.toString()} highlight={event.gas > 3000} />
+            <InfoItem label="Gas" value={`${event.gas} ppm`} highlight={event.gas > 3000} />
+            <InfoItem label="Nhiệt độ" value={`${event.temperature.toFixed(1)}°C`} highlight={event.temperature > 45} />
+            <InfoItem label="Độ ẩm" value={`${event.humidity.toFixed(1)}%`} highlight={event.humidity < 25} />
             <InfoItem label="Lửa" value={event.fire ? "🔥 Có" : "✓ Không"} highlight={event.fire} />
             <InfoItem label="Relay 1" value={event.relay1 ? "Bật" : "Tắt"} highlight={event.relay1} />
             <InfoItem label="Relay 2" value={event.relay2 ? "Bật" : "Tắt"} highlight={event.relay2} />

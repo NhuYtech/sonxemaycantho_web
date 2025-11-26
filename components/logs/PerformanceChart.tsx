@@ -27,6 +27,8 @@ export default function PerformanceChart({ logs, timeFilter }: PerformanceChartP
         fire: 0,
         gas: 0,
         relay: 0,
+        tempHigh: 0,
+        humidityLow: 0,
       };
     });
 
@@ -38,9 +40,11 @@ export default function PerformanceChart({ logs, timeFilter }: PerformanceChartP
       if (log.type === "fire_detected") buckets[index].fire++;
       if (log.type === "gas_warning") buckets[index].gas++;
       if (log.type === "relay_on") buckets[index].relay++;
+      if (log.temperature > 45) buckets[index].tempHigh++;
+      if (log.humidity < 25) buckets[index].humidityLow++;
     });
 
-    const maxValue = Math.max(...buckets.map((b) => Math.max(b.fire, b.gas, b.relay)), 1);
+    const maxValue = Math.max(...buckets.map((b) => Math.max(b.fire, b.gas, b.relay, b.tempHigh, b.humidityLow)), 1);
 
     return { buckets, maxValue };
   }, [logs, timeFilter]);
@@ -53,7 +57,7 @@ export default function PerformanceChart({ logs, timeFilter }: PerformanceChartP
       </div>
 
       {/* Legend */}
-      <div className="flex justify-center gap-8 mb-4 text-sm">
+      <div className="flex justify-center gap-4 mb-4 text-sm flex-wrap">
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 bg-red-500 rounded"></div>
           <span className="text-gray-400">Cháy</span>
@@ -66,6 +70,14 @@ export default function PerformanceChart({ logs, timeFilter }: PerformanceChartP
           <div className="w-4 h-4 bg-blue-500 rounded"></div>
           <span className="text-gray-400">Relay</span>
         </div>
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 bg-orange-500 rounded"></div>
+          <span className="text-gray-400">Nhiệt độ cao</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 bg-cyan-500 rounded"></div>
+          <span className="text-gray-400">Độ ẩm thấp</span>
+        </div>
       </div>
 
       {/* Chart */}
@@ -74,27 +86,41 @@ export default function PerformanceChart({ logs, timeFilter }: PerformanceChartP
           const fireHeight = (bucket.fire / chartData.maxValue) * 100;
           const gasHeight = (bucket.gas / chartData.maxValue) * 100;
           const relayHeight = (bucket.relay / chartData.maxValue) * 100;
+          const tempHighHeight = (bucket.tempHigh / chartData.maxValue) * 100;
+          const humidityLowHeight = (bucket.humidityLow / chartData.maxValue) * 100;
 
           return (
             <div key={i} className="flex-1 flex flex-col items-center gap-1">
               <div className="w-full flex items-end justify-center gap-1 h-56">
                 {/* Fire bar */}
                 <div
-                  className="w-1/3 bg-red-500/80 rounded-t transition-all duration-300 hover:bg-red-500"
+                  className="w-1/5 bg-red-500/80 rounded-t transition-all duration-300 hover:bg-red-500"
                   style={{ height: `${fireHeight}%` }}
                   title={`Cháy: ${bucket.fire}`}
                 ></div>
                 {/* Gas bar */}
                 <div
-                  className="w-1/3 bg-yellow-500/80 rounded-t transition-all duration-300 hover:bg-yellow-500"
+                  className="w-1/5 bg-yellow-500/80 rounded-t transition-all duration-300 hover:bg-yellow-500"
                   style={{ height: `${gasHeight}%` }}
                   title={`Gas: ${bucket.gas}`}
                 ></div>
                 {/* Relay bar */}
                 <div
-                  className="w-1/3 bg-blue-500/80 rounded-t transition-all duration-300 hover:bg-blue-500"
+                  className="w-1/5 bg-blue-500/80 rounded-t transition-all duration-300 hover:bg-blue-500"
                   style={{ height: `${relayHeight}%` }}
                   title={`Relay: ${bucket.relay}`}
+                ></div>
+                {/* Temperature High bar */}
+                <div
+                  className="w-1/5 bg-orange-500/80 rounded-t transition-all duration-300 hover:bg-orange-500"
+                  style={{ height: `${tempHighHeight}%` }}
+                  title={`Nhiệt độ cao: ${bucket.tempHigh}`}
+                ></div>
+                {/* Humidity Low bar */}
+                <div
+                  className="w-1/5 bg-cyan-500/80 rounded-t transition-all duration-300 hover:bg-cyan-500"
+                  style={{ height: `${humidityLowHeight}%` }}
+                  title={`Độ ẩm thấp: ${bucket.humidityLow}`}
                 ></div>
               </div>
               <span className="text-xs text-gray-500 mt-1">{bucket.label}</span>

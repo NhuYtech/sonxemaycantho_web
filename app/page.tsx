@@ -83,10 +83,10 @@ export default function Home() {
           </h2>
           <p className="text-xl text-gray-200 mb-8">
             Chào mừng bạn đến với <span className="font-bold">CanTho FireGuard</span>
+          </p>
             <h2>
                Hệ thống theo dõi khí gas, lửa, nhiệt độ và độ ẩm theo thời gian thực, giúp bảo vệ xưởng sơn – kho hàng – khu vực sản xuất một cách an toàn và thông minh.
             </h2>
-          </p>
           <button
             onClick={() => router.push("/dashboard")}
             className="bg-orange-500 hover:bg-orange-600 px-8 py-4 rounded-full text-xl font-bold transition shadow-lg"

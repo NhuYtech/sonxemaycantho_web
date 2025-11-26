@@ -1,24 +1,28 @@
 "use client";
 
 import { useMemo } from "react";
-import { Clock, Wind, Flame, Settings } from "lucide-react";
+import { Clock, Wind, Flame, Settings, Thermometer, Droplets } from "lucide-react";
 
 interface LogsPreviewProps {
   gas: number;
   fire: boolean;
   mode: "AUTO" | "MANUAL";
   threshold: number;
+  temperature?: number;
+  humidity?: number;
 }
 
 type LogEntry = {
   time: string;
   gas: number;
   fire: boolean;
+  temperature: number;
+  humidity: number;
   event: string;
   mode: string;
 };
 
-export default function LogsPreview({ gas, fire, mode, threshold }: LogsPreviewProps) {
+export default function LogsPreview({ gas, fire, mode, threshold, temperature = 0, humidity = 0 }: LogsPreviewProps) {
   // Mock data - in production, fetch from Firebase logs
   const recentLogs = useMemo<LogEntry[]>(() => {
     const now = new Date();
@@ -27,6 +31,8 @@ export default function LogsPreview({ gas, fire, mode, threshold }: LogsPreviewP
         time: now.toLocaleTimeString("vi-VN"),
         gas,
         fire,
+        temperature,
+        humidity,
         event: fire ? "🔥 Phát hiện cháy" : gas > threshold ? "⚠️ Gas vượt ngưỡng" : "✓ Bình thường",
         mode,
       },
@@ -34,6 +40,8 @@ export default function LogsPreview({ gas, fire, mode, threshold }: LogsPreviewP
         time: new Date(now.getTime() - 60000).toLocaleTimeString("vi-VN"),
         gas: gas - 100,
         fire: false,
+        temperature: temperature - 2,
+        humidity: humidity + 5,
         event: "✓ Bình thường",
         mode,
       },
@@ -41,16 +49,18 @@ export default function LogsPreview({ gas, fire, mode, threshold }: LogsPreviewP
         time: new Date(now.getTime() - 120000).toLocaleTimeString("vi-VN"),
         gas: gas - 200,
         fire: false,
+        temperature: temperature - 3,
+        humidity: humidity + 8,
         event: "🔄 Đổi chế độ",
         mode: mode === "AUTO" ? "MANUAL" : "AUTO",
       },
     ];
-  }, [gas, fire, mode, threshold]);
+  }, [gas, fire, mode, threshold, temperature, humidity]);
 
   return (
     <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6 shadow-[0_0_30px_rgba(255,100,60,0.2)]">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-xl font-bold text-orange-300">Hoạt động gần đây</h3>
+        <h3 className="text-xl font-bold text-orange-300">🔔 Hoạt động gần nhất</h3>
         <a href="/dashboard/logs" className="text-sm text-blue-400 hover:text-blue-300 transition-colors">
           Xem tất cả →
         </a>
@@ -62,17 +72,25 @@ export default function LogsPreview({ gas, fire, mode, threshold }: LogsPreviewP
             <tr className="border-b border-red-900/30 text-gray-400">
               <th className="text-left py-2 px-3">
                 <Clock size={14} className="inline mr-1" />
-                Giờ
+                Thời gian
               </th>
               <th className="text-center py-2 px-3">
                 <Wind size={14} className="inline mr-1" />
-                Gas
+                Khí Gas
+              </th>
+              <th className="text-center py-2 px-3">
+                <Thermometer size={14} className="inline mr-1" />
+                Temp
+              </th>
+              <th className="text-center py-2 px-3">
+                <Droplets size={14} className="inline mr-1" />
+                Hum
               </th>
               <th className="text-center py-2 px-3">
                 <Flame size={14} className="inline mr-1" />
-                Fire
+                Nguồn nhiệt
               </th>
-              <th className="text-left py-2 px-3">Sự kiện</th>
+              <th className="text-left py-2 px-3">Mô tả</th>
               <th className="text-center py-2 px-3">
                 <Settings size={14} className="inline mr-1" />
                 Chế độ
@@ -84,6 +102,8 @@ export default function LogsPreview({ gas, fire, mode, threshold }: LogsPreviewP
               <tr key={index} className="border-b border-red-900/10 hover:bg-red-950/20 transition-colors">
                 <td className="py-3 px-3 text-gray-300">{log.time}</td>
                 <td className="py-3 px-3 text-center text-yellow-400 font-mono">{log.gas}</td>
+                <td className="py-3 px-3 text-center text-orange-400 font-mono">{log.temperature.toFixed(1)}°</td>
+                <td className="py-3 px-3 text-center text-cyan-400 font-mono">{log.humidity.toFixed(1)}%</td>
                 <td className="py-3 px-3 text-center">
                   {log.fire ? <span className="text-red-500">🔥</span> : <span className="text-green-500">✓</span>}
                 </td>

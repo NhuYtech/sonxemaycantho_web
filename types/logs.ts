@@ -6,6 +6,8 @@ export type LogEvent = {
   type: EventType;
   gas: number;
   fire: boolean;
+  temperature: number;
+  humidity: number;
   relay1: boolean;
   relay2: boolean;
   buzzer: boolean;
@@ -24,6 +26,12 @@ export type LogStats = {
   maxGas: number;
   minGas: number;
   avgGas: number;
+  maxTemp: number;
+  minTemp: number;
+  avgTemp: number;
+  maxHumidity: number;
+  minHumidity: number;
+  avgHumidity: number;
 };
 
 export type TimeFilter = "today" | "week" | "month" | "all";
