@@ -50,7 +50,7 @@ export default function LogsPreview({ gas, fire, mode, threshold }: LogsPreviewP
   return (
     <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6 shadow-[0_0_30px_rgba(255,100,60,0.2)]">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-xl font-bold text-orange-300">Recent Activity</h3>
+        <h3 className="text-xl font-bold text-orange-300">Hoạt động gần đây</h3>
         <a href="/dashboard/logs" className="text-sm text-blue-400 hover:text-blue-300 transition-colors">
           Xem tất cả →
         </a>
@@ -72,10 +72,10 @@ export default function LogsPreview({ gas, fire, mode, threshold }: LogsPreviewP
                 <Flame size={14} className="inline mr-1" />
                 Fire
               </th>
-              <th className="text-left py-2 px-3">Event</th>
+              <th className="text-left py-2 px-3">Sự kiện</th>
               <th className="text-center py-2 px-3">
                 <Settings size={14} className="inline mr-1" />
-                Mode
+                Chế độ
               </th>
             </tr>
           </thead>

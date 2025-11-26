@@ -24,8 +24,8 @@ export default function GasPerformanceChart({ history, threshold, mode }: GasPer
     <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6 shadow-[0_0_30px_rgba(255,100,60,0.2)]">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-xl font-bold text-orange-300 mb-1">Gas Performance</h3>
-          <p className="text-gray-400 text-sm">Biến động khí gas theo thời gian</p>
+          <h3 className="text-xl font-bold text-orange-300 mb-1">Biểu đồ Gas</h3>
+          <p className="text-gray-400 text-sm">Biến động nồng độ khí gas theo thời gian</p>
         </div>
       </div>
 

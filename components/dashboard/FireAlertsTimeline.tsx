@@ -20,8 +20,8 @@ export default function FireAlertsTimeline({ history, threshold }: FireAlertsTim
   return (
     <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6 shadow-[0_0_30px_rgba(255,100,60,0.2)]">
       <div>
-        <h3 className="text-xl font-bold text-orange-300 mb-1">Fire & Alerts Timeline</h3>
-        <p className="text-gray-400 text-sm mb-6">Dòng thời gian cảnh báo</p>
+        <h3 className="text-xl font-bold text-orange-300 mb-1">Dòng thời gian cảnh báo</h3>
+        <p className="text-gray-400 text-sm mb-6">Theo dõi các sự kiện cảnh báo theo thời gian</p>
       </div>
 
       <ResponsiveContainer width="100%" height={280}>

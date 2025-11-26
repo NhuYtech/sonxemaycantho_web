@@ -31,25 +31,25 @@ export default function SystemStatusPanel({ state }: SystemStatusPanelProps) {
     {
       icon: Wifi,
       label: "WiFi",
-      value: "Online",
+      value: "Trực tuyến",
       status: "safe" as const,
     },
     {
       icon: Database,
       label: "Firebase",
-      value: state.firebase ? "Connected" : "Disconnected",
+      value: state.firebase ? "Đã kết nối" : "Mất kết nối",
       status: firebaseStatus,
     },
     {
       icon: Clock,
-      label: "Last Update",
+      label: "Cập nhật",
       value: `${lastUpdate}s trước`,
       status: updateStatus,
     },
     {
       icon: Cpu,
       label: "ESP32",
-      value: "Running",
+      value: "Đang chạy",
       status: "safe" as const,
     },
   ];
@@ -62,7 +62,7 @@ export default function SystemStatusPanel({ state }: SystemStatusPanelProps) {
 
   return (
     <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6 shadow-[0_0_30px_rgba(255,100,60,0.2)]">
-      <h3 className="text-xl font-bold text-orange-300 mb-6">System Status</h3>
+      <h3 className="text-xl font-bold text-orange-300 mb-6">Trạng thái hệ thống</h3>
 
       <div className="space-y-4">
         {statusItems.map((item, index) => {
@@ -85,13 +85,13 @@ export default function SystemStatusPanel({ state }: SystemStatusPanelProps) {
       <div className="mt-6 pt-4 border-t border-red-900/20">
         <div className="grid grid-cols-2 gap-3 text-sm">
           <div>
-            <p className="text-gray-400 text-xs">Threshold</p>
+            <p className="text-gray-400 text-xs">Ngưỡng</p>
             <p className="text-orange-300 font-bold">{state.threshold} ppm</p>
           </div>
           <div>
-            <p className="text-gray-400 text-xs">Mode</p>
+            <p className="text-gray-400 text-xs">Chế độ</p>
             <p className={`font-bold ${state.autoManual === "AUTO" ? "text-green-400" : "text-orange-400"}`}>
-              {state.autoManual}
+              {state.autoManual === "AUTO" ? "Tự động" : "Thủ công"}
             </p>
           </div>
         </div>

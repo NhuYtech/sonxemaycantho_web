@@ -106,22 +106,23 @@ export default function DashboardControlPanel({ state }: DashboardControlPanelPr
         </div>
 
         {/* Mode Toggle */}
-        <div className="bg-red-950/30 rounded-lg p-4 border border-red-900/20">
-          <div className="flex items-center justify-between">
-            <span className="font-semibold text-gray-200">Chế độ</span>
-            <button
-              onClick={toggleMode}
-              disabled={loading}
-              className={`px-4 py-1.5 rounded-lg font-semibold text-sm transition-all ${
-                state.autoManual === "AUTO"
-                  ? "bg-green-600 text-white hover:bg-green-700"
-                  : "bg-orange-600 text-white hover:bg-orange-700"
-              } ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
-            >
-              {state.autoManual}
-            </button>
-          </div>
-        </div>
+<div className="bg-red-950/30 rounded-lg p-4 border border-red-900/20">
+  <div className="flex items-center justify-between">
+    <span className="font-semibold text-gray-200">Chế độ</span>
+    <button
+      onClick={toggleMode}
+      disabled={loading}
+      className={`px-4 py-1.5 rounded-lg font-semibold text-sm transition-all ${
+        state.autoManual === "AUTO"
+          ? "bg-green-600 text-white hover:bg-green-700"
+          : "bg-orange-600 text-white hover:bg-orange-700"
+      } ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+    >
+      {state.autoManual === "AUTO" ? "TỰ ĐỘNG" : "THỦ CÔNG"}
+    </button>
+  </div>
+</div>
+
 
         {/* Buzzer Off */}
         <button
