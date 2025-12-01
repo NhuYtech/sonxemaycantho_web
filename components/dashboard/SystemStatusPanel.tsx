@@ -9,59 +9,75 @@ interface SystemStatusPanelProps {
 }
 
 export default function SystemStatusPanel({ state }: SystemStatusPanelProps) {
-  const [lastUpdate, setLastUpdate] = useState(0);
+  const [secondsSinceUpdate, setSecondsSinceUpdate] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setLastUpdate((prev) => prev + 1);
+      const timeDiff = Math.floor((Date.now() - state.lastUpdate) / 1000);
+      setSecondsSinceUpdate(timeDiff);
     }, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [state.lastUpdate]);
 
-  useEffect(() => {
-    setLastUpdate(0);
-  }, [state.gas]);
-
-  const firebaseStatus: "safe" | "danger" = state.firebase ? "safe" : "danger";
+  // System connection status
+  const isConnected = state.firebase;
+  const connectionStatus: "safe" | "danger" = isConnected ? "safe" : "danger";
+  
+  // Update time status
   const updateStatus: "safe" | "warning" | "danger" =
-    lastUpdate < 10 ? "safe" : lastUpdate < 30 ? "warning" : "danger";
+    secondsSinceUpdate < 10 ? "safe" : secondsSinceUpdate < 30 ? "warning" : "danger";
 
   // Check DHT22 sensor status based on last update time
-  const dht22TimeDiff = (Date.now() - state.lastDHT22Update) / 1000;
+  const dht22TimeDiff = Math.floor((Date.now() - state.lastDHT22Update) / 1000);
   const dht22Status: "safe" | "danger" = dht22TimeDiff < 30 ? "safe" : "danger";
+
+  // MQ2 and Flame sensor status (based on main connection)
+  const mainSensorStatus: "safe" | "danger" = isConnected && secondsSinceUpdate < 30 ? "safe" : "danger";
 
   const statusItems = [
     {
       icon: Wifi,
-      label: "WiFi",
-      value: "Trực tuyến",
-      status: "safe" as const,
+      label: "WiFi ESP32",
+      value: isConnected ? "Kết nối" : "Mất kết nối",
+      status: connectionStatus,
     },
     {
       icon: Database,
       label: "Firebase",
-      value: state.firebase ? "Hoạt động" : "Mất kết nối",
-      status: firebaseStatus,
+      value: isConnected ? "Hoạt động" : "Mất kết nối",
+      status: connectionStatus,
     },
     {
       icon: Cpu,
       label: "ESP32",
-      value: "Đang chạy",
-      status: "safe" as const,
+      value: isConnected ? "Đang chạy" : "Ngoại tuyến",
+      status: connectionStatus,
     },
     {
       icon: Clock,
-      label: "Cập nhật lần cuối",
-      value: `${lastUpdate} giây trước`,
-      status: updateStatus,
+      label: "Cập nhật",
+      value: isConnected ? `${secondsSinceUpdate}s trước` : "Không có dữ liệu",
+      status: isConnected ? updateStatus : "danger" as const,
     },
   ];
 
   const sensorItems = [
-    { label: "MQ2 (Gas)", status: "safe" as const, value: "Trực tuyến" },
-    { label: "Flame Sensor", status: "safe" as const, value: "Trực tuyến" },
-    { label: "DHT22 (Temp/Hum)", status: dht22Status, value: dht22Status === "safe" ? "Trực tuyến" : "Mất kết nối" },
+    { 
+      label: "MQ2 (Gas)", 
+      status: mainSensorStatus, 
+      value: mainSensorStatus === "safe" ? "Trực tuyến" : "Mất kết nối" 
+    },
+    { 
+      label: "Flame Sensor", 
+      status: mainSensorStatus, 
+      value: mainSensorStatus === "safe" ? "Trực tuyến" : "Mất kết nối" 
+    },
+    { 
+      label: "DHT22 (Temp/Hum)", 
+      status: isConnected ? dht22Status : "danger" as const, 
+      value: isConnected && dht22Status === "safe" ? "Trực tuyến" : "Mất kết nối" 
+    },
   ];
 
   const statusColors = {

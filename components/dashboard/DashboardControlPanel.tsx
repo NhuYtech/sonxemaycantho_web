@@ -17,7 +17,8 @@ export default function DashboardControlPanel({ state }: DashboardControlPanelPr
     setLoading(true);
     try {
       const relayRef = ref(db, `/control/${relay}`);
-      await set(relayRef, !state[relay]);
+      // Firebase expects 0 or 1 (number), not boolean
+      await set(relayRef, state[relay] ? 0 : 1);
     } catch (error) {
       console.error("Error toggling relay:", error);
     } finally {
@@ -29,6 +30,7 @@ export default function DashboardControlPanel({ state }: DashboardControlPanelPr
     setLoading(true);
     try {
       const modeRef = ref(db, "/settings/mode");
+      // AUTO = 1, MANUAL = 0
       await set(modeRef, state.autoManual === "AUTO" ? 0 : 1);
     } catch (error) {
       console.error("Error toggling mode:", error);
@@ -41,7 +43,8 @@ export default function DashboardControlPanel({ state }: DashboardControlPanelPr
     setLoading(true);
     try {
       const buzzerRef = ref(db, "/control/buzzer");
-      await set(buzzerRef, false);
+      // Firebase expects 0 (OFF)
+      await set(buzzerRef, 0);
     } catch (error) {
       console.error("Error turning off buzzer:", error);
     } finally {

@@ -27,7 +27,7 @@ export default function Header() {
   };
 
   return (
-    <header className="h-16 border-b border-red-900/30 bg-[#1A0A00]/60 backdrop-blur-md flex items-center justify-between px-6">
+    <header className="h-16 border-b border-red-900/30 bg-[#1A0A00]/60 backdrop-blur-md flex items-center justify-between px-6 relative z-50">
 
       <h1 className="absolute left-1/2 -translate-x-1/2 text-2xl font-bold text-gray-100">
         CanTho FireGuard
@@ -62,16 +62,22 @@ export default function Header() {
             </button>
 
             {showMenu && (
-              <div className="absolute right-0 mt-2 w-56 bg-[#2A1410] border border-red-900/30 rounded-lg shadow-lg z-50">
+              <div className="absolute right-0 mt-2 w-56 bg-[#2A1410] border border-red-900/30 rounded-lg shadow-lg z-[100]">
                 
                 {/* User Info */}
                 <div className="p-4 border-b border-red-900/30">
                   <div className="flex items-center gap-3">
-                    <img
-                      src={user.photoURL}
-                      className="w-12 h-12 rounded-full"
-                      alt="avatar"
-                    />
+                    {user.photoURL ? (
+                      <img
+                        src={user.photoURL}
+                        className="w-12 h-12 rounded-full"
+                        alt="avatar"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 rounded-full bg-linear-to-br from-orange-500 to-red-600 flex items-center justify-center">
+                        <User size={24} className="text-white" />
+                      </div>
+                    )}
                     <div>
                       <p className="font-semibold text-gray-100">{user.displayName}</p>
                       <p className="text-xs text-gray-400">{user.email}</p>

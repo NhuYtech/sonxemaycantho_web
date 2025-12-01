@@ -60,12 +60,21 @@ export default function GasPerformanceChart({ history, threshold, mode }: GasPer
               return value;
             }}
             contentStyle={{
-              backgroundColor: "#280E0A",
-              border: "1px solid #991b1b",
+              backgroundColor: "#1e1e1e",
+              border: "1px solid #ffb86c",
               borderRadius: "8px",
-              color: "#fff",
+              color: "#fff",     
+              fontSize: "14px",
+              padding: "10px",
             }}
-            labelStyle={{ color: "#fbbf24" }}
+            labelStyle={{
+              color: "#fbbf24",    
+              fontWeight: "bold",
+            }}
+            itemStyle={{
+              color: "#f8f8f2",
+              fontWeight: "bold",
+            }}
           />
           <ReferenceLine y={threshold} stroke="#ef4444" strokeDasharray="5 5" strokeWidth={2} label="Ngưỡng" />
           <Bar dataKey="gas" radius={[8, 8, 0, 0]}>

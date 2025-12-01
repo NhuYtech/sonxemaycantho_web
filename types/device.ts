@@ -18,5 +18,6 @@ export type DeviceState = {
   gasHistory: HistoryItem[];
   tempHistory: HistoryItem[];
   humidityHistory: HistoryItem[];
+  lastUpdate: number;
   lastDHT22Update: number;
 };

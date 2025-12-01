@@ -16,11 +16,12 @@ export function useFirebaseDevice() {
     buzzer: false,
     autoManual: "AUTO",
     threshold: 4000,
-    firebase: true,
+    firebase: false,
     gasHistory: [],
     tempHistory: [],
     humidityHistory: [],
-    lastDHT22Update: Date.now(),
+    lastUpdate: 0,
+    lastDHT22Update: 0,
   });
 
   useEffect(() => {
@@ -49,6 +50,8 @@ export function useFirebaseDevice() {
           gas,
           fire,
           gasHistory: history,
+          lastUpdate: Date.now(),
+          firebase: true,
         };
       });
     });
@@ -60,8 +63,9 @@ export function useFirebaseDevice() {
 
       setData((prev) => ({
         ...prev,
-        relay1: val.relay1 ?? false,
-        relay2: val.relay2 ?? false,
+        relay1: val.relay1 === 1, // Convert 1/0 to boolean
+        relay2: val.relay2 === 1, // Convert 1/0 to boolean
+        buzzer: val.buzzer === 1, // Convert 1/0 to boolean
       }));
     });
 
@@ -73,7 +77,7 @@ export function useFirebaseDevice() {
       setData((prev) => ({
         ...prev,
         threshold: val.threshold ?? 4000,
-        autoManual: val.mode ? "AUTO" : "MANUAL",
+        autoManual: val.mode === 1 ? "AUTO" : "MANUAL", // 1 = AUTO, 0 = MANUAL
       }));
     });
 
@@ -108,11 +112,24 @@ export function useFirebaseDevice() {
       });
     });
 
+    // ----- CHECK OFFLINE STATUS -----
+    const checkOffline = setInterval(() => {
+      const now = Date.now();
+      setData((prev) => {
+        const isOffline = now - prev.lastUpdate > 30000; // 30 seconds timeout
+        if (isOffline && prev.firebase) {
+          return { ...prev, firebase: false };
+        }
+        return prev;
+      });
+    }, 5000); // Check every 5 seconds
+
     return () => {
       unsub1();
       unsub2();
       unsub3();
       unsub4();
+      clearInterval(checkOffline);
     };
   }, []);
 
