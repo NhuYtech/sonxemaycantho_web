@@ -31,7 +31,7 @@ export default function AuthProvider({
         setIsAuthenticated(false);
         
         // If on protected route (not auth page), redirect to login
-        if (pathname?.startsWith("/dashboard") || pathname?.startsWith("/protected")) {
+        if (pathname?.startsWith("/dashboard")) {
           router.push("/login");
         }
       }
