@@ -1,25 +1,38 @@
+"use client";
+
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
-
-export const metadata = {
-  title: "Dashboard • CanTho FireGuard",
-};
+import { Menu } from "lucide-react";
+import { useState } from "react";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <div className="h-screen flex flex-col bg-linear-to-b from-[#3d130e] via-[#4f1c13] to-[#f0703a] text-gray-100">
       <Header />
 
-      <div className="flex flex-1 px-6 py-6 gap-6 overflow-hidden">
-        <aside className="shrink-0">
-          <Sidebar />
-        </aside>
+      <div className="flex flex-1 overflow-hidden">
+        {/* Hamburger Button - Mobile Only */}
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="lg:hidden fixed bottom-6 left-6 z-30 p-3 bg-orange-600 hover:bg-orange-700 active:bg-orange-800 rounded-full shadow-2xl transition-all hover:scale-110 active:scale-95"
+          aria-label="Open menu"
+        >
+          <Menu size={24} className="text-white" />
+        </button>
 
-        <main className="flex-1 overflow-y-auto">{children}</main>
+        {/* Sidebar */}
+        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+
+        {/* Main Content */}
+        <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-6">
+          {children}
+        </main>
       </div>
     </div>
   );
