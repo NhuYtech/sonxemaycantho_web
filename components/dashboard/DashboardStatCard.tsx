@@ -24,9 +24,9 @@ const statusColors = {
     glow: "shadow-[0_0_20px_rgba(234,179,8,0.2)]",
   },
   danger: {
-    bg: "bg-red-950/40",
+    bg: "bg-blue-950/40",
     border: "border-red-700/40",
-    text: "text-red-400",
+    text: "text-blue-400",
     glow: "shadow-[0_0_20px_rgba(239,68,68,0.3)]",
   },
   neutral: {

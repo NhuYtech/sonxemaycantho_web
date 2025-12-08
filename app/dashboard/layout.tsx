@@ -20,7 +20,7 @@ export default function DashboardLayout({
         {/* Hamburger Button - Mobile Only */}
         <button
           onClick={() => setSidebarOpen(true)}
-          className="lg:hidden fixed bottom-6 left-6 z-30 p-3 bg-orange-600 hover:bg-orange-700 active:bg-orange-800 rounded-full shadow-2xl transition-all hover:scale-110 active:scale-95"
+          className="lg:hidden fixed bottom-6 left-6 z-30 p-3 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 rounded-full shadow-2xl transition-all hover:scale-110 active:scale-95"
           aria-label="Open menu"
         >
           <Menu size={24} className="text-white" />

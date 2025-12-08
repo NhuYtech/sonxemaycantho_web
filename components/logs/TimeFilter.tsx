@@ -21,10 +21,8 @@ const eventTypes: { value: EventType | "all"; label: string }[] = [
   { value: "all", label: "Tất cả" },
   { value: "fire_detected", label: "Cháy" },
   { value: "gas_warning", label: "Gas" },
-  { value: "relay_on", label: "Relay bật" },
-  { value: "relay_off", label: "Relay tắt" },
-  { value: "mode_change", label: "Đổi mode" },
   { value: "user_action", label: "Thao tác" },
+  { value: "threshold_change", label: "Ngưỡng" },
 ];
 
 export default function TimeFilter({
@@ -34,13 +32,13 @@ export default function TimeFilter({
   onEventTypeFilterChange,
 }: TimeFilterProps) {
   return (
-    <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6 shadow-lg">
+    <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6 shadow-lg">
       <div className="grid md:grid-cols-2 gap-6">
         {/* Time filter */}
         <div>
           <div className="flex items-center gap-2 mb-3">
-            <Calendar className="text-orange-400" size={20} />
-            <h4 className="font-semibold text-orange-300">Thời gian</h4>
+            <Calendar className="text-sky-400" size={20} />
+            <h4 className="font-semibold text-sky-300">Thời gian</h4>
           </div>
           <div className="flex flex-wrap gap-2">
             {timeFilters.map((filter) => (
@@ -49,8 +47,8 @@ export default function TimeFilter({
                 onClick={() => onTimeFilterChange(filter.value)}
                 className={`px-4 py-2 rounded-lg transition-colors ${
                   timeFilter === filter.value
-                    ? "bg-red-900/70 text-orange-300 font-semibold"
-                    : "bg-red-950/30 text-gray-400 hover:bg-red-950/50"
+                    ? "bg-red-900/70 text-sky-300 font-semibold"
+                    : "bg-blue-950/30 text-gray-400 hover:bg-blue-950/50"
                 }`}
               >
                 {filter.label}
@@ -62,8 +60,8 @@ export default function TimeFilter({
         {/* Event type filter */}
         <div>
           <div className="flex items-center gap-2 mb-3">
-            <Filter className="text-orange-400" size={20} />
-            <h4 className="font-semibold text-orange-300">Loại sự kiện</h4>
+            <Filter className="text-sky-400" size={20} />
+            <h4 className="font-semibold text-sky-300">Loại sự kiện</h4>
           </div>
           <div className="flex flex-wrap gap-2">
             {eventTypes.map((type) => (
@@ -72,8 +70,8 @@ export default function TimeFilter({
                 onClick={() => onEventTypeFilterChange(type.value)}
                 className={`px-4 py-2 rounded-lg transition-colors text-sm ${
                   eventTypeFilter === type.value
-                    ? "bg-red-900/70 text-orange-300 font-semibold"
-                    : "bg-red-950/30 text-gray-400 hover:bg-red-950/50"
+                    ? "bg-red-900/70 text-sky-300 font-semibold"
+                    : "bg-blue-950/30 text-gray-400 hover:bg-blue-950/50"
                 }`}
               >
                 {type.label}

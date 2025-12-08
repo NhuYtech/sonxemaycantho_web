@@ -27,7 +27,7 @@ export default function Header() {
   };
 
   return (
-    <header className="h-16 border-b border-red-900/30 bg-[#1A0A00]/60 backdrop-blur-md flex items-center justify-between px-6 relative z-50">
+    <header className="h-16 border-b border-blue-900/30 bg-[#0A1928]/60 backdrop-blur-md flex items-center justify-between px-6 relative z-50">
 
       <h1 className="absolute left-1/2 -translate-x-1/2 text-2xl font-bold text-gray-100">
         CanTho FireGuard
@@ -39,7 +39,7 @@ export default function Header() {
           <>
             <button
               onClick={() => setShowMenu(!showMenu)}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-red-900/20 transition"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-blue-900/20 transition"
             >
               {user.photoURL ? (
                 <img
@@ -48,7 +48,7 @@ export default function Header() {
                   alt="avatar"
                 />
               ) : (
-                <div className="w-8 h-8 rounded-full bg-linear-to-br from-orange-500 to-red-600 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-sky-600 flex items-center justify-center">
                   <User size={16} className="text-white" />
                 </div>
               )}
@@ -62,10 +62,10 @@ export default function Header() {
             </button>
 
             {showMenu && (
-              <div className="absolute right-0 mt-2 w-56 bg-[#2A1410] border border-red-900/30 rounded-lg shadow-lg z-[100]">
+              <div className="absolute right-0 mt-2 w-56 bg-[#0F2A42] border border-blue-900/30 rounded-lg shadow-lg z-[100]">
                 
                 {/* User Info */}
-                <div className="p-4 border-b border-red-900/30">
+                <div className="p-4 border-b border-blue-900/30">
                   <div className="flex items-center gap-3">
                     {user.photoURL ? (
                       <img
@@ -74,7 +74,7 @@ export default function Header() {
                         alt="avatar"
                       />
                     ) : (
-                      <div className="w-12 h-12 rounded-full bg-linear-to-br from-orange-500 to-red-600 flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-sky-600 flex items-center justify-center">
                         <User size={24} className="text-white" />
                       </div>
                     )}
@@ -88,7 +88,7 @@ export default function Header() {
                 {/* Logout */}
                 <button
                   onClick={handleLogout}
-                  className="w-full flex items-center gap-2 px-4 py-3 text-red-400 hover:bg-red-900/20 transition text-sm font-medium"
+                  className="w-full flex items-center gap-2 px-4 py-3 text-blue-400 hover:bg-blue-900/20 transition text-sm font-medium"
                 >
                   <LogOut size={16} /> {t("header.logout")}
                 </button>

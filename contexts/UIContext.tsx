@@ -49,8 +49,7 @@ const translations: Record<Language, Record<string, string>> = {
     "logs.subtitle": "Theo dõi và phân tích các sự kiện của hệ thống",
     "logs.loading": "Đang tải dữ liệu...",
     "logs.fire": "Phát hiện cháy",
-    "logs.gas": "Cảnh báo gas",
-    "logs.relay": "Relay kích hoạt",
+    "logs.gas": "Cảnh báo Gas",
     "logs.user": "Thao tác người dùng",
     "logs.total": "Tổng sự kiện",
     
@@ -117,7 +116,6 @@ const translations: Record<Language, Record<string, string>> = {
     "logs.loading": "Loading data...",
     "logs.fire": "Fire Detections",
     "logs.gas": "Gas Warnings",
-    "logs.relay": "Relay Activations",
     "logs.user": "User Actions",
     "logs.total": "Total Events",
     

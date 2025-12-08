@@ -19,14 +19,14 @@ export default function DHT22SensorPanel({ temperature, humidity, tempHistory, h
     : 0;
 
   const getTempStatus = () => {
-    if (temperature > 45) return { color: "text-red-400", bg: "bg-red-950/40", border: "border-red-700/40", label: "🔴 Quá nóng" };
+    if (temperature > 45) return { color: "text-blue-400", bg: "bg-blue-950/40", border: "border-red-700/40", label: "🔴 Quá nóng" };
     if (temperature >= 35) return { color: "text-yellow-400", bg: "bg-yellow-950/40", border: "border-yellow-700/40", label: "🟡 Nóng" };
     if (temperature >= 25) return { color: "text-green-400", bg: "bg-green-950/40", border: "border-green-700/40", label: "🟢 Bình thường" };
     return { color: "text-blue-400", bg: "bg-blue-950/40", border: "border-blue-700/40", label: "🔵 Mát" };
   };
 
   const getHumidityStatus = () => {
-    if (humidity < 25) return { color: "text-red-400", bg: "bg-red-950/40", border: "border-red-700/40", label: "🔴 Quá khô" };
+    if (humidity < 25) return { color: "text-blue-400", bg: "bg-blue-950/40", border: "border-red-700/40", label: "🔴 Quá khô" };
     if (humidity < 40) return { color: "text-yellow-400", bg: "bg-yellow-950/40", border: "border-yellow-700/40", label: "🟡 Khô" };
     if (humidity <= 70) return { color: "text-green-400", bg: "bg-green-950/40", border: "border-green-700/40", label: "🟢 Bình thường" };
     return { color: "text-blue-400", bg: "bg-blue-950/40", border: "border-blue-700/40", label: "🔵 Ẩm" };
@@ -36,8 +36,8 @@ export default function DHT22SensorPanel({ temperature, humidity, tempHistory, h
   const humidityStatus = getHumidityStatus();
 
   return (
-    <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6 shadow-[0_0_30px_rgba(255,100,60,0.2)]">
-      <h3 className="text-xl font-bold text-orange-300 mb-6">🌡️ Cảm biến DHT22</h3>
+    <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6 shadow-[0_0_30px_rgba(255,100,60,0.2)]">
+      <h3 className="text-xl font-bold text-sky-300 mb-6">🌡️ Cảm biến DHT22</h3>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Temperature Card */}
@@ -51,7 +51,7 @@ export default function DHT22SensorPanel({ temperature, humidity, tempHistory, h
               </div>
             </div>
             {tempTrend !== 0 && (
-              <div className={`flex items-center gap-1 ${tempTrend > 0 ? 'text-red-400' : 'text-blue-400'}`}>
+              <div className={`flex items-center gap-1 ${tempTrend > 0 ? 'text-blue-400' : 'text-blue-400'}`}>
                 {tempTrend > 0 ? <TrendingUp size={20} /> : <TrendingDown size={20} />}
                 <span className="text-sm">{Math.abs(tempTrend).toFixed(1)}°</span>
               </div>
@@ -78,7 +78,7 @@ export default function DHT22SensorPanel({ temperature, humidity, tempHistory, h
               </div>
             </div>
             {humidityTrend !== 0 && (
-              <div className={`flex items-center gap-1 ${humidityTrend > 0 ? 'text-blue-400' : 'text-red-400'}`}>
+              <div className={`flex items-center gap-1 ${humidityTrend > 0 ? 'text-blue-400' : 'text-blue-400'}`}>
                 {humidityTrend > 0 ? <TrendingUp size={20} /> : <TrendingDown size={20} />}
                 <span className="text-sm">{Math.abs(humidityTrend).toFixed(1)}%</span>
               </div>
@@ -96,7 +96,7 @@ export default function DHT22SensorPanel({ temperature, humidity, tempHistory, h
       </div>
 
       {/* Additional Info */}
-      <div className="mt-4 pt-4 border-t border-red-900/20">
+      <div className="mt-4 pt-4 border-t border-blue-900/20">
         <p className="text-gray-400 text-sm">
           💡 <strong>Lưu ý:</strong> DHT22 đo nhiệt độ và độ ẩm môi trường. Môi trường quá nóng hoặc quá khô có thể tăng nguy cơ cháy nổ.
         </p>

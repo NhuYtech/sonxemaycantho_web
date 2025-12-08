@@ -89,17 +89,17 @@ export default function AccountSettingsTab() {
   if (!currentUser) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="text-orange-400">Loading...</div>
+        <div className="text-sky-400">Loading...</div>
       </div>
     );
   }
   return (
     <div className="space-y-6">
       {/* Profile */}
-      <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6">
-        <h3 className="text-lg font-bold text-orange-300 mb-4">Thông tin tài khoản</h3>
+      <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6">
+        <h3 className="text-lg font-bold text-sky-300 mb-4">Thông tin tài khoản</h3>
         <div className="flex items-center gap-4">
-          <div className="w-20 h-20 rounded-full bg-linear-to-br from-orange-500 to-red-600 flex items-center justify-center text-white text-2xl font-bold overflow-hidden">
+          <div className="w-20 h-20 rounded-full bg-linear-to-br from-blue-500 to-sky-600 flex items-center justify-center text-white text-2xl font-bold overflow-hidden">
             {currentUser.avatar ? (
               <Image src={currentUser.avatar} alt={currentUser.name} width={80} height={80} className="object-cover" />
             ) : (
@@ -107,7 +107,7 @@ export default function AccountSettingsTab() {
             )}
           </div>
           <div className="flex-1">
-            <p className="text-xl font-bold text-orange-300">{currentUser.name}</p>
+            <p className="text-xl font-bold text-sky-300">{currentUser.name}</p>
             <p className="text-gray-400">{currentUser.email}</p>
             <div className="mt-2 space-y-1 text-sm text-gray-500">
               <p>Đăng ký: {new Date(currentUser.createdAt).toLocaleDateString('vi-VN')}</p>
@@ -118,14 +118,14 @@ export default function AccountSettingsTab() {
       </div>
 
       {/* Active Sessions */}
-      <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6">
-        <h3 className="text-lg font-bold text-orange-300 mb-4 flex items-center gap-2">
+      <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6">
+        <h3 className="text-lg font-bold text-sky-300 mb-4 flex items-center gap-2">
           <Smartphone size={20} />
           Phiên đăng nhập
         </h3>
         <div className="space-y-3">
           {sessions.map((session) => (
-            <div key={session.id} className="p-4 bg-red-950/30 rounded-lg border border-red-900/20">
+            <div key={session.id} className="p-4 bg-blue-950/30 rounded-lg border border-blue-900/20">
               <div className="flex items-center justify-between mb-2">
                 <p className="text-gray-300 font-semibold">{session.device}</p>
                 <div className="flex items-center gap-2">
@@ -134,7 +134,7 @@ export default function AccountSettingsTab() {
                   ) : (
                     <button
                       onClick={() => handleRemoveSession(session.id)}
-                      className="text-xs text-red-400 hover:text-red-300 flex items-center gap-1"
+                      className="text-xs text-blue-400 hover:text-red-300 flex items-center gap-1"
                     >
                       <Trash2 size={14} />
                       Xóa
@@ -151,11 +151,11 @@ export default function AccountSettingsTab() {
       </div>
 
       {/* Logout Buttons */}
-      <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6 space-y-3">
+      <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6 space-y-3">
         <button
           onClick={handleLogout}
           disabled={loading}
-          className="w-full py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-lg font-bold transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+          className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold transition-all flex items-center justify-center gap-2 disabled:opacity-50"
         >
           <LogOut size={20} />
           {loading ? "Đang đăng xuất..." : "Đăng xuất thiết bị này"}

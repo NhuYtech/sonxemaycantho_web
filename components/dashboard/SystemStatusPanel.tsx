@@ -83,18 +83,18 @@ export default function SystemStatusPanel({ state }: SystemStatusPanelProps) {
   const statusColors = {
     safe: "text-green-400",
     warning: "text-yellow-400",
-    danger: "text-red-400",
+    danger: "text-blue-400",
   };
 
   return (
-    <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6 shadow-[0_0_30px_rgba(255,100,60,0.2)]">
-      <h3 className="text-xl font-bold text-orange-300 mb-6">Trạng thái hệ thống</h3>
+    <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6 shadow-[0_0_30px_rgba(255,100,60,0.2)]">
+      <h3 className="text-xl font-bold text-sky-300 mb-6">Trạng thái hệ thống</h3>
 
       <div className="space-y-4">
         {statusItems.map((item, index) => {
           const Icon = item.icon;
           return (
-            <div key={index} className="bg-red-950/30 rounded-lg p-4 border border-red-900/20">
+            <div key={index} className="bg-blue-950/30 rounded-lg p-4 border border-blue-900/20">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Icon size={20} className={statusColors[item.status]} />
@@ -108,8 +108,8 @@ export default function SystemStatusPanel({ state }: SystemStatusPanelProps) {
       </div>
 
       {/* Sensor Status */}
-      <div className="mt-6 pt-4 border-t border-red-900/20">
-        <h4 className="text-sm font-semibold text-orange-300 mb-3">📍 Trạng thái cảm biến</h4>
+      <div className="mt-6 pt-4 border-t border-blue-900/20">
+        <h4 className="text-sm font-semibold text-sky-300 mb-3">📍 Trạng thái cảm biến</h4>
         <div className="space-y-2">
           {sensorItems.map((sensor, index) => (
             <div key={index} className="flex items-center justify-between text-sm">
@@ -121,15 +121,15 @@ export default function SystemStatusPanel({ state }: SystemStatusPanelProps) {
       </div>
 
       {/* Additional Info */}
-      <div className="mt-4 pt-4 border-t border-red-900/20">
+      <div className="mt-4 pt-4 border-t border-blue-900/20">
         <div className="grid grid-cols-2 gap-3 text-sm">
           <div>
             <p className="text-gray-400 text-xs">Ngưỡng</p>
-            <p className="text-orange-300 font-bold">{state.threshold} ppm</p>
+            <p className="text-sky-300 font-bold">{state.threshold} ppm</p>
           </div>
           <div>
             <p className="text-gray-400 text-xs">Chế độ hoạt động</p>
-            <p className={`font-bold ${state.autoManual === "AUTO" ? "text-green-400" : "text-orange-400"}`}>
+            <p className={`font-bold ${state.autoManual === "AUTO" ? "text-green-400" : "text-sky-400"}`}>
               {state.autoManual === "AUTO" ? "🤖 Tự động" : "👤 Thủ công"}
             </p>
             <p className="text-gray-500 text-xs mt-1">

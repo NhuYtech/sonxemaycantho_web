@@ -22,14 +22,14 @@ export default function Toast({ message, type, onClose, duration = 3000 }: Toast
 
   const icons = {
     success: <CheckCircle size={24} className="text-green-400" />,
-    error: <AlertCircle size={24} className="text-red-400" />,
+    error: <AlertCircle size={24} className="text-blue-400" />,
     info: <Info size={24} className="text-blue-400" />,
     warning: <AlertTriangle size={24} className="text-yellow-400" />,
   };
 
   const bgColors = {
     success: "bg-green-950/90 border-green-500/50",
-    error: "bg-red-950/90 border-red-500/50",
+    error: "bg-blue-950/90 border-red-500/50",
     info: "bg-blue-950/90 border-blue-500/50",
     warning: "bg-yellow-950/90 border-yellow-500/50",
   };

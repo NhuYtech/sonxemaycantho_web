@@ -58,9 +58,9 @@ export default function LogsPreview({ gas, fire, mode, threshold, temperature = 
   }, [gas, fire, mode, threshold, temperature, humidity]);
 
   return (
-    <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6 shadow-[0_0_30px_rgba(255,100,60,0.2)]">
+    <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6 shadow-[0_0_30px_rgba(255,100,60,0.2)]">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-xl font-bold text-orange-300">🔔 Hoạt động gần nhất</h3>
+        <h3 className="text-xl font-bold text-sky-300">🔔 Hoạt động gần nhất</h3>
         <a href="/dashboard/logs" className="text-sm text-blue-400 hover:text-blue-300 transition-colors">
           Xem tất cả →
         </a>
@@ -69,7 +69,7 @@ export default function LogsPreview({ gas, fire, mode, threshold, temperature = 
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-red-900/30 text-gray-400">
+            <tr className="border-b border-blue-900/30 text-gray-400">
               <th className="text-left py-2 px-3">
                 <Clock size={14} className="inline mr-1" />
                 Thời gian
@@ -99,10 +99,10 @@ export default function LogsPreview({ gas, fire, mode, threshold, temperature = 
           </thead>
           <tbody>
             {recentLogs.map((log, index) => (
-              <tr key={index} className="border-b border-red-900/10 hover:bg-red-950/20 transition-colors">
+              <tr key={index} className="border-b border-blue-900/10 hover:bg-blue-950/20 transition-colors">
                 <td className="py-3 px-3 text-gray-300">{log.time}</td>
                 <td className="py-3 px-3 text-center text-yellow-400 font-mono">{log.gas}</td>
-                <td className="py-3 px-3 text-center text-orange-400 font-mono">{log.temperature.toFixed(1)}°</td>
+                <td className="py-3 px-3 text-center text-sky-400 font-mono">{log.temperature.toFixed(1)}°</td>
                 <td className="py-3 px-3 text-center text-cyan-400 font-mono">{log.humidity.toFixed(1)}%</td>
                 <td className="py-3 px-3 text-center">
                   {log.fire ? <span className="text-red-500">🔥</span> : <span className="text-green-500">✓</span>}
@@ -111,7 +111,7 @@ export default function LogsPreview({ gas, fire, mode, threshold, temperature = 
                 <td className="py-3 px-3 text-center">
                   <span
                     className={`px-2 py-1 rounded text-xs ${
-                      log.mode === "AUTO" ? "bg-green-900/30 text-green-400" : "bg-orange-900/30 text-orange-400"
+                      log.mode === "AUTO" ? "bg-green-900/30 text-green-400" : "bg-blue-900/30 text-sky-400"
                     }`}
                   >
                     {log.mode}

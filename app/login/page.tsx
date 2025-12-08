@@ -38,13 +38,13 @@ export default function FireAlertLogin() {
       className="min-h-screen flex items-center justify-center text-white"
       style={{
         background:
-          "linear-gradient(180deg, #340800 0%, #B83C1B 70%, #FF884B 100%)",
+          "linear-gradient(180deg, #071933 0%, #0B2A4A 50%, #144B8A 100%)",
       }}
     >
-      <div className="relative w-full max-w-sm bg-[#1A0A00cc] backdrop-blur-md rounded-2xl p-8 shadow-[0_0_40px_rgba(255,60,60,0.4)] border border-red-700">
+      <div className="relative w-full max-w-sm bg-[#071933cc] backdrop-blur-md rounded-2xl p-8 shadow-[0_0_40px_rgba(20,75,138,0.5)] border border-blue-800">
         {/* 🔥 Logo và tiêu đề */}
         <div className="flex flex-col items-center mb-8">
-          <div className="bg-white/10 p-4 rounded-full border border-red-400 shadow-lg">
+          <div className="bg-white/10 p-4 rounded-full border border-blue-400 shadow-lg">
             <img
               src="/favicon.ico"
               alt="CanTho FireGuard"
@@ -60,7 +60,7 @@ export default function FireAlertLogin() {
         {/* 🔒 Google Login Form */}
         <div className="space-y-4">
           {error && (
-            <p className="text-sm text-red-400 bg-red-900/30 border border-red-700 rounded-md p-2 text-center">
+            <p className="text-sm text-blue-300 bg-blue-900/30 border border-blue-700 rounded-md p-2 text-center">
               {error}
             </p>
           )}
@@ -80,7 +80,7 @@ export default function FireAlertLogin() {
             Chưa có tài khoản?{" "}
             <a
               href="/register"
-              className="text-orange-300 hover:text-white font-medium underline-offset-2 hover:underline transition"
+              className="text-sky-300 hover:text-white font-medium underline-offset-2 hover:underline transition"
             >
               Đăng ký ngay
             </a>
@@ -90,7 +90,7 @@ export default function FireAlertLogin() {
         {/* Footer */}
         <div className="text-center mt-8 text-xs text-gray-400">
           Được phát triển bởi{" "}
-          <span className="text-red-400 font-semibold">NHƯ Ý</span>
+          <span className="text-sky-400 font-semibold">NHƯ Ý</span>
         </div>
       </div>
     </div>

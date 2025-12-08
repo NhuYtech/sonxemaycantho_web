@@ -54,7 +54,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-linear-to-b from-[#3d130e] via-[#4f1c13] to-[#f0703a] text-white">
       {/* Header */}
-      <header className="border-b border-red-900/30 bg-[#1A0A00]/60 backdrop-blur-md sticky top-0 z-50">
+      <header className="border-b border-blue-900/30 bg-[#071933]/60 backdrop-blur-md sticky top-0 z-50">
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         
         <div className="flex items-center gap-3">
@@ -64,7 +64,7 @@ export default function Home() {
 
         <button
           onClick={() => router.push("/dashboard")}
-          className="bg-orange-500 hover:bg-orange-600 px-6 py-2 rounded-full font-semibold transition"
+          className="bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded-full font-semibold transition"
         >
           Đi tới Dashboard
         </button>
@@ -78,7 +78,7 @@ export default function Home() {
           <h1 className="text-5xl font-extrabold mb-6 leading-tight">
             ⭐ CanTho FireGuard
           </h1>
-          <h2 className="text-3xl font-bold mb-4 text-orange-300">
+          <h2 className="text-3xl font-bold mb-4 text-sky-300">
             Hệ thống giám sát & cảnh báo cháy tự động
           </h2>
           <p className="text-xl text-gray-200 mb-8">
@@ -89,7 +89,7 @@ export default function Home() {
             </h2>
           <button
             onClick={() => router.push("/dashboard")}
-            className="bg-orange-500 hover:bg-orange-600 px-8 py-4 rounded-full text-xl font-bold transition shadow-lg"
+            className="bg-blue-500 hover:bg-blue-600 px-8 py-4 rounded-full text-xl font-bold transition shadow-lg"
           >
             Xem Dashboard ngay
           </button>
@@ -104,23 +104,23 @@ export default function Home() {
 
         <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {/* Feature 1 */}
-          <div id="feature-1" data-animate className={`bg-[#1A0A00]/60 backdrop-blur-md border border-red-700/50 rounded-2xl p-8 hover:shadow-[0_0_30px_rgba(255,60,60,0.3)] transition-all duration-700 ${visibleSections.has('feature-1') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'}`}>
+          <div id="feature-1" data-animate className={`bg-[#071933]/60 backdrop-blur-md border border-red-700/50 rounded-2xl p-8 hover:shadow-[0_0_30px_rgba(255,60,60,0.3)] transition-all duration-700 ${visibleSections.has('feature-1') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'}`}>
             <div className="flex items-start gap-4">
-              <Wind className="w-12 h-12 text-orange-400 shrink-0" />
+              <Wind className="w-12 h-12 text-sky-400 shrink-0" />
               <div>
                 <h3 className="text-2xl font-bold mb-3">1️⃣ Theo dõi khí gas với MQ-2 (ppm)</h3>
                 <ul className="space-y-2 text-gray-200">
                   <li>• Cảm biến MQ-2 đo nồng độ khí gas liên tục</li>
                   <li>• Hiển thị trên LCD 1602 và Web Dashboard</li>
-                  <li>• Khi gas vượt ngưỡng → <span className="text-red-400 font-semibold">Cảnh báo</span> + Bật còi</li>
-                  <li>• Màu sắc trực quan: <span className="text-green-400">🟢 An toàn</span> | <span className="text-red-400">🔴 Nguy hiểm</span></li>
+                  <li>• Khi gas vượt ngưỡng → <span className="text-blue-400 font-semibold">Cảnh báo</span> + Bật còi</li>
+                  <li>• Màu sắc trực quan: <span className="text-green-400">🟢 An toàn</span> | <span className="text-blue-400">🔴 Nguy hiểm</span></li>
                 </ul>
               </div>
             </div>
           </div>
 
           {/* Feature 2 */}
-          <div id="feature-2" data-animate className={`bg-[#1A0A00]/60 backdrop-blur-md border border-red-700/50 rounded-2xl p-8 hover:shadow-[0_0_30px_rgba(255,60,60,0.3)] transition-all duration-700 ${visibleSections.has('feature-2') ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`}>
+          <div id="feature-2" data-animate className={`bg-[#071933]/60 backdrop-blur-md border border-red-700/50 rounded-2xl p-8 hover:shadow-[0_0_30px_rgba(255,60,60,0.3)] transition-all duration-700 ${visibleSections.has('feature-2') ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`}>
             <div className="flex items-start gap-4">
               <Flame className="w-12 h-12 text-red-500 shrink-0" />
               <div>
@@ -137,7 +137,7 @@ export default function Home() {
           </div>
 
           {/* Feature 3 */}
-          <div id="feature-3" data-animate className={`bg-[#1A0A00]/60 backdrop-blur-md border border-red-700/50 rounded-2xl p-8 hover:shadow-[0_0_30px_rgba(255,60,60,0.3)] transition-all duration-700 delay-100 ${visibleSections.has('feature-3') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'}`}>
+          <div id="feature-3" data-animate className={`bg-[#071933]/60 backdrop-blur-md border border-red-700/50 rounded-2xl p-8 hover:shadow-[0_0_30px_rgba(255,60,60,0.3)] transition-all duration-700 delay-100 ${visibleSections.has('feature-3') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'}`}>
             <div className="flex items-start gap-4">
               <Activity className="w-12 h-12 text-blue-400 shrink-0" />
               <div>
@@ -154,7 +154,7 @@ export default function Home() {
           </div>
 
           {/* Feature 4 */}
-          <div id="feature-4" data-animate className={`bg-[#1A0A00]/60 backdrop-blur-md border border-red-700/50 rounded-2xl p-8 hover:shadow-[0_0_30px_rgba(255,60,60,0.3)] transition-all duration-700 delay-100 ${visibleSections.has('feature-4') ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`}>
+          <div id="feature-4" data-animate className={`bg-[#071933]/60 backdrop-blur-md border border-red-700/50 rounded-2xl p-8 hover:shadow-[0_0_30px_rgba(255,60,60,0.3)] transition-all duration-700 delay-100 ${visibleSections.has('feature-4') ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`}>
             <div className="flex items-start gap-4">
               <Settings className="w-12 h-12 text-green-400 shrink-0" />
               <div>
@@ -174,14 +174,14 @@ export default function Home() {
       </section>
 
       {/* How to Use Section */}
-      <section className="container mx-auto px-6 py-16 bg-[#1A0A00]/40">
+      <section className="container mx-auto px-6 py-16 bg-[#071933]/40">
         <h2 className="text-4xl font-bold text-center mb-12">
           🟧 Hướng dẫn sử dụng hệ thống
         </h2>
 
         <div className="max-w-4xl mx-auto space-y-8">
-          <div id="guide-1" data-animate className={`bg-[#2A1410]/60 border border-orange-700/50 rounded-xl p-6 transition-all duration-700 ${visibleSections.has('guide-1') ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-            <h3 className="text-2xl font-bold mb-3 text-orange-300">1️⃣ Kết nối hệ thống</h3>
+          <div id="guide-1" data-animate className={`bg-[#0B2A4A]/60 border border-blue-700/50 rounded-xl p-6 transition-all duration-700 ${visibleSections.has('guide-1') ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+            <h3 className="text-2xl font-bold mb-3 text-sky-300">1️⃣ Kết nối hệ thống</h3>
             <p className="text-gray-200">
               • Cấp nguồn 5V cho ESP32 qua cáp USB (nguồn cho toàn bộ hệ thống)<br />
               • ESP32 tự động kết nối WiFi và Firebase<br />
@@ -191,8 +191,8 @@ export default function Home() {
             </p>
           </div>
 
-          <div id="guide-2" data-animate className={`bg-[#2A1410]/60 border border-orange-700/50 rounded-xl p-6 transition-all duration-700 delay-150 ${visibleSections.has('guide-2') ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-            <h3 className="text-2xl font-bold mb-3 text-orange-300">2️⃣ Theo dõi trên Dashboard</h3>
+          <div id="guide-2" data-animate className={`bg-[#0B2A4A]/60 border border-blue-700/50 rounded-xl p-6 transition-all duration-700 delay-150 ${visibleSections.has('guide-2') ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+            <h3 className="text-2xl font-bold mb-3 text-sky-300">2️⃣ Theo dõi trên Dashboard</h3>
             <p className="text-gray-200">Đăng nhập Web Dashboard để xem:</p>
             <ul className="text-gray-200 ml-4 mt-2 space-y-1">
               <li>• <strong>Nồng độ gas (ppm)</strong> từ cảm biến MQ-2</li>
@@ -203,8 +203,8 @@ export default function Home() {
             </ul>
           </div>
 
-          <div id="guide-3" data-animate className={`bg-[#2A1410]/60 border border-orange-700/50 rounded-xl p-6 transition-all duration-700 delay-300 ${visibleSections.has('guide-3') ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-            <h3 className="text-2xl font-bold mb-3 text-orange-300">3️⃣ Điều chỉnh cài đặt</h3>
+          <div id="guide-3" data-animate className={`bg-[#0B2A4A]/60 border border-blue-700/50 rounded-xl p-6 transition-all duration-700 delay-300 ${visibleSections.has('guide-3') ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+            <h3 className="text-2xl font-bold mb-3 text-sky-300">3️⃣ Điều chỉnh cài đặt</h3>
             <p className="text-gray-200">
               <strong>Từ Web Dashboard:</strong><br />
               • Thay đổi ngưỡng cảnh báo gas<br />
@@ -219,8 +219,8 @@ export default function Home() {
             </p>
           </div>
 
-          <div id="guide-4" data-animate className={`bg-[#2A1410]/60 border border-orange-700/50 rounded-xl p-6 transition-all duration-700 delay-450 ${visibleSections.has('guide-4') ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-            <h3 className="text-2xl font-bold mb-3 text-orange-300">4️⃣ Khi có cảnh báo</h3>
+          <div id="guide-4" data-animate className={`bg-[#0B2A4A]/60 border border-blue-700/50 rounded-xl p-6 transition-all duration-700 delay-450 ${visibleSections.has('guide-4') ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+            <h3 className="text-2xl font-bold mb-3 text-sky-300">4️⃣ Khi có cảnh báo</h3>
             <p className="text-gray-200">Hệ thống sẽ tự động:</p>
             <ul className="text-gray-200 ml-4 mt-2 space-y-1">
               <li>• <strong>LCD 1602:</strong> Hiển thị "⚠️ GAS HIGH!" hoặc "🔥 FIRE!"</li>
@@ -231,8 +231,8 @@ export default function Home() {
             </ul>
           </div>
 
-          <div id="guide-5" data-animate className={`bg-[#2A1410]/60 border border-orange-700/50 rounded-xl p-6 transition-all duration-700 delay-600 ${visibleSections.has('guide-5') ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-            <h3 className="text-2xl font-bold mb-3 text-orange-300">5️⃣ Xử lý khi mất kết nối</h3>
+          <div id="guide-5" data-animate className={`bg-[#0B2A4A]/60 border border-blue-700/50 rounded-xl p-6 transition-all duration-700 delay-600 ${visibleSections.has('guide-5') ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+            <h3 className="text-2xl font-bold mb-3 text-sky-300">5️⃣ Xử lý khi mất kết nối</h3>
             <p className="text-gray-200">
               Nếu ESP32 mất kết nối WiFi/Firebase:<br />
               • Hệ thống vẫn hoạt động độc lập (LCD + Buzzer + Relay)<br />
@@ -252,7 +252,7 @@ export default function Home() {
 
         <div id="notes" data-animate className={`max-w-4xl mx-auto bg-red-900/20 border-2 border-red-600 rounded-2xl p-8 transition-all duration-700 ${visibleSections.has('notes') ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
           <div className="space-y-4 text-gray-100">
-            <h3 className="text-xl font-bold text-orange-300 mb-3">⚙️ Về phần cứng:</h3>
+            <h3 className="text-xl font-bold text-sky-300 mb-3">⚙️ Về phần cứng:</h3>
             <ul className="ml-6 space-y-2">
               <li>• <strong>ESP32:</strong> Vi điều khiển trung tâm, cần nguồn ổn định 5V qua USB</li>
               <li>• <strong>MQ-2 (Gas):</strong> Cần 5–10 phút làm nóng sau khi bật nguồn</li>
@@ -264,14 +264,14 @@ export default function Home() {
               <li>• <strong>Nút nhấn:</strong> Trên LCD Shield, cho phép tương tác trực tiếp với hệ thống</li>
             </ul>
 
-            <h3 className="text-xl font-bold text-orange-300 mb-3 mt-6">🔥 Về môi trường:</h3>
+            <h3 className="text-xl font-bold text-sky-300 mb-3 mt-6">🔥 Về môi trường:</h3>
             <ul className="ml-6 space-y-2">
               <li>• <span className="text-green-300">Bình thường:</span> Gas 300–500 ppm, Nhiệt độ 20-30°C</li>
               <li>• <span className="text-yellow-300">Xưởng sơn:</span> Gas 400–800 ppm (tùy lượng dung môi)</li>
               <li>• <span className="text-red-300">Nguy hiểm:</span> Gas &gt; 1000 ppm hoặc phát hiện lửa</li>
             </ul>
 
-            <h3 className="text-xl font-bold text-orange-300 mb-3 mt-6">⚠️ Xử lý sự cố:</h3>
+            <h3 className="text-xl font-bold text-sky-300 mb-3 mt-6">⚠️ Xử lý sự cố:</h3>
             <ul className="ml-6 space-y-2">
               <li>• <strong>LCD 1602 không hiển thị:</strong> Kiểm tra nguồn USB 5V, điều chỉnh biến trở độ tương phản</li>
               <li>• <strong>ESP32 không kết nối WiFi:</strong> Hệ thống tự kết nối lại sau 30s, kiểm tra thông tin WiFi</li>
@@ -286,15 +286,15 @@ export default function Home() {
 
       {/* Footer CTA */}
       <section className="container mx-auto px-6 py-16 text-center">
-        <div className="max-w-2xl mx-auto bg-[#1A0A00]/60 backdrop-blur-md border border-red-700 rounded-2xl p-12">
-          <Shield className="w-20 h-20 text-orange-400 mx-auto mb-6" />
+        <div className="max-w-2xl mx-auto bg-[#071933]/60 backdrop-blur-md border border-red-700 rounded-2xl p-12">
+          <Shield className="w-20 h-20 text-sky-400 mx-auto mb-6" />
           <h2 className="text-3xl font-bold mb-4">Sẵn sàng bắt đầu?</h2>
           <p className="text-gray-200 mb-8">
             Truy cập Dashboard để theo dõi hệ thống của bạn ngay bây giờ.
           </p>
           <button
             onClick={() => router.push("/dashboard")}
-            className="bg-orange-500 hover:bg-orange-600 px-10 py-4 rounded-full text-xl font-bold transition shadow-lg"
+            className="bg-blue-500 hover:bg-blue-600 px-10 py-4 rounded-full text-xl font-bold transition shadow-lg"
           >
             Mở Dashboard
           </button>
@@ -302,9 +302,9 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-red-900/30 bg-[#1A0A00]/60 py-8">
+      <footer className="border-t border-blue-900/30 bg-[#071933]/60 py-8">
         <div className="container mx-auto px-6 text-center text-gray-400">
-          <p>Được phát triển bởi <span className="text-red-400 font-semibold">NHƯ Ý</span></p>
+          <p>Được phát triển bởi <span className="text-blue-400 font-semibold">NHƯ Ý</span></p>
           <p className="mt-2 text-sm">© 2025 CanTho FireGuard. All rights reserved.</p>
         </div>
       </footer>

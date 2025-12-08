@@ -6,7 +6,9 @@
 {
   "sensor": {
     "mq2": 320,           // Nồng độ gas (ppm) từ cảm biến MQ-2
-    "fire": 0             // Cảm biến lửa: 0 = không cháy, 1 = có cháy
+    "fire": 0,            // Cảm biến lửa: 0 = không cháy, 1 = có cháy
+    "temp": 28,           // Nhiệt độ (°C)
+    "humi": 65            // Độ ẩm (%)
   },
   
   "control": {
@@ -19,6 +21,25 @@
     "threshold": 400,     // Ngưỡng cảnh báo gas (ppm)
     "mode": 1,            // Chế độ: 1 = AUTO, 0 = MANUAL
     "mode_command": 1     // Lệnh thay đổi chế độ từ web
+  },
+
+  "history": {
+    "2025-12-08": {       // Lịch sử theo ngày (YYYY-MM-DD)
+      "-NhuYtech001": {
+        "gas": 320,
+        "temp": 28,
+        "humi": 65,
+        "fire": 0,
+        "timestamp": 1733654400000
+      },
+      "-NhuYtech002": {
+        "gas": 340,
+        "temp": 29,
+        "humi": 64,
+        "fire": 0,
+        "timestamp": 1733654460000
+      }
+    }
   }
 }
 ```
@@ -28,12 +49,19 @@
 ### 1. Từ IoT Device → Firebase → Web
 - ESP32 đọc cảm biến và ghi vào `/sensor`
 - Web lắng nghe realtime thay đổi tại `/sensor`
+- Web tự động lưu lịch sử vào `/history/{date}` mỗi 1 phút
 - Web hiển thị giá trị gas và fire ngay lập tức
 
 ### 2. Từ Web → Firebase → IoT Device
 - User thay đổi relay/mode trên web
 - Web ghi vào `/control` hoặc `/settings`
 - ESP32 lắng nghe và thực hiện điều khiển phần cứng
+
+### 3. Lưu trữ lịch sử
+- Dữ liệu sensor được lưu vào `/history/{YYYY-MM-DD}` mỗi phút
+- Mỗi ngày có 1 node riêng, giúp query nhanh và tiết kiệm dung lượng
+- Giữ tối đa 100 record gần nhất cho mỗi ngày
+- Hiển thị 20 điểm dữ liệu gần nhất trên chart
 
 ## Quy tắc bảo mật Firebase (Rules)
 
@@ -53,6 +81,11 @@
     "settings": {
       ".read": "auth != null",
       ".write": "auth != null"
+    },
+    "history": {
+      ".read": "auth != null",
+      ".write": "auth != null",
+      ".indexOn": ["timestamp"]
     }
   }
 }

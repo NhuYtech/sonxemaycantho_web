@@ -22,10 +22,10 @@ export default function LogsSettingsTab({ settings, onSave }: LogsSettingsTabPro
   return (
     <div className="space-y-6">
       {/* Enable Logs */}
-      <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6">
+      <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h3 className="text-lg font-bold text-orange-300">Lưu nhật ký</h3>
+            <h3 className="text-lg font-bold text-sky-300">Lưu nhật ký</h3>
             <p className="text-gray-500 text-sm">Ghi lại các sự kiện của hệ thống</p>
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
@@ -35,14 +35,14 @@ export default function LogsSettingsTab({ settings, onSave }: LogsSettingsTabPro
               onChange={(e) => setLocalSettings({ ...localSettings, enabled: e.target.checked })}
               className="sr-only peer"
             />
-            <div className="w-14 h-7 bg-red-950/50 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-1 after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-green-600"></div>
+            <div className="w-14 h-7 bg-blue-950/50 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-1 after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-green-600"></div>
           </label>
         </div>
       </div>
 
       {/* Log Retention */}
-      <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6">
-        <h3 className="text-lg font-bold text-orange-300 mb-4">Giới hạn lưu trữ nhật ký</h3>
+      <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6">
+        <h3 className="text-lg font-bold text-sky-300 mb-4">Giới hạn lưu trữ nhật ký</h3>
         <div className="grid grid-cols-3 gap-3">
           {[7, 30, 90].map((days) => (
             <button
@@ -50,8 +50,8 @@ export default function LogsSettingsTab({ settings, onSave }: LogsSettingsTabPro
               onClick={() => setLocalSettings({ ...localSettings, retention: days as any })}
               className={`py-3 rounded-lg font-semibold transition-all ${
                 localSettings.retention === days
-                  ? "bg-orange-600 text-white"
-                  : "bg-red-950/30 text-gray-400 border border-red-900/20"
+                  ? "bg-blue-600 text-white"
+                  : "bg-blue-950/30 text-gray-400 border border-blue-900/20"
               }`}
             >
               {days} ngày
@@ -62,13 +62,13 @@ export default function LogsSettingsTab({ settings, onSave }: LogsSettingsTabPro
       </div>
 
       {/* Notifications */}
-      <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6">
-        <h3 className="text-lg font-bold text-orange-300 mb-4 flex items-center gap-2">
+      <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6">
+        <h3 className="text-lg font-bold text-sky-300 mb-4 flex items-center gap-2">
           <Bell size={20} />
           Thông báo
         </h3>
         <div className="space-y-3">
-          <label className="flex items-center justify-between p-4 bg-red-950/30 rounded-lg border border-red-900/20 cursor-pointer hover:bg-red-950/40 transition-colors">
+          <label className="flex items-center justify-between p-4 bg-blue-950/30 rounded-lg border border-blue-900/20 cursor-pointer hover:bg-blue-950/40 transition-colors">
             <div className="flex items-center gap-3">
               {localSettings.notifications.gasHigh ? (
                 <Bell size={20} className="text-yellow-400" />
@@ -89,14 +89,14 @@ export default function LogsSettingsTab({ settings, onSave }: LogsSettingsTabPro
                   notifications: { ...localSettings.notifications, gasHigh: e.target.checked },
                 })
               }
-              className="w-5 h-5 accent-orange-500"
+              className="w-5 h-5 accent-blue-500"
             />
           </label>
 
-          <label className="flex items-center justify-between p-4 bg-red-950/30 rounded-lg border border-red-900/20 cursor-pointer hover:bg-red-950/40 transition-colors">
+          <label className="flex items-center justify-between p-4 bg-blue-950/30 rounded-lg border border-blue-900/20 cursor-pointer hover:bg-blue-950/40 transition-colors">
             <div className="flex items-center gap-3">
               {localSettings.notifications.fire ? (
-                <Bell size={20} className="text-red-400" />
+                <Bell size={20} className="text-blue-400" />
               ) : (
                 <BellOff size={20} className="text-gray-500" />
               )}
@@ -114,11 +114,11 @@ export default function LogsSettingsTab({ settings, onSave }: LogsSettingsTabPro
                   notifications: { ...localSettings.notifications, fire: e.target.checked },
                 })
               }
-              className="w-5 h-5 accent-orange-500"
+              className="w-5 h-5 accent-blue-500"
             />
           </label>
 
-          <label className="flex items-center justify-between p-4 bg-red-950/30 rounded-lg border border-red-900/20 cursor-pointer hover:bg-red-950/40 transition-colors">
+          <label className="flex items-center justify-between p-4 bg-blue-950/30 rounded-lg border border-blue-900/20 cursor-pointer hover:bg-blue-950/40 transition-colors">
             <div className="flex items-center gap-3">
               {localSettings.notifications.systemOffline ? (
                 <Bell size={20} className="text-gray-400" />
@@ -139,7 +139,7 @@ export default function LogsSettingsTab({ settings, onSave }: LogsSettingsTabPro
                   notifications: { ...localSettings.notifications, systemOffline: e.target.checked },
                 })
               }
-              className="w-5 h-5 accent-orange-500"
+              className="w-5 h-5 accent-blue-500"
             />
           </label>
         </div>

@@ -49,7 +49,6 @@ export default function LogsPage() {
     const totalEvents = filteredLogs.length;
     const fireDetections = filteredLogs.filter((log) => log.type === "fire_detected").length;
     const gasWarnings = filteredLogs.filter((log) => log.type === "gas_warning").length;
-    const relayActivations = filteredLogs.filter((log) => log.type === "relay_on").length;
     const userActions = filteredLogs.filter((log) => log.type === "user_action").length;
 
     const gasValues = filteredLogs.map((log) => log.gas);
@@ -71,7 +70,6 @@ export default function LogsPage() {
       totalEvents,
       fireDetections,
       gasWarnings,
-      relayActivations,
       userActions,
       maxGas,
       minGas,
@@ -88,7 +86,7 @@ export default function LogsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="text-orange-400 text-xl">{t("logs.loading")}</div>
+        <div className="text-sky-400 text-xl">{t("logs.loading")}</div>
       </div>
     );
   }
@@ -97,7 +95,7 @@ export default function LogsPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-orange-300 mb-2">{t("logs.title")}</h1>
+        <h1 className="text-3xl font-bold text-sky-300 mb-2">{t("logs.title")}</h1>
         <p className="text-gray-400">{t("logs.subtitle")}</p>
       </div>
 
@@ -110,13 +108,13 @@ export default function LogsPage() {
       />
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
         <StatsCard
           title={t("logs.fire")}
           value={stats.fireDetections}
           icon={Flame}
           color="text-red-500"
-          bgColor="bg-red-950/30"
+          bgColor="bg-blue-950/30"
         />
         <StatsCard
           title={t("logs.gas")}
@@ -130,7 +128,7 @@ export default function LogsPage() {
           value={stats.maxTemp > 45 ? Math.floor(stats.maxTemp) : 0}
           icon={Thermometer}
           color="text-orange-500"
-          bgColor="bg-orange-950/30"
+          bgColor="bg-blue-950/30"
         />
         <StatsCard
           title="Độ ẩm thấp"
@@ -138,13 +136,6 @@ export default function LogsPage() {
           icon={Droplets}
           color="text-cyan-500"
           bgColor="bg-cyan-950/30"
-        />
-        <StatsCard
-          title={t("logs.relay")}
-          value={stats.relayActivations}
-          icon={Zap}
-          color="text-blue-500"
-          bgColor="bg-blue-950/30"
         />
         <StatsCard
           title={t("logs.user")}

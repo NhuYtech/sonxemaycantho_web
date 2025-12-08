@@ -21,14 +21,7 @@ export default function SettingsPage() {
 
   // Fetch settings from Firebase on mount
   const [iotSettings, setIoTSettings] = useState({
-    threshold: 4000,
-    autoMode: true,
-    behavior: {
-      enableBuzzer: true,
-      enableRelay1: true,
-      enableRelay2: false,
-      timeout: 60,
-    },
+    threshold: 400,
     dataInterval: 2 as 1 | 2 | 5 | 10,
   });
 
@@ -42,14 +35,7 @@ export default function SettingsPage() {
         if (snapshot.exists()) {
           const data = snapshot.val();
           setIoTSettings({
-            threshold: data.threshold || 4000,
-            autoMode: data.mode !== false, // mode: true = AUTO, false = MANUAL
-            behavior: {
-              enableBuzzer: data.behavior?.enableBuzzer ?? true,
-              enableRelay1: data.behavior?.enableRelay1 ?? true,
-              enableRelay2: data.behavior?.enableRelay2 ?? false,
-              timeout: data.behavior?.timeout || 60,
-            },
+            threshold: data.threshold || 400,
             dataInterval: data.dataInterval || 2,
           });
         }
@@ -100,8 +86,6 @@ export default function SettingsPage() {
       const settingsRef = ref(db, "/settings");
       await set(settingsRef, {
         threshold: settings.threshold,
-        mode: settings.autoMode, // true = AUTO, false = MANUAL
-        behavior: settings.behavior,
         dataInterval: settings.dataInterval,
       });
       
@@ -139,17 +123,17 @@ export default function SettingsPage() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-3">
-        <div className="bg-orange-500/20 p-3 rounded-lg">
-          <SettingsIcon className="text-orange-400" size={28} />
+        <div className="bg-blue-500/20 p-3 rounded-lg">
+          <SettingsIcon className="text-sky-400" size={28} />
         </div>
         <div>
-          <h1 className="text-3xl font-bold text-orange-300">{t("settings.title")}</h1>
+          <h1 className="text-3xl font-bold text-sky-300">{t("settings.title")}</h1>
           <p className="text-gray-400">{t("settings.subtitle")}</p>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-2">
+      <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-2">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           {tabs.map((tab) => {
             const Icon = tab.icon;
@@ -159,8 +143,8 @@ export default function SettingsPage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-semibold transition-all ${
                   activeTab === tab.id
-                    ? "bg-orange-600 text-white shadow-[0_0_20px_rgba(249,115,22,0.3)]"
-                    : "text-gray-400 hover:bg-red-950/30"
+                    ? "bg-blue-600 text-white shadow-[0_0_20px_rgba(249,115,22,0.3)]"
+                    : "text-gray-400 hover:bg-blue-950/30"
                 }`}
               >
                 <Icon size={18} />

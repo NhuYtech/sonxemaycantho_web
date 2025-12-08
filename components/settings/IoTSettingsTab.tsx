@@ -81,16 +81,21 @@ export default function IoTSettingsTab({ settings, onSave }: IoTSettingsTabProps
   return (
     <div className="space-y-6">
       {/* Threshold */}
-      <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6">
-        <h3 className="text-lg font-bold text-orange-300 mb-4">Ngưỡng cảnh báo</h3>
+      <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6">
+        <h3 className="text-lg font-bold text-sky-300 mb-4">Ngưỡng cảnh báo</h3>
         <div className="space-y-4">
           <div>
             <label className="text-gray-300 text-sm mb-2 block">Ngưỡng gas (ppm)</label>
             <input
               type="number"
               value={localSettings.threshold}
-              onChange={(e) => setLocalSettings({ ...localSettings, threshold: parseInt(e.target.value) })}
-              className="w-full bg-red-950/30 border border-red-900/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-orange-500"
+              onChange={(e) => {
+                const value = parseInt(e.target.value);
+                if (!isNaN(value)) {
+                  setLocalSettings({ ...localSettings, threshold: value });
+                }
+              }}
+              className="w-full bg-blue-950/30 border border-blue-900/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500"
               min="0"
               max="10000"
             />
@@ -99,111 +104,9 @@ export default function IoTSettingsTab({ settings, onSave }: IoTSettingsTabProps
         </div>
       </div>
 
-      {/* Mode */}
-      <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6">
-  <h3 className="text-lg font-bold text-orange-300 mb-4">Chế độ điều khiển</h3>
-  
-  <div className="flex gap-4">
-    {/* Tự động */}
-    <button
-      onClick={() => setLocalSettings({ ...localSettings, autoMode: true })}
-      className={`flex-1 py-3 rounded-lg font-semibold transition-all ${
-        localSettings.autoMode
-          ? "bg-green-600 text-white shadow-[0_0_20px_rgba(34,197,94,0.3)]"
-          : "bg-red-950/30 text-gray-400 border border-red-900/20"
-      }`}
-    >
-      TỰ ĐỘNG
-    </button>
-
-    {/* Thủ công */}
-    <button
-      onClick={() => setLocalSettings({ ...localSettings, autoMode: false })}
-      className={`flex-1 py-3 rounded-lg font-semibold transition-all ${
-        !localSettings.autoMode
-          ? "bg-orange-600 text-white shadow-[0_0_20px_rgba(249,115,22,0.3)]"
-          : "bg-red-950/30 text-gray-400 border border-red-900/20"
-      }`}
-    >
-      THỦ CÔNG
-    </button>
-  </div>
-
-  <p className="text-gray-500 text-xs mt-2">
-    <strong>Tự động:</strong> Hệ thống sẽ tự kích hoạt relay khi phát hiện cháy hoặc gas cao.<br />
-    <strong>Thủ công:</strong> Người dùng điều khiển relay hoàn toàn bằng tay.
-  </p>
-</div>
-
-      {/* Behavior */}
-      <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6">
-        <h3 className="text-lg font-bold text-orange-300 mb-4">Hành vi khi cảnh báo</h3>
-        <div className="space-y-3">
-          <label className="flex items-center justify-between p-3 bg-red-950/30 rounded-lg border border-red-900/20">
-            <span className="text-gray-300">Bật còi báo động</span>
-            <input
-              type="checkbox"
-              checked={localSettings.behavior.enableBuzzer}
-              onChange={(e) =>
-                setLocalSettings({
-                  ...localSettings,
-                  behavior: { ...localSettings.behavior, enableBuzzer: e.target.checked },
-                })
-              }
-              className="w-5 h-5 accent-orange-500"
-            />
-          </label>
-          <label className="flex items-center justify-between p-3 bg-red-950/30 rounded-lg border border-red-900/20">
-            <span className="text-gray-300">Bật Relay 1</span>
-            <input
-              type="checkbox"
-              checked={localSettings.behavior.enableRelay1}
-              onChange={(e) =>
-                setLocalSettings({
-                  ...localSettings,
-                  behavior: { ...localSettings.behavior, enableRelay1: e.target.checked },
-                })
-              }
-              className="w-5 h-5 accent-orange-500"
-            />
-          </label>
-          <label className="flex items-center justify-between p-3 bg-red-950/30 rounded-lg border border-red-900/20">
-            <span className="text-gray-300">Bật Relay 2</span>
-            <input
-              type="checkbox"
-              checked={localSettings.behavior.enableRelay2}
-              onChange={(e) =>
-                setLocalSettings({
-                  ...localSettings,
-                  behavior: { ...localSettings.behavior, enableRelay2: e.target.checked },
-                })
-              }
-              className="w-5 h-5 accent-orange-500"
-            />
-          </label>
-          <div>
-            <label className="text-gray-300 text-sm mb-2 block">Timeout (giây)</label>
-            <input
-              type="number"
-              value={localSettings.behavior.timeout}
-              onChange={(e) =>
-                setLocalSettings({
-                  ...localSettings,
-                  behavior: { ...localSettings.behavior, timeout: parseInt(e.target.value) },
-                })
-              }
-              className="w-full bg-red-950/30 border border-red-900/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-orange-500"
-              min="0"
-              max="300"
-            />
-            <p className="text-gray-500 text-xs mt-1">Thời gian tự động tắt relay sau khi kích hoạt</p>
-          </div>
-        </div>
-      </div>
-
       {/* Data Interval */}
-      <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6">
-        <h3 className="text-lg font-bold text-orange-300 mb-4">Tần suất gửi dữ liệu</h3>
+      <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6">
+        <h3 className="text-lg font-bold text-sky-300 mb-4">Tần suất gửi dữ liệu</h3>
         <div className="grid grid-cols-4 gap-3">
           {[1, 2, 5, 10].map((interval) => (
             <button
@@ -211,8 +114,8 @@ export default function IoTSettingsTab({ settings, onSave }: IoTSettingsTabProps
               onClick={() => setLocalSettings({ ...localSettings, dataInterval: interval as any })}
               className={`py-3 rounded-lg font-semibold transition-all ${
                 localSettings.dataInterval === interval
-                  ? "bg-orange-600 text-white"
-                  : "bg-red-950/30 text-gray-400 border border-red-900/20"
+                  ? "bg-blue-600 text-white"
+                  : "bg-blue-950/30 text-gray-400 border border-blue-900/20"
               }`}
             >
               {interval}s
@@ -223,8 +126,8 @@ export default function IoTSettingsTab({ settings, onSave }: IoTSettingsTabProps
       </div>
 
       {/* WiFi Config */}
-      <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6">
-        <h3 className="text-lg font-bold text-orange-300 mb-4 flex items-center gap-2">
+      <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6">
+        <h3 className="text-lg font-bold text-sky-300 mb-4 flex items-center gap-2">
           <Wifi size={20} />
           Cấu hình WiFi
         </h3>
@@ -262,8 +165,8 @@ export default function IoTSettingsTab({ settings, onSave }: IoTSettingsTabProps
       {/* WiFi Config Modal */}
       {showWiFiModal && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-[#280E0A] border-2 border-orange-500/50 rounded-2xl p-6 max-w-md w-full shadow-[0_0_50px_rgba(249,115,22,0.3)]">
-            <h3 className="text-2xl font-bold text-orange-300 mb-4 flex items-center gap-2">
+          <div className="bg-[#071933] border-2 border-blue-500/50 rounded-2xl p-6 max-w-md w-full shadow-[0_0_50px_rgba(249,115,22,0.3)]">
+            <h3 className="text-2xl font-bold text-sky-300 mb-4 flex items-center gap-2">
               <Wifi size={24} />
               Cấu hình WiFi
             </h3>
@@ -276,7 +179,7 @@ export default function IoTSettingsTab({ settings, onSave }: IoTSettingsTabProps
                   value={wifiSSID}
                   onChange={(e) => setWifiSSID(e.target.value)}
                   placeholder="Nhập tên WiFi"
-                  className="w-full bg-red-950/30 border border-red-900/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500"
+                  className="w-full bg-blue-950/30 border border-blue-900/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
                 />
               </div>
 
@@ -287,7 +190,7 @@ export default function IoTSettingsTab({ settings, onSave }: IoTSettingsTabProps
                   value={wifiPassword}
                   onChange={(e) => setWifiPassword(e.target.value)}
                   placeholder="Nhập mật khẩu"
-                  className="w-full bg-red-950/30 border border-red-900/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500"
+                  className="w-full bg-blue-950/30 border border-blue-900/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
                 />
               </div>
 

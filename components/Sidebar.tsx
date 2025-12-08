@@ -26,12 +26,12 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
 
       {/* Sidebar Container */}
       <aside className="hidden lg:block lg:w-60 shrink-0 lg:ml-6 lg:my-6">
-        <div className="w-60 h-full bg-[#280E0A]/70 backdrop-blur-md border-r border-red-900/30 flex flex-col p-5 rounded-xl">
-          <div className="flex flex-col items-center mb-8 text-orange-400">
+        <div className="w-60 h-full bg-[#071933]/70 backdrop-blur-md border-r border-blue-900/30 flex flex-col p-5 rounded-xl">
+          <div className="flex flex-col items-center mb-8 text-sky-400">
             <img
               src="/favicon.ico"
               alt="logo"
-              className="w-10 h-10 mb-2 drop-shadow-[0_0_6px_rgba(255,140,80,0.6)]"
+              className="w-10 h-10 mb-2 drop-shadow-[0_0_6px_rgba(47,128,237,0.6)]"
             />
             <span className="text-xl font-bold">CanTho FireGuard</span>
           </div>
@@ -42,8 +42,8 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               className={`flex items-center gap-3 p-3 rounded-lg transition-all
                 ${
                   pathname === "/"
-                    ? "bg-red-900/50 text-orange-300 font-semibold"
-                    : "hover:bg-red-900/30 text-gray-300"
+                    ? "bg-blue-900/50 text-sky-300 font-semibold"
+                    : "hover:bg-blue-900/30 text-gray-300"
                 }
               `}
             >
@@ -55,8 +55,8 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               className={`flex items-center gap-3 p-3 rounded-lg transition-all
                 ${
                   pathname === "/dashboard"
-                    ? "bg-red-900/50 text-orange-300 font-semibold"
-                    : "hover:bg-red-900/30 text-gray-300"
+                    ? "bg-blue-900/50 text-sky-300 font-semibold"
+                    : "hover:bg-blue-900/30 text-gray-300"
                 }
               `}
             >
@@ -68,8 +68,8 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               className={`flex items-center gap-3 p-3 rounded-lg transition-all
                 ${
                   pathname === "/dashboard/logs"
-                    ? "bg-red-900/50 text-orange-300 font-semibold"
-                    : "hover:bg-red-900/30 text-gray-300"
+                    ? "bg-blue-900/50 text-sky-300 font-semibold"
+                    : "hover:bg-blue-900/30 text-gray-300"
                 }
               `}
             >
@@ -81,8 +81,8 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               className={`flex items-center gap-3 p-3 rounded-lg transition-all
                 ${
                   pathname === "/dashboard/settings"
-                    ? "bg-red-900/50 text-orange-300 font-semibold"
-                    : "hover:bg-red-900/30 text-gray-300"
+                    ? "bg-blue-900/50 text-sky-300 font-semibold"
+                    : "hover:bg-blue-900/30 text-gray-300"
                 }
               `}
             >
@@ -101,9 +101,9 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
         lg:hidden
         fixed inset-y-0 left-0
         w-72 max-w-[85vw]
-        bg-[#280E0A]/98
+        bg-[#071933]/98
         backdrop-blur-xl
-        border-r border-red-900/40
+        border-r border-blue-900/40
         flex flex-col p-6
         z-50
         shadow-2xl
@@ -114,17 +114,17 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-lg hover:bg-red-900/40 active:bg-red-900/60 transition-colors"
+          className="absolute top-5 right-5 p-2 rounded-lg hover:bg-blue-900/40 active:bg-blue-900/60 transition-colors"
           aria-label="Close menu"
         >
           <X size={24} className="text-gray-200" />
         </button>
 
-        <div className="flex flex-col items-center mb-8 text-orange-400">
+        <div className="flex flex-col items-center mb-8 text-sky-400">
           <img
             src="/favicon.ico"
             alt="logo"
-            className="w-12 h-12 mb-3 drop-shadow-[0_0_8px_rgba(255,140,80,0.7)]"
+            className="w-12 h-12 mb-3 drop-shadow-[0_0_8px_rgba(47,128,237,0.7)]"
           />
           <span className="text-xl font-bold">CanTho FireGuard</span>
         </div>
@@ -136,8 +136,8 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
             className={`flex items-center gap-3 p-4 rounded-lg transition-all
               ${
                 pathname === "/"
-                  ? "bg-red-900/60 text-orange-300 font-semibold shadow-lg"
-                  : "hover:bg-red-900/30 text-gray-200 active:bg-red-900/40"
+                  ? "bg-blue-900/60 text-sky-300 font-semibold shadow-lg"
+                  : "hover:bg-blue-900/30 text-gray-200 active:bg-blue-900/40"
               }
             `}
           >
@@ -150,8 +150,8 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
             className={`flex items-center gap-3 p-4 rounded-lg transition-all
               ${
                 pathname === "/dashboard"
-                  ? "bg-red-900/60 text-orange-300 font-semibold shadow-lg"
-                  : "hover:bg-red-900/30 text-gray-200 active:bg-red-900/40"
+                  ? "bg-blue-900/60 text-sky-300 font-semibold shadow-lg"
+                  : "hover:bg-blue-900/30 text-gray-200 active:bg-blue-900/40"
               }
             `}
           >
@@ -164,8 +164,8 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
             className={`flex items-center gap-3 p-4 rounded-lg transition-all
               ${
                 pathname === "/dashboard/logs"
-                  ? "bg-red-900/60 text-orange-300 font-semibold shadow-lg"
-                  : "hover:bg-red-900/30 text-gray-200 active:bg-red-900/40"
+                  ? "bg-blue-900/60 text-sky-300 font-semibold shadow-lg"
+                  : "hover:bg-blue-900/30 text-gray-200 active:bg-blue-900/40"
               }
             `}
           >
@@ -178,8 +178,8 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
             className={`flex items-center gap-3 p-4 rounded-lg transition-all
               ${
                 pathname === "/dashboard/settings"
-                  ? "bg-red-900/60 text-orange-300 font-semibold shadow-lg"
-                  : "hover:bg-red-900/30 text-gray-200 active:bg-red-900/40"
+                  ? "bg-blue-900/60 text-sky-300 font-semibold shadow-lg"
+                  : "hover:bg-blue-900/30 text-gray-200 active:bg-blue-900/40"
               }
             `}
           >

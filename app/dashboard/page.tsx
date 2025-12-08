@@ -10,7 +10,6 @@ import DashboardStatCard from "@/components/dashboard/DashboardStatCard";
 import GasPerformanceChart from "@/components/dashboard/GasPerformanceChart";
 import TemperatureHumidityChart from "@/components/dashboard/TemperatureHumidityChart";
 import FireAlertsTimeline from "@/components/dashboard/FireAlertsTimeline";
-import DashboardControlPanel from "@/components/dashboard/DashboardControlPanel";
 import SystemStatusPanel from "@/components/dashboard/SystemStatusPanel";
 import LogsPreview from "@/components/dashboard/LogsPreview";
 
@@ -42,12 +41,6 @@ export default function Dashboard() {
   // Determine fire status
   const getFireStatus = () => {
     return state.fire ? "danger" : "safe";
-  };
-
-  // Determine relay status
-  const getRelayStatus = () => {
-    if (state.relay1 || state.relay2) return "warning";
-    return "neutral";
   };
 
   // Determine temperature status
@@ -84,7 +77,7 @@ export default function Dashboard() {
       <DashboardAlertBanner fire={state.fire} gas={state.gas} threshold={state.threshold} />
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <DashboardStatCard
           title="Trạng thái khí Gas"
           value={getGasLevelText()}
@@ -94,35 +87,23 @@ export default function Dashboard() {
         />
         <DashboardStatCard
           title="Phát hiện nguồn nhiệt"
-          value={state.fire ? "⚠️ Có ánh sáng bất thường" : "✅ Bình thường"}
+          value={state.fire ? "🔥 Có ánh sáng bất thường" : "✅ Bình thường"}
           icon={Flame}
           status={getFireStatus()}
-          subtitle={state.fire ? "(Có thể do lửa hoặc đèn mạnh)" : "(Không phát hiện nguồn lửa)"}
-        />
-        <DashboardStatCard
-          title="Thiết bị điều khiển"
-          value={`${state.relay1 || state.relay2 ? '🟢 Đang hoạt động' : '⚪ Tắt'}`}
-          icon={Zap}
-          status={getRelayStatus()}
-          subtitle={`Thiết bị 1: ${state.relay1 ? 'Đang bật' : 'Đang tắt'} | Thiết bị 2: ${state.relay2 ? 'Đang bật' : 'Đang tắt'}`}
+          subtitle={state.fire ? "(Phát hiện nguồn lửa hoặc ánh sáng mạnh)" : "(Không phát hiện nguồn lửa)"}
         />
         <DashboardStatCard
           title="Trạng thái hệ thống"
           value={state.firebase ? "🟢 Trực tuyến" : "🔴 Mất kết nối"}
           icon={Database}
           status={state.firebase ? "safe" : "danger"}
-          subtitle={`Chế độ: ${state.autoManual === 'AUTO' ? 'Tự động' : 'Thủ công'}`}
+          subtitle={state.firebase ? "Đang kết nối với Firebase" : "Không thể kết nối"}
         />
       </div>
 
       {/* Charts Row */}
-      <div className="grid lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
-          <GasPerformanceChart history={state.gasHistory} threshold={state.threshold} mode="day" />
-        </div>
-        <div>
-          <DashboardControlPanel state={state} />
-        </div>
+      <div className="w-full">
+        <GasPerformanceChart history={state.gasHistory} threshold={state.threshold} mode="day" />
       </div>
 
       {/* Temperature & Humidity Chart */}

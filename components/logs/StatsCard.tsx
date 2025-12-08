@@ -12,7 +12,7 @@ interface StatsCardProps {
 
 export default function StatsCard({ title, value, icon: Icon, color, bgColor }: StatsCardProps) {
   return (
-    <div className={`${bgColor} backdrop-blur-sm border border-red-900/30 rounded-xl p-5 shadow-lg`}>
+    <div className={`${bgColor} backdrop-blur-sm border border-blue-900/30 rounded-xl p-5 shadow-lg`}>
       <div className="flex items-center justify-between">
         <div>
           <p className="text-gray-400 text-sm mb-1">{title}</p>

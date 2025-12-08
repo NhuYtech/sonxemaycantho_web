@@ -12,7 +12,6 @@ export default function DetailsPanel({ stats }: DetailsPanelProps) {
     { label: "Tổng sự kiện", value: stats.totalEvents },
     { label: "Phát hiện cháy", value: stats.fireDetections },
     { label: "Cảnh báo gas", value: stats.gasWarnings },
-    { label: "Relay kích hoạt", value: stats.relayActivations },
     { label: "Thao tác người dùng", value: stats.userActions },
     { label: "Gas tối đa (ppm)", value: stats.maxGas },
     { label: "Gas TB (ppm)", value: Math.round(stats.avgGas) },
@@ -26,17 +25,17 @@ export default function DetailsPanel({ stats }: DetailsPanelProps) {
   ];
 
   return (
-    <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6 shadow-lg">
+    <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6 shadow-lg">
       <div className="flex items-center gap-3 mb-6">
-        <Info className="text-orange-400" size={24} />
-        <h3 className="text-xl font-bold text-orange-300">Chi tiết thống kê</h3>
+        <Info className="text-sky-400" size={24} />
+        <h3 className="text-xl font-bold text-sky-300">Chi tiết thống kê</h3>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {items.map((item, i) => (
-          <div key={i} className="bg-red-950/30 rounded-lg p-4 border border-red-900/20">
+          <div key={i} className="bg-blue-950/30 rounded-lg p-4 border border-blue-900/20">
             <p className="text-gray-400 text-xs mb-1">{item.label}</p>
-            <p className="text-orange-300 text-2xl font-bold">{item.value}</p>
+            <p className="text-sky-300 text-2xl font-bold">{item.value}</p>
           </div>
         ))}
       </div>

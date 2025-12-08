@@ -1,12 +1,5 @@
 export type SettingsTab = "iot" | "logs" | "ui" | "account";
 
-export type SystemBehavior = {
-  enableBuzzer: boolean;
-  enableRelay1: boolean;
-  enableRelay2: boolean;
-  timeout: number; // seconds
-};
-
 export type DataInterval = 1 | 2 | 5 | 10; // seconds
 
 export type LogRetention = 7 | 30 | 90; // days
@@ -23,8 +16,6 @@ export type NotificationSettings = {
 
 export type IoTSettings = {
   threshold: number;
-  autoMode: boolean;
-  behavior: SystemBehavior;
   dataInterval: DataInterval;
 };
 

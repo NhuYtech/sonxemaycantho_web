@@ -19,10 +19,10 @@ export default function TemperatureHumidityChart({ tempHistory, humidityHistory 
   }, [tempHistory, humidityHistory]);
 
   return (
-    <div className="bg-[#280E0A]/70 backdrop-blur-sm border border-red-900/30 rounded-xl p-6 shadow-[0_0_30px_rgba(255,100,60,0.2)]">
+    <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6 shadow-[0_0_30px_rgba(255,100,60,0.2)]">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-xl font-bold text-orange-300 mb-1">🌡️ Nhiệt độ & Độ ẩm theo thời gian</h3>
+          <h3 className="text-xl font-bold text-sky-300 mb-1">🌡️ Nhiệt độ & Độ ẩm theo thời gian</h3>
           <p className="text-gray-400 text-sm">Theo dõi sự thay đổi môi trường</p>
         </div>
       </div>
@@ -40,7 +40,7 @@ export default function TemperatureHumidityChart({ tempHistory, humidityHistory 
               return value;
             }}
             contentStyle={{
-              backgroundColor: "#280E0A",
+              backgroundColor: "#071933",
               border: "1px solid #991b1b",
               borderRadius: "8px",
               color: "#fff",
