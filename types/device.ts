@@ -12,6 +12,7 @@ export type DeviceState = {
   humidity: number;
   threshold: number;
   firebase: boolean;
+  hasReceivedData: boolean; // 🆕 Đã nhận được dữ liệu từ ESP32 chưa
   gasHistory: HistoryItem[];
   tempHistory: HistoryItem[];
   humidityHistory: HistoryItem[];

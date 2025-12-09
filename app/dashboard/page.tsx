@@ -83,30 +83,31 @@ export default function Dashboard() {
         gas={state.gas} 
         threshold={state.threshold} 
         isOnline={state.firebase}
+        hasReceivedData={state.hasReceivedData}
       />
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <DashboardStatCard
           title="Trạng thái khí Gas"
-          value={state.firebase ? getGasLevelText() : "🟢 Bình thường"}
+          value={state.hasReceivedData ? (state.firebase ? getGasLevelText() : "🟢 Bình thường") : "⏳ Đang chờ..."}
           icon={Wind}
-          status={state.firebase ? getGasStatus() : "safe"}
-          subtitle={state.firebase ? `${state.gas} ppm ${getGasDescription()}` : "Không có dữ liệu realtime"}
+          status={state.hasReceivedData ? (state.firebase ? getGasStatus() : "safe") : "warning"}
+          subtitle={state.hasReceivedData ? (state.firebase ? `${state.gas} ppm ${getGasDescription()}` : "Không có dữ liệu realtime") : "Chưa nhận được dữ liệu"}
         />
         <DashboardStatCard
           title="Phát hiện nguồn nhiệt"
-          value={state.firebase ? (state.fire ? "🔥 Phát hiện lửa" : "✅ An toàn") : "✅ An toàn"}
+          value={state.hasReceivedData ? (state.firebase ? (state.fire ? "🔥 Phát hiện lửa" : "✅ An toàn") : "✅ An toàn") : "⏳ Đang chờ..."}
           icon={Flame}
-          status={state.firebase ? getFireStatus() : "safe"}
-          subtitle={state.firebase ? (state.fire ? "Cảm biến phát hiện nguồn nhiệt/ánh sáng bất thường" : "Không phát hiện nguồn lửa") : "Không có dữ liệu realtime"}
+          status={state.hasReceivedData ? (state.firebase ? getFireStatus() : "safe") : "warning"}
+          subtitle={state.hasReceivedData ? (state.firebase ? (state.fire ? "Cảm biến phát hiện nguồn nhiệt/ánh sáng bất thường" : "Không phát hiện nguồn lửa") : "Không có dữ liệu realtime") : "Chưa nhận được dữ liệu"}
         />
         <DashboardStatCard
           title="Trạng thái hệ thống"
-          value={state.firebase ? "🟢 Trực tuyến" : "🔴 Mất kết nối"}
+          value={state.hasReceivedData ? (state.firebase ? "🟢 Trực tuyến" : "🔴 Mất kết nối") : "⏳ Đang kết nối..."}
           icon={Database}
-          status={state.firebase ? "safe" : "danger"}
-          subtitle={state.firebase ? "Đang kết nối với Firebase" : "Không thể kết nối"}
+          status={state.hasReceivedData ? (state.firebase ? "safe" : "danger") : "warning"}
+          subtitle={state.hasReceivedData ? (state.firebase ? "Đang kết nối với Firebase" : "Không thể kết nối") : "Đang chờ ESP32 gửi dữ liệu"}
         />
       </div>
 

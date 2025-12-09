@@ -1,16 +1,36 @@
 "use client";
 
-import { AlertTriangle, CheckCircle, WifiOff } from "lucide-react";
+import { AlertTriangle, CheckCircle, WifiOff, Clock } from "lucide-react";
 
 interface DashboardAlertBannerProps {
   fire: boolean;
   gas: number;
   threshold: number;
   isOnline: boolean;
+  hasReceivedData: boolean;
 }
 
-export default function DashboardAlertBanner({ fire, gas, threshold, isOnline }: DashboardAlertBannerProps) {
-  // Priority 0: Offline - Không có dữ liệu realtime => Hiển thị bình thường
+export default function DashboardAlertBanner({ fire, gas, threshold, isOnline, hasReceivedData }: DashboardAlertBannerProps) {
+  // Priority 0: Chưa nhận dữ liệu - Đang chờ ESP32 gửi dữ liệu lần đầu
+  if (!hasReceivedData) {
+    return (
+      <div className="bg-blue-700 border-2 border-blue-600 rounded-xl p-4 shadow-[0_0_25px_rgba(59,130,246,0.3)]">
+        <div className="flex items-center gap-4">
+          <Clock size={32} className="text-white animate-pulse" />
+          <div className="flex-1">
+            <h2 className="text-2xl font-bold text-white">🔵 ĐANG CHỜ DỮ LIỆU</h2>
+            <p className="text-blue-100">Chưa nhận được dữ liệu từ ESP32 - Vui lòng bật thiết bị</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Clock size={20} className="text-blue-200" />
+            <p className="text-sm text-blue-100">Đang chờ...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Priority 1: Offline - Không có dữ liệu realtime => Hiển thị bình thường
   if (!isOnline) {
     return (
       <div className="bg-green-700 border-2 border-green-600 rounded-xl p-4 shadow-[0_0_25px_rgba(34,197,94,0.3)]">
