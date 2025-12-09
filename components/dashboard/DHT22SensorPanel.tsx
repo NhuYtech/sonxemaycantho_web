@@ -36,7 +36,7 @@ export default function DHT22SensorPanel({ temperature, humidity, tempHistory, h
   const humidityStatus = getHumidityStatus();
 
   return (
-    <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6 shadow-[0_0_30px_rgba(255,100,60,0.2)]">
+    <div className="bg-[#152A45]/80 backdrop-blur-sm border border-blue-700/40 rounded-xl p-6 shadow-[0_0_30px_rgba(255,100,60,0.2)]">
       <h3 className="text-xl font-bold text-sky-300 mb-6">🌡️ Cảm biến DHT22</h3>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

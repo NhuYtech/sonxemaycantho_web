@@ -38,10 +38,10 @@ export default function FireAlertLogin() {
       className="min-h-screen flex items-center justify-center text-white"
       style={{
         background:
-          "linear-gradient(180deg, #071933 0%, #0B2A4A 50%, #144B8A 100%)",
+          "linear-gradient(180deg, #0F2139 0%, #132742 50%, #1A5AA8 100%)",
       }}
     >
-      <div className="relative w-full max-w-sm bg-[#071933cc] backdrop-blur-md rounded-2xl p-8 shadow-[0_0_40px_rgba(20,75,138,0.5)] border border-blue-800">
+      <div className="relative w-full max-w-sm bg-[#152A45]/90 backdrop-blur-md rounded-2xl p-8 shadow-[0_0_40px_rgba(20,75,138,0.5)] border border-blue-800">
         {/* 🔥 Logo và tiêu đề */}
         <div className="flex flex-col items-center mb-8">
           <div className="bg-white/10 p-4 rounded-full border border-blue-400 shadow-lg">

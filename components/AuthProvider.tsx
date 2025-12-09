@@ -44,7 +44,9 @@ export default function AuthProvider({
   // Show loading state while checking auth
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-linear-to-b from-[#3d130e] via-[#4f1c13] to-[#f0703a]">
+      <div className="flex items-center justify-center min-h-screen" style={{
+        background: "linear-gradient(180deg, #0F2139 0%, #132742 50%, #1A5AA8 100%)"
+      }}>
         <div className="text-white text-lg">Đang tải...</div>
       </div>
     );

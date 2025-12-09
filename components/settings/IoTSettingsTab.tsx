@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { IoTSettings } from "@/types/settings";
 import { Save, Wifi, RefreshCw } from "lucide-react";
 import { db } from "@/lib/firebase";
@@ -16,6 +16,29 @@ export default function IoTSettingsTab({ settings, onSave }: IoTSettingsTabProps
   const toast = useToast();
   const [localSettings, setLocalSettings] = useState(settings);
   const [saving, setSaving] = useState(false);
+  const isInitialMount = useRef(true);
+  
+  // Sync local settings when props change (after Firebase load)
+  // ONLY on initial mount, not on every props change
+  useEffect(() => {
+    if (isInitialMount.current) {
+      setLocalSettings(settings);
+      isInitialMount.current = false;
+    }
+  }, [settings]);
+  
+  // Auto-save when settings change (after initial mount)
+  useEffect(() => {
+    // Skip if initial mount or settings haven't changed
+    if (isInitialMount.current) return;
+    
+    if (JSON.stringify(localSettings) !== JSON.stringify(settings)) {
+      const timer = setTimeout(() => {
+        onSave(localSettings);
+      }, 1000); // Tăng debounce lên 1s để tránh save quá nhanh
+      return () => clearTimeout(timer);
+    }
+  }, [localSettings, settings, onSave]);
   
   // WiFi Config Modals
   const [showWiFiModal, setShowWiFiModal] = useState(false);
@@ -81,7 +104,7 @@ export default function IoTSettingsTab({ settings, onSave }: IoTSettingsTabProps
   return (
     <div className="space-y-6">
       {/* Threshold */}
-      <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6">
+      <div className="bg-[#152A45]/80 backdrop-blur-sm border border-blue-700/40 rounded-xl p-6">
         <h3 className="text-lg font-bold text-sky-300 mb-4">Ngưỡng cảnh báo</h3>
         <div className="space-y-4">
           <div>
@@ -105,7 +128,7 @@ export default function IoTSettingsTab({ settings, onSave }: IoTSettingsTabProps
       </div>
 
       {/* Data Interval */}
-      <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6">
+      <div className="bg-[#152A45]/80 backdrop-blur-sm border border-blue-700/40 rounded-xl p-6">
         <h3 className="text-lg font-bold text-sky-300 mb-4">Tần suất gửi dữ liệu</h3>
         <div className="grid grid-cols-4 gap-3">
           {[1, 2, 5, 10].map((interval) => (
@@ -126,7 +149,7 @@ export default function IoTSettingsTab({ settings, onSave }: IoTSettingsTabProps
       </div>
 
       {/* WiFi Config */}
-      <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6">
+      <div className="bg-[#152A45]/80 backdrop-blur-sm border border-blue-700/40 rounded-xl p-6">
         <h3 className="text-lg font-bold text-sky-300 mb-4 flex items-center gap-2">
           <Wifi size={20} />
           Cấu hình WiFi
@@ -152,20 +175,17 @@ export default function IoTSettingsTab({ settings, onSave }: IoTSettingsTabProps
         </p>
       </div>
 
-      {/* Save Button */}
-      <button
-        onClick={handleSave}
-        disabled={saving}
-        className="w-full py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-bold transition-all shadow-[0_0_20px_rgba(34,197,94,0.3)] flex items-center justify-center gap-2 disabled:opacity-50"
-      >
-        <Save size={20} />
-        {saving ? "Đang lưu..." : "Lưu cài đặt"}
-      </button>
+      {/* Auto-save info */}
+      <div className="bg-green-950/30 border border-green-900/30 rounded-xl p-4">
+        <p className="text-green-300 text-sm text-center">
+          ✓ Cài đặt được lưu tự động
+        </p>
+      </div>
 
       {/* WiFi Config Modal */}
       {showWiFiModal && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-[#071933] border-2 border-blue-500/50 rounded-2xl p-6 max-w-md w-full shadow-[0_0_50px_rgba(249,115,22,0.3)]">
+          <div className="bg-[#152A45] border-2 border-blue-500/50 rounded-2xl p-6 max-w-md w-full shadow-[0_0_50px_rgba(249,115,22,0.3)]">
             <h3 className="text-2xl font-bold text-sky-300 mb-4 flex items-center gap-2">
               <Wifi size={24} />
               Cấu hình WiFi

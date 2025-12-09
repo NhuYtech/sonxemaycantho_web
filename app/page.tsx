@@ -45,16 +45,20 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-linear-to-b from-[#3d130e] via-[#4f1c13] to-[#f0703a] flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{
+        background: "linear-gradient(180deg, #0F2139 0%, #132742 50%, #1A5AA8 100%)"
+      }}>
         <div className="text-white text-xl">Đang tải...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-[#3d130e] via-[#4f1c13] to-[#f0703a] text-white">
+    <div className="min-h-screen text-white" style={{
+      background: "linear-gradient(180deg, #0F2139 0%, #132742 50%, #1A5AA8 100%)"
+    }}>
       {/* Header */}
-      <header className="border-b border-blue-900/30 bg-[#071933]/60 backdrop-blur-md sticky top-0 z-50">
+      <header className="border-b border-blue-900/30 bg-[#0F2139]/60 backdrop-blur-md sticky top-0 z-50">
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         
         <div className="flex items-center gap-3">
@@ -84,7 +88,7 @@ export default function Home() {
           <p className="text-xl text-gray-200 mb-8">
             Chào mừng bạn đến với <span className="font-bold">CanTho FireGuard</span>
           </p>
-            <h2>
+            <h2 className="text-gray-300 mb-10">
                Hệ thống theo dõi khí gas, lửa, nhiệt độ và độ ẩm theo thời gian thực, giúp bảo vệ xưởng sơn – kho hàng – khu vực sản xuất một cách an toàn và thông minh.
             </h2>
           <button
@@ -104,7 +108,7 @@ export default function Home() {
 
         <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {/* Feature 1 */}
-          <div id="feature-1" data-animate className={`bg-[#071933]/60 backdrop-blur-md border border-red-700/50 rounded-2xl p-8 hover:shadow-[0_0_30px_rgba(255,60,60,0.3)] transition-all duration-700 ${visibleSections.has('feature-1') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'}`}>
+          <div id="feature-1" data-animate className={`bg-[#152A45]/60 backdrop-blur-md border border-blue-700/50 rounded-2xl p-8 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all duration-700 ${visibleSections.has('feature-1') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'}`}>
             <div className="flex items-start gap-4">
               <Wind className="w-12 h-12 text-sky-400 shrink-0" />
               <div>
@@ -120,7 +124,7 @@ export default function Home() {
           </div>
 
           {/* Feature 2 */}
-          <div id="feature-2" data-animate className={`bg-[#071933]/60 backdrop-blur-md border border-red-700/50 rounded-2xl p-8 hover:shadow-[0_0_30px_rgba(255,60,60,0.3)] transition-all duration-700 ${visibleSections.has('feature-2') ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`}>
+          <div id="feature-2" data-animate className={`bg-[#152A45]/60 backdrop-blur-md border border-blue-700/50 rounded-2xl p-8 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all duration-700 ${visibleSections.has('feature-2') ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`}>
             <div className="flex items-start gap-4">
               <Flame className="w-12 h-12 text-red-500 shrink-0" />
               <div>
@@ -137,7 +141,7 @@ export default function Home() {
           </div>
 
           {/* Feature 3 */}
-          <div id="feature-3" data-animate className={`bg-[#071933]/60 backdrop-blur-md border border-red-700/50 rounded-2xl p-8 hover:shadow-[0_0_30px_rgba(255,60,60,0.3)] transition-all duration-700 delay-100 ${visibleSections.has('feature-3') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'}`}>
+          <div id="feature-3" data-animate className={`bg-[#152A45]/60 backdrop-blur-md border border-blue-700/50 rounded-2xl p-8 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all duration-700 delay-100 ${visibleSections.has('feature-3') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'}`}>
             <div className="flex items-start gap-4">
               <Activity className="w-12 h-12 text-blue-400 shrink-0" />
               <div>
@@ -154,7 +158,7 @@ export default function Home() {
           </div>
 
           {/* Feature 4 */}
-          <div id="feature-4" data-animate className={`bg-[#071933]/60 backdrop-blur-md border border-red-700/50 rounded-2xl p-8 hover:shadow-[0_0_30px_rgba(255,60,60,0.3)] transition-all duration-700 delay-100 ${visibleSections.has('feature-4') ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`}>
+          <div id="feature-4" data-animate className={`bg-[#152A45]/60 backdrop-blur-md border border-blue-700/50 rounded-2xl p-8 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all duration-700 delay-100 ${visibleSections.has('feature-4') ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`}>
             <div className="flex items-start gap-4">
               <Settings className="w-12 h-12 text-green-400 shrink-0" />
               <div>
@@ -174,7 +178,7 @@ export default function Home() {
       </section>
 
       {/* How to Use Section */}
-      <section className="container mx-auto px-6 py-16 bg-[#071933]/40">
+      <section className="container mx-auto px-6 py-16 bg-[#152A45]/40">
         <h2 className="text-4xl font-bold text-center mb-12">
           🟧 Hướng dẫn sử dụng hệ thống
         </h2>
@@ -250,7 +254,7 @@ export default function Home() {
           🟦 Lưu ý quan trọng khi sử dụng
         </h2>
 
-        <div id="notes" data-animate className={`max-w-4xl mx-auto bg-red-900/20 border-2 border-red-600 rounded-2xl p-8 transition-all duration-700 ${visibleSections.has('notes') ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
+        <div id="notes" data-animate className={`max-w-4xl mx-auto bg-yellow-900/20 border-2 border-yellow-600 rounded-2xl p-8 transition-all duration-700 ${visibleSections.has('notes') ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
           <div className="space-y-4 text-gray-100">
             <h3 className="text-xl font-bold text-sky-300 mb-3">⚙️ Về phần cứng:</h3>
             <ul className="ml-6 space-y-2">
@@ -286,7 +290,7 @@ export default function Home() {
 
       {/* Footer CTA */}
       <section className="container mx-auto px-6 py-16 text-center">
-        <div className="max-w-2xl mx-auto bg-[#071933]/60 backdrop-blur-md border border-red-700 rounded-2xl p-12">
+        <div className="max-w-2xl mx-auto bg-[#152A45]/60 backdrop-blur-md border border-blue-700 rounded-2xl p-12">
           <Shield className="w-20 h-20 text-sky-400 mx-auto mb-6" />
           <h2 className="text-3xl font-bold mb-4">Sẵn sàng bắt đầu?</h2>
           <p className="text-gray-200 mb-8">
@@ -302,7 +306,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-blue-900/30 bg-[#071933]/60 py-8">
+      <footer className="border-t border-blue-900/30 bg-[#152A45]/60 py-8">
         <div className="container mx-auto px-6 text-center text-gray-400">
           <p>Được phát triển bởi <span className="text-blue-400 font-semibold">NHƯ Ý</span></p>
           <p className="mt-2 text-sm">© 2025 CanTho FireGuard. All rights reserved.</p>

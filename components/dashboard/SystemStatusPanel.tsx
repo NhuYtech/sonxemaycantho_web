@@ -83,11 +83,11 @@ export default function SystemStatusPanel({ state }: SystemStatusPanelProps) {
   const statusColors = {
     safe: "text-green-400",
     warning: "text-yellow-400",
-    danger: "text-blue-400",
+    danger: "text-red-500",
   };
 
   return (
-    <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6 shadow-[0_0_30px_rgba(255,100,60,0.2)]">
+    <div className="bg-[#152A45]/80 backdrop-blur-sm border border-blue-700/40 rounded-xl p-6 shadow-[0_0_30px_rgba(255,100,60,0.2)]">
       <h3 className="text-xl font-bold text-sky-300 mb-6">Trạng thái hệ thống</h3>
 
       <div className="space-y-4">

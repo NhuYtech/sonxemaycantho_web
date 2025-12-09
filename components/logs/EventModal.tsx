@@ -9,14 +9,30 @@ interface EventModalProps {
 }
 
 const eventTypeLabels: Record<string, string> = {
-  fire_detected: "Phát hiện cháy",
-  gas_warning: "Cảnh báo gas",
-  user_action: "Thao tác người dùng",
-  threshold_change: "Thay đổi ngưỡng",
+  fire_detected: "🔥 Phát hiện cháy",
+  gas_warning: "⚠️ Cảnh báo gas",
+  user_action: "👤 Thao tác người dùng",
+  threshold_change: "⚙️ Thay đổi ngưỡng",
+  system_event: "🔧 Sự kiện hệ thống",
 };
 
 export default function EventModal({ event, onClose }: EventModalProps) {
   if (!event) return null;
+
+  // Format thời gian chi tiết
+  const date = new Date(event.timestamp);
+  const dateStr = date.toLocaleDateString("vi-VN", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  const timeStr = date.toLocaleTimeString("vi-VN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  });
 
   return (
     <div
@@ -24,7 +40,7 @@ export default function EventModal({ event, onClose }: EventModalProps) {
       onClick={onClose}
     >
       <div
-        className="bg-[#071933] border border-blue-900/50 rounded-2xl shadow-2xl max-w-2xl w-full p-8 relative"
+        className="bg-[#152A45] border border-blue-700/50 rounded-2xl shadow-2xl max-w-2xl w-full p-8 relative"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LogSettings } from "@/types/settings";
 import { Save, Bell, BellOff } from "lucide-react";
 
@@ -12,6 +12,16 @@ interface LogsSettingsTabProps {
 export default function LogsSettingsTab({ settings, onSave }: LogsSettingsTabProps) {
   const [localSettings, setLocalSettings] = useState(settings);
   const [saving, setSaving] = useState(false);
+  
+  // Auto-save when settings change
+  useEffect(() => {
+    if (JSON.stringify(localSettings) !== JSON.stringify(settings)) {
+      const timer = setTimeout(() => {
+        onSave(localSettings);
+      }, 500); // Debounce 500ms
+      return () => clearTimeout(timer);
+    }
+  }, [localSettings]);
 
   const handleSave = async () => {
     setSaving(true);
@@ -22,7 +32,7 @@ export default function LogsSettingsTab({ settings, onSave }: LogsSettingsTabPro
   return (
     <div className="space-y-6">
       {/* Enable Logs */}
-      <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6">
+      <div className="bg-[#152A45]/80 backdrop-blur-sm border border-blue-700/40 rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="text-lg font-bold text-sky-300">Lưu nhật ký</h3>
@@ -41,7 +51,7 @@ export default function LogsSettingsTab({ settings, onSave }: LogsSettingsTabPro
       </div>
 
       {/* Log Retention */}
-      <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6">
+      <div className="bg-[#152A45]/80 backdrop-blur-sm border border-blue-700/40 rounded-xl p-6">
         <h3 className="text-lg font-bold text-sky-300 mb-4">Giới hạn lưu trữ nhật ký</h3>
         <div className="grid grid-cols-3 gap-3">
           {[7, 30, 90].map((days) => (
@@ -62,7 +72,7 @@ export default function LogsSettingsTab({ settings, onSave }: LogsSettingsTabPro
       </div>
 
       {/* Notifications */}
-      <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6">
+      <div className="bg-[#152A45]/80 backdrop-blur-sm border border-blue-700/40 rounded-xl p-6">
         <h3 className="text-lg font-bold text-sky-300 mb-4 flex items-center gap-2">
           <Bell size={20} />
           Thông báo
@@ -145,15 +155,12 @@ export default function LogsSettingsTab({ settings, onSave }: LogsSettingsTabPro
         </div>
       </div>
 
-      {/* Save Button */}
-      <button
-        onClick={handleSave}
-        disabled={saving}
-        className="w-full py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-bold transition-all shadow-[0_0_20px_rgba(34,197,94,0.3)] flex items-center justify-center gap-2 disabled:opacity-50"
-      >
-        <Save size={20} />
-        {saving ? "Đang lưu..." : "Lưu cài đặt"}
-      </button>
+      {/* Auto-save info */}
+      <div className="bg-green-950/30 border border-green-900/30 rounded-xl p-4">
+        <p className="text-green-300 text-sm text-center">
+          ✓ Cài đặt được lưu tự động
+        </p>
+      </div>
     </div>
   );
 }

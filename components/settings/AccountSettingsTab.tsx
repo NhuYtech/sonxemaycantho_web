@@ -96,7 +96,7 @@ export default function AccountSettingsTab() {
   return (
     <div className="space-y-6">
       {/* Profile */}
-      <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6">
+      <div className="bg-[#152A45]/80 backdrop-blur-sm border border-blue-700/40 rounded-xl p-6">
         <h3 className="text-lg font-bold text-sky-300 mb-4">Thông tin tài khoản</h3>
         <div className="flex items-center gap-4">
           <div className="w-20 h-20 rounded-full bg-linear-to-br from-blue-500 to-sky-600 flex items-center justify-center text-white text-2xl font-bold overflow-hidden">
@@ -118,7 +118,7 @@ export default function AccountSettingsTab() {
       </div>
 
       {/* Active Sessions */}
-      <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6">
+      <div className="bg-[#152A45]/80 backdrop-blur-sm border border-blue-700/40 rounded-xl p-6">
         <h3 className="text-lg font-bold text-sky-300 mb-4 flex items-center gap-2">
           <Smartphone size={20} />
           Phiên đăng nhập
@@ -151,7 +151,7 @@ export default function AccountSettingsTab() {
       </div>
 
       {/* Logout Buttons */}
-      <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6 space-y-3">
+      <div className="bg-[#152A45]/80 backdrop-blur-sm border border-blue-700/40 rounded-xl p-6 space-y-3">
         <button
           onClick={handleLogout}
           disabled={loading}

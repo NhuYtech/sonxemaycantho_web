@@ -26,7 +26,7 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
 
       {/* Sidebar Container */}
       <aside className="hidden lg:block lg:w-60 shrink-0 lg:ml-6 lg:my-6">
-        <div className="w-60 h-full bg-[#071933]/70 backdrop-blur-md border-r border-blue-900/30 flex flex-col p-5 rounded-xl">
+        <div className="w-60 h-full bg-[#152A45]/80 backdrop-blur-md border-r border-blue-700/40 flex flex-col p-5 rounded-xl">
           <div className="flex flex-col items-center mb-8 text-sky-400">
             <img
               src="/favicon.ico"
@@ -101,9 +101,9 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
         lg:hidden
         fixed inset-y-0 left-0
         w-72 max-w-[85vw]
-        bg-[#071933]/98
+        bg-[#152A45]/95
         backdrop-blur-xl
-        border-r border-blue-900/40
+        border-r border-blue-700/40
         flex flex-col p-6
         z-50
         shadow-2xl

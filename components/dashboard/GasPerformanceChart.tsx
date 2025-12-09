@@ -24,9 +24,10 @@ interface GasPerformanceChartProps {
 }[];
   threshold: number;
   mode: "day" | "week" | "month";
+  isOnline?: boolean; // Trạng thái kết nối ESP32
 }
 
-export default function GasPerformanceChart({ history, threshold, mode }: GasPerformanceChartProps) {
+export default function GasPerformanceChart({ history, threshold, mode, isOnline = true }: GasPerformanceChartProps) {
   // 🔥 REALTIME: Lắng nghe dữ liệu trực tiếp từ Firebase - APPEND ONLY
   const [realtimeData, setRealtimeData] = useState<Array<{
     gas: number;
@@ -184,12 +185,17 @@ export default function GasPerformanceChart({ history, threshold, mode }: GasPer
   const hasData = chartData.length > 0;
 
   return (
-    <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6 shadow-[0_0_30px_rgba(255,100,60,0.2)]">
+    <div className="bg-[#152A45]/80 backdrop-blur-sm border border-blue-700/40 rounded-xl p-6 shadow-[0_0_30px_rgba(255,100,60,0.2)]">
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-xl font-bold text-sky-300 mb-1 flex items-center gap-2">
             📊 Diễn biến mức khí Gas (24 giờ)
-            {!isLoading && hasData && (
+            {!isOnline && (
+              <span className="text-xs px-2 py-1 bg-red-500/20 text-red-400 rounded-full animate-pulse">
+                🔴 OFFLINE
+              </span>
+            )}
+            {isOnline && !isLoading && hasData && (
               <span className="text-xs px-2 py-1 bg-green-500/20 text-green-400 rounded-full animate-pulse">
                 🔴 LIVE
               </span>
@@ -231,17 +237,18 @@ export default function GasPerformanceChart({ history, threshold, mode }: GasPer
           </div>
         </div>
       ) : (
-        <ResponsiveContainer width="100%" height={400}>
-          <LineChart 
+        <div className="relative">
+          <ResponsiveContainer width="100%" height={400}>
+            <LineChart 
             data={chartData} 
             margin={{ top: 20, right: 30, left: 10, bottom: 10 }}
           >
             <defs>
-              {/* Gradient cho đường line */}
+              {/* Gradient cho đường line - sáng hơn 20% */}
               <linearGradient id="gasGradient" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#3b82f6"/>
-                <stop offset="50%" stopColor="#fb923c"/>
-                <stop offset="100%" stopColor="#ef4444"/>
+                <stop offset="0%" stopColor="#60a5fa"/>
+                <stop offset="50%" stopColor="#fbbf24"/>
+                <stop offset="100%" stopColor="#f87171"/>
               </linearGradient>
             </defs>
             
@@ -308,11 +315,11 @@ export default function GasPerformanceChart({ history, threshold, mode }: GasPer
               type="monotone"
               dataKey="gas"
               stroke="url(#gasGradient)"
-              strokeWidth={2.5}
+              strokeWidth={3}
               dot={false}
               activeDot={{ 
                 r: 6, 
-                fill: '#fb923c', 
+                fill: '#fbbf24', 
                 stroke: '#fff', 
                 strokeWidth: 2.5
               }}
@@ -323,6 +330,24 @@ export default function GasPerformanceChart({ history, threshold, mode }: GasPer
             />
           </LineChart>
         </ResponsiveContainer>
+        
+        {/* Overlay khi thiết bị offline */}
+        {!isOnline && (
+          <div className="absolute inset-0 bg-gray-900/80 backdrop-blur-sm flex items-center justify-center rounded-lg">
+            <div className="text-center p-6">
+              <div className="text-6xl mb-4">📡</div>
+              <h3 className="text-2xl font-bold text-red-400 mb-2">Thiết bị Offline</h3>
+              <p className="text-gray-300 mb-4">ESP32 đã ngắt kết nối</p>
+              <div className="bg-red-900/30 border border-red-700/50 rounded-lg p-4 max-w-md">
+                <p className="text-sm text-gray-300">
+                  ⚠️ Biểu đồ hiển thị dữ liệu cũ từ lần cuối.<br/>
+                  Dữ liệu mới sẽ cập nhật khi thiết bị online.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
       )}
 
       {/* Legend & Info */}

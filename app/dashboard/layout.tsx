@@ -13,7 +13,9 @@ export default function DashboardLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="h-screen flex flex-col bg-linear-to-b from-[#3d130e] via-[#4f1c13] to-[#f0703a] text-gray-100">
+    <div className="h-screen flex flex-col text-gray-100" style={{
+      background: "linear-gradient(180deg, #0F2139 0%, #132742 50%, #1A5AA8 100%)"
+    }}>
       <Header />
 
       <div className="flex flex-1 overflow-hidden">

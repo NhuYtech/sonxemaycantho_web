@@ -5,10 +5,12 @@
 ```json
 {
   "sensor": {
-    "mq2": 320,           // Nồng độ gas (ppm) từ cảm biến MQ-2
-    "fire": 0,            // Cảm biến lửa: 0 = không cháy, 1 = có cháy
-    "temp": 28,           // Nhiệt độ (°C)
-    "humi": 65            // Độ ẩm (%)
+    "mq2": 0,             // Nồng độ gas (ppm) từ cảm biến MQ-2
+    "fire": 1,            // Cảm biến lửa: 1 = có cháy, 0 = không cháy
+    "temp": -1,           // Nhiệt độ cũ (°C) - deprecated, dùng temperature
+    "temperature": 31.1,  // Nhiệt độ mới (°C) từ DHT22
+    "humi": -1,           // Độ ẩm cũ (%) - deprecated, dùng humidity
+    "humidity": 70.1      // Độ ẩm mới (%) từ DHT22
   },
   
   "control": {
@@ -28,14 +30,18 @@
       "-NhuYtech001": {
         "gas": 320,
         "temp": 28,
+        "temperature": 28,
         "humi": 65,
+        "humidity": 65,
         "fire": 0,
         "timestamp": 1733654400000
       },
       "-NhuYtech002": {
         "gas": 340,
         "temp": 29,
+        "temperature": 29,
         "humi": 64,
+        "humidity": 64,
         "fire": 0,
         "timestamp": 1733654460000
       }
@@ -48,9 +54,13 @@
 
 ### 1. Từ IoT Device → Firebase → Web
 - ESP32 đọc cảm biến và ghi vào `/sensor`
+  - Ghi cả 2 field: `temperature`/`humidity` (mới) và `temp`/`humi` (cũ) để tương thích
+  - Giá trị -1 có nghĩa là sensor chưa khởi tạo hoặc lỗi
 - Web lắng nghe realtime thay đổi tại `/sensor`
+  - Ưu tiên đọc `temperature`/`humidity`, fallback về `temp`/`humi`
+  - Bỏ qua giá trị -1 (sensor lỗi)
 - Web tự động lưu lịch sử vào `/history/{date}` mỗi 1 phút
-- Web hiển thị giá trị gas và fire ngay lập tức
+- Web hiển thị giá trị gas, fire, temperature, humidity ngay lập tức
 
 ### 2. Từ Web → Firebase → IoT Device
 - User thay đổi relay/mode trên web

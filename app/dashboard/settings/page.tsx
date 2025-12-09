@@ -133,7 +133,7 @@ export default function SettingsPage() {
       </div>
 
       {/* Tabs */}
-      <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-2">
+      <div className="bg-[#152A45]/80 backdrop-blur-sm border border-blue-700/40 rounded-xl p-2">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           {tabs.map((tab) => {
             const Icon = tab.icon;

@@ -1,4 +1,4 @@
-export type EventType = "fire_detected" | "gas_warning" | "user_action" | "threshold_change";
+export type EventType = "fire_detected" | "gas_warning" | "user_action" | "threshold_change" | "system_event";
 
 export type LogEvent = {
   id: string;
@@ -29,4 +29,4 @@ export type LogStats = {
   avgHumidity: number;
 };
 
-export type TimeFilter = "today" | "week" | "month" | "all";
+export type TimeFilter = "hour" | "today" | "week" | "month" | "all" | "custom";

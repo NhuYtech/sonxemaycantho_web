@@ -30,34 +30,53 @@ const eventTypeIcons: Record<string, LucideIcon> = {
 };
 
 export default function EventTable({ logs, onEventClick }: EventTableProps) {
+  if (logs.length === 0) {
+    return (
+      <div className="bg-[#152A45]/80 backdrop-blur-sm border-2 border-blue-700/50 rounded-xl p-8 shadow-xl">
+        <div className="flex flex-col items-center justify-center py-12 text-gray-500">
+          <div className="bg-blue-950/30 rounded-full p-6 mb-4">
+            <svg className="w-16 h-16 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <p className="text-xl font-semibold mb-2">Chưa có sự kiện nào</p>
+          <p className="text-sm text-gray-600">Các sự kiện sẽ xuất hiện ở đây khi hệ thống hoạt động</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6 shadow-lg overflow-hidden">
+    <div className="bg-[#152A45]/80 backdrop-blur-sm border-2 border-blue-700/50 rounded-xl p-6 shadow-xl overflow-hidden">
       <h3 className="text-xl font-bold text-sky-300 mb-4">Bảng sự kiện</h3>
 
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-blue-900/30 text-gray-400">
-              <th className="text-left py-3 px-4">Thời gian</th>
-              <th className="text-left py-3 px-4">Loại</th>
-              <th className="text-center py-3 px-4">Gas</th>
-              <th className="text-center py-3 px-4">Temp</th>
-              <th className="text-center py-3 px-4">Hum</th>
-              <th className="text-center py-3 px-4">Lửa</th>
-              <th className="text-left py-3 px-4">Người dùng</th>
+            <tr className="border-b border-blue-900/30 text-gray-300">
+              <th className="text-left py-3 px-4 font-semibold">Thời gian</th>
+              <th className="text-center py-3 px-4 font-semibold">Gas</th>
+              <th className="text-center py-3 px-4 font-semibold">Temp</th>
+              <th className="text-center py-3 px-4 font-semibold">Hum</th>
+              <th className="text-center py-3 px-4 font-semibold">Lửa</th>
             </tr>
           </thead>
           <tbody>
-            {logs.length === 0 ? (
-              <tr>
-                <td colSpan={7} className="text-center py-8 text-gray-500">
-                  Chưa có sự kiện nào
-                </td>
-              </tr>
-            ) : (
-              logs.map((log) => {
+            {logs.map((log) => {
                 const Icon = eventTypeIcons[log.type] || User;
                 const color = eventTypeColors[log.type] || "text-gray-500";
+                
+                // Format thời gian chi tiết: DD/MM/YYYY HH:mm:ss
+                const date = new Date(log.timestamp);
+                const timeStr = date.toLocaleString("vi-VN", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  second: "2-digit",
+                  hour12: false
+                });
 
                 return (
                   <tr
@@ -65,18 +84,12 @@ export default function EventTable({ logs, onEventClick }: EventTableProps) {
                     onClick={() => onEventClick(log)}
                     className="border-b border-blue-900/10 hover:bg-blue-950/30 cursor-pointer transition-colors"
                   >
-                    <td className="py-3 px-4 text-gray-300">
-                      {new Date(log.timestamp).toLocaleString("vi-VN")}
+                    <td className="py-3 px-4 text-gray-300 font-mono text-xs">
+                      {timeStr}
                     </td>
-                    <td className={`py-3 px-4 ${color}`}>
-                      <div className="flex items-center gap-2">
-                        <Icon size={16} />
-                        <span>{eventTypeLabels[log.type] || log.type}</span>
-                      </div>
-                    </td>
-                    <td className="py-3 px-4 text-center text-yellow-400 font-mono">{log.gas}</td>
-                    <td className="py-3 px-4 text-center text-sky-400 font-mono">{log.temperature.toFixed(1)}°</td>
-                    <td className="py-3 px-4 text-center text-cyan-400 font-mono">{log.humidity.toFixed(1)}%</td>
+                    <td className="py-3 px-4 text-center text-yellow-400 font-mono font-medium">{log.gas}</td>
+                    <td className="py-3 px-4 text-center text-sky-400 font-mono font-medium">{log.temperature.toFixed(1)}°</td>
+                    <td className="py-3 px-4 text-center text-cyan-400 font-mono font-medium">{log.humidity.toFixed(1)}%</td>
                     <td className="py-3 px-4 text-center">
                       {log.fire ? (
                         <span className="text-red-500 font-bold">🔥</span>
@@ -84,11 +97,9 @@ export default function EventTable({ logs, onEventClick }: EventTableProps) {
                         <span className="text-gray-600">✓</span>
                       )}
                     </td>
-                    <td className="py-3 px-4 text-gray-400">{log.user || "-"}</td>
                   </tr>
                 );
-              })
-            )}
+              })}
           </tbody>
         </table>
       </div>

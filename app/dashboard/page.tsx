@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useFirebaseDevice } from "@/hooks/useFirebaseDevice";
+import { useAutoLogger } from "@/hooks/useAutoLogger";
 import { Wind, Flame, Zap, Database, Thermometer, Droplets } from "lucide-react";
 import { useUI } from "@/contexts/UIContext";
 
@@ -16,6 +17,9 @@ import LogsPreview from "@/components/dashboard/LogsPreview";
 export default function Dashboard() {
   const { t } = useUI();
   const [state] = useFirebaseDevice();
+  
+  // 🔥 Tự động ghi log khi có sự kiện quan trọng
+  useAutoLogger(state);
 
   // Determine gas status
   const getGasStatus = () => {
@@ -87,10 +91,10 @@ export default function Dashboard() {
         />
         <DashboardStatCard
           title="Phát hiện nguồn nhiệt"
-          value={state.fire ? "🔥 Có ánh sáng bất thường" : "✅ Bình thường"}
+          value={state.fire ? "🔥 Phát hiện lửa" : "✅ An toàn"}
           icon={Flame}
           status={getFireStatus()}
-          subtitle={state.fire ? "(Phát hiện nguồn lửa hoặc ánh sáng mạnh)" : "(Không phát hiện nguồn lửa)"}
+          subtitle={state.fire ? "Cảm biến phát hiện nguồn nhiệt/ánh sáng bất thường" : "Không phát hiện nguồn lửa"}
         />
         <DashboardStatCard
           title="Trạng thái hệ thống"
@@ -103,7 +107,12 @@ export default function Dashboard() {
 
       {/* Charts Row */}
       <div className="w-full">
-        <GasPerformanceChart history={state.gasHistory} threshold={state.threshold} mode="day" />
+        <GasPerformanceChart 
+          history={state.gasHistory} 
+          threshold={state.threshold} 
+          mode="day"
+          isOnline={state.firebase}
+        />
       </div>
 
       {/* Temperature & Humidity Chart */}

@@ -50,8 +50,10 @@ export function useFirebaseDevice() {
 
       const historyArray = Object.values(val) as Array<{
         gas: number;
-        temp: number;
-        humi: number;
+        temp?: number;
+        temperature?: number;
+        humi?: number;
+        humidity?: number;
         timestamp: number;
         hour?: number;
       }>;
@@ -74,14 +76,20 @@ export function useFirebaseDevice() {
         }
         
         const data = hourlyData.get(hourKey)!;
+        const temp = item.temperature ?? item.temp ?? 0;
+        const humi = item.humidity ?? item.humi ?? 0;
+        
+        // Chỉ thêm nếu giá trị hợp lệ (không phải -1)
+        if (temp !== -1 && temp !== 0) data.temp.push(temp);
+        if (humi !== -1 && humi !== 0) data.humi.push(humi);
         data.gas.push(item.gas);
-        data.temp.push(item.temp);
-        data.humi.push(item.humi);
       });
 
       // Calculate average for each hour
       const gasHistory = Array.from(hourlyData.entries()).map(([key, data]) => {
-        const avgGas = Math.round(data.gas.reduce((a, b) => a + b, 0) / data.gas.length);
+        const avgGas = data.gas.length > 0 
+          ? Math.round(data.gas.reduce((a, b) => a + b, 0) / data.gas.length)
+          : 0;
         const date = new Date(data.timestamp);
         return {
           time: date.toLocaleString("vi-VN"),
@@ -91,27 +99,31 @@ export function useFirebaseDevice() {
         };
       }).sort((a, b) => a.day * 24 + a.hour - b.day * 24 - b.hour);
 
-      const tempHistory = Array.from(hourlyData.entries()).map(([key, data]) => {
-        const avgTemp = Math.round(data.temp.reduce((a, b) => a + b, 0) / data.temp.length);
-        const date = new Date(data.timestamp);
-        return {
-          time: date.toLocaleString("vi-VN"),
-          day: date.getDate(),
-          hour: date.getHours(),
-          value: avgTemp
-        };
-      }).sort((a, b) => a.day * 24 + a.hour - b.day * 24 - b.hour);
+      const tempHistory = Array.from(hourlyData.entries())
+        .filter(([, data]) => data.temp.length > 0)
+        .map(([key, data]) => {
+          const avgTemp = Math.round(data.temp.reduce((a, b) => a + b, 0) / data.temp.length);
+          const date = new Date(data.timestamp);
+          return {
+            time: date.toLocaleString("vi-VN"),
+            day: date.getDate(),
+            hour: date.getHours(),
+            value: avgTemp
+          };
+        }).sort((a, b) => a.day * 24 + a.hour - b.day * 24 - b.hour);
 
-      const humidityHistory = Array.from(hourlyData.entries()).map(([key, data]) => {
-        const avgHumi = Math.round(data.humi.reduce((a, b) => a + b, 0) / data.humi.length);
-        const date = new Date(data.timestamp);
-        return {
-          time: date.toLocaleString("vi-VN"),
-          day: date.getDate(),
-          hour: date.getHours(),
-          value: avgHumi
-        };
-      }).sort((a, b) => a.day * 24 + a.hour - b.day * 24 - b.hour);
+      const humidityHistory = Array.from(hourlyData.entries())
+        .filter(([, data]) => data.humi.length > 0)
+        .map(([key, data]) => {
+          const avgHumi = Math.round(data.humi.reduce((a, b) => a + b, 0) / data.humi.length);
+          const date = new Date(data.timestamp);
+          return {
+            time: date.toLocaleString("vi-VN"),
+            day: date.getDate(),
+            hour: date.getHours(),
+            value: avgHumi
+          };
+        }).sort((a, b) => a.day * 24 + a.hour - b.day * 24 - b.hour);
 
       setData((prev) => ({
         ...prev,
@@ -121,8 +133,15 @@ export function useFirebaseDevice() {
       }));
         },
         (error) => {
-          console.error("❌ Permission denied or error reading history:", error.message);
-          // Continue without history data if permission denied
+          console.warn("⚠️ Không thể tải lịch sử dữ liệu:", error.message);
+          console.info("ℹ️ Ứng dụng sẽ tiếp tục hoạt động với dữ liệu realtime. Kiểm tra Firebase Rules nếu cần xem lịch sử.");
+          // Continue without history data if permission denied - app will still work with realtime data
+          setData((prev) => ({
+            ...prev,
+            gasHistory: [],
+            tempHistory: [],
+            humidityHistory: [],
+          }));
         }
       );
 
@@ -135,9 +154,16 @@ export function useFirebaseDevice() {
       if (!val) return;
 
       const gas = val.mq2 ?? 0;
-      const fire = val.fire === 0; // fire=0 means fire detected, fire=1 means normal
-      const temperature = val.temp ?? 0;
-      const humidity = val.humi ?? 0;
+      const fire = val.fire === 1; // fire=1 means fire detected, fire=0 means normal
+      // Ưu tiên đọc temperature/humidity, fallback về temp/humi nếu không có hoặc = -1
+      let temperature = val.temperature ?? val.temp ?? 0;
+      let humidity = val.humidity ?? val.humi ?? 0;
+      
+      // Xử lý giá trị -1 (sensor lỗi)
+      if (temperature === -1) temperature = val.temp ?? 0;
+      if (humidity === -1) humidity = val.humi ?? 0;
+      if (temperature === -1) temperature = 0;
+      if (humidity === -1) humidity = 0;
 
       const now = new Date();
       const timeStr = now.toLocaleString("vi-VN");
@@ -155,11 +181,31 @@ export function useFirebaseDevice() {
         set(newEntryRef, {
           gas,
           temp: temperature,
+          temperature: temperature,
           humi: humidity,
+          humidity: humidity,
           fire,
           timestamp,
           hour
         }).catch(err => console.error("❌ Failed to save history:", err));
+
+        // 📝 GHI LOG ĐỊNH KỲ - Để Nhật ký có dữ liệu liên tục
+        const logsRef = ref(db, "/logs");
+        push(logsRef, {
+          timestamp,
+          type: fire ? "fire_detected" : (gas > (data.threshold || 400) ? "gas_warning" : "system_event"),
+          gas,
+          fire,
+          temperature,
+          humidity,
+          threshold: data.threshold || 400,
+          user: "system",
+          note: fire 
+            ? `🔥 Phát hiện lửa! Gas: ${gas}ppm, Nhiệt độ: ${temperature}°C`
+            : gas > (data.threshold || 400)
+            ? `⚠️ Gas vượt ngưỡng! ${gas}ppm > ${data.threshold || 400}ppm`
+            : `📊 Dữ liệu định kỳ: Gas ${gas}ppm, Nhiệt độ ${temperature}°C, Độ ẩm ${humidity}%`,
+        }).catch(err => console.error("❌ Failed to save log:", err));
 
         lastSaveTime.current = timestamp;
         console.log("✅ Saved to Firebase:", { gas, temp: temperature, humi: humidity, timestamp });

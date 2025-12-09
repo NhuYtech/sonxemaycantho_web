@@ -25,7 +25,7 @@ export default function DetailsPanel({ stats }: DetailsPanelProps) {
   ];
 
   return (
-    <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6 shadow-lg">
+    <div className="bg-[#152A45]/80 backdrop-blur-sm border border-blue-700/40 rounded-xl p-6 shadow-lg">
       <div className="flex items-center gap-3 mb-6">
         <Info className="text-sky-400" size={24} />
         <h3 className="text-xl font-bold text-sky-300">Chi tiết thống kê</h3>

@@ -19,7 +19,7 @@ export default function TemperatureHumidityChart({ tempHistory, humidityHistory 
   }, [tempHistory, humidityHistory]);
 
   return (
-    <div className="bg-[#071933]/70 backdrop-blur-sm border border-blue-900/30 rounded-xl p-6 shadow-[0_0_30px_rgba(255,100,60,0.2)]">
+    <div className="bg-[#152A45]/80 backdrop-blur-sm border border-blue-700/40 rounded-xl p-6 shadow-[0_0_30px_rgba(255,100,60,0.2)]">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h3 className="text-xl font-bold text-sky-300 mb-1">🌡️ Nhiệt độ & Độ ẩm theo thời gian</h3>
@@ -30,8 +30,8 @@ export default function TemperatureHumidityChart({ tempHistory, humidityHistory 
       <ResponsiveContainer width="100%" height={280}>
         <LineChart data={chartData}>
           <XAxis dataKey="day" stroke="#9ca3af" style={{ fontSize: "12px" }} />
-          <YAxis yAxisId="left" stroke="#FF6B35" style={{ fontSize: "12px" }} label={{ value: '°C', angle: -90, position: 'insideLeft' }} />
-          <YAxis yAxisId="right" orientation="right" stroke="#4ECDC4" style={{ fontSize: "12px" }} label={{ value: '%', angle: 90, position: 'insideRight' }} />
+          <YAxis yAxisId="left" stroke="#FF8A65" style={{ fontSize: "12px" }} label={{ value: '°C', angle: -90, position: 'insideLeft' }} />
+          <YAxis yAxisId="right" orientation="right" stroke="#4DD0E1" style={{ fontSize: "12px" }} label={{ value: '%', angle: 90, position: 'insideRight' }} />
           <Tooltip
             labelFormatter={(value, payload) => {
               if (payload && payload.length > 0 && payload[0].payload) {
@@ -40,8 +40,8 @@ export default function TemperatureHumidityChart({ tempHistory, humidityHistory 
               return value;
             }}
             contentStyle={{
-              backgroundColor: "#071933",
-              border: "1px solid #991b1b",
+              backgroundColor: "#152A45",
+              border: "1px solid #1e40af",
               borderRadius: "8px",
               color: "#fff",
             }}
@@ -52,7 +52,7 @@ export default function TemperatureHumidityChart({ tempHistory, humidityHistory 
             yAxisId="left"
             type="monotone"
             dataKey="temperature"
-            stroke="#FF6B35"
+            stroke="#FF8A65"
             strokeWidth={3}
             dot={false}
             name="Nhiệt độ (°C)"
@@ -61,7 +61,7 @@ export default function TemperatureHumidityChart({ tempHistory, humidityHistory 
             yAxisId="right"
             type="monotone"
             dataKey="humidity"
-            stroke="#4ECDC4"
+            stroke="#4DD0E1"
             strokeWidth={3}
             dot={false}
             name="Độ ẩm (%)"
@@ -72,11 +72,11 @@ export default function TemperatureHumidityChart({ tempHistory, humidityHistory 
       {/* Info */}
       <div className="flex gap-4 mt-4 text-sm justify-center">
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-[#FF6B35] rounded"></div>
+          <div className="w-4 h-4 bg-[#FF8A65] rounded"></div>
           <span className="text-gray-400">Nhiệt độ</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-[#4ECDC4] rounded"></div>
+          <div className="w-4 h-4 bg-[#4DD0E1] rounded"></div>
           <span className="text-gray-400">Độ ẩm</span>
         </div>
       </div>
