@@ -133,8 +133,7 @@ export default function Home() {
                   <li>• Cảm biến lửa phát hiện ánh sáng hồng ngoại từ ngọn lửa</li>
                   <li>• Phản ứng nhanh khi có cháy:</li>
                   <li className="ml-4">→ Hiển thị cảnh báo trên LCD & Web</li>
-                  <li className="ml-4">→ Kích hoạt còi báo động</li>
-                  <li className="ml-4">→ Bật relay (thiết bị chữa cháy tự động)</li>
+                  <li className="ml-4">→ Ghi log sự kiện vào Firebase</li>
                 </ul>
               </div>
             </div>
@@ -162,13 +161,12 @@ export default function Home() {
             <div className="flex items-start gap-4">
               <Settings className="w-12 h-12 text-green-400 shrink-0" />
               <div>
-                <h3 className="text-2xl font-bold mb-3">4️⃣ Điều khiển & giao diện phần cứng</h3>
+                <h3 className="text-2xl font-bold mb-3">4️⃣ Giám sát & giao diện phần cứng</h3>
                 <ul className="space-y-2 text-gray-200">
                   <li>• <strong>ESP32:</strong> Vi điều khiển trung tâm kết nối WiFi & Firebase</li>
                   <li>• <strong>LCD 1602 Shield:</strong> Hiển thị thông tin tại chỗ (Gas, Temperature, Humidity)</li>
-                  <li>• <strong>Relay 2 kênh:</strong> Điều khiển thiết bị chữa cháy tự động</li>
-                  <li>• <strong>Buzzer:</strong> Còi báo động khi phát hiện nguy hiểm</li>
-                  <li>• <strong>Nút nhấn:</strong> Tương tác trực tiếp (tắt cảnh báo / chuyển chế độ)</li>
+                  <li>• <strong>Firebase Realtime:</strong> Đồng bộ dữ liệu thời gian thực lên Cloud</li>
+                  <li>• <strong>Web Dashboard:</strong> Theo dõi từ xa qua trình duyệt</li>
                   <li>• <strong>Nguồn USB 5V:</strong> Cấp nguồn cho toàn bộ hệ thống</li>
                 </ul>
               </div>
@@ -190,7 +188,7 @@ export default function Home() {
               • Cấp nguồn 5V cho ESP32 qua cáp USB (nguồn cho toàn bộ hệ thống)<br />
               • ESP32 tự động kết nối WiFi và Firebase<br />
               • LCD 1602 Shield hiển thị thông tin: Gas (ppm), Temperature (°C), Humidity (%)<br />
-              • Relay 2 kênh và Buzzer sẵn sàng hoạt động<br />
+              • Dữ liệu được đồng bộ realtime lên Firebase và Web Dashboard<br />
               • Hệ thống ổn định sau 5-10 phút (MQ-2 cần thời gian làm nóng)
             </p>
           </div>
@@ -202,8 +200,8 @@ export default function Home() {
               <li>• <strong>Nồng độ gas (ppm)</strong> từ cảm biến MQ-2</li>
               <li>• <strong>Nhiệt độ (°C)</strong> và <strong>Độ ẩm (%)</strong> từ DHT22</li>
               <li>• <strong>Trạng thái lửa</strong> từ Flame Sensor</li>
-              <li>• <strong>Biểu đồ thời gian thực</strong></li>
-              <li>• <strong>Trạng thái Relay, Buzzer, ESP32</strong></li>
+              <li>• <strong>Biểu đồ thời gian thực</strong> (24 giờ)</li>
+              <li>• <strong>Lịch sử sự kiện</strong> và logs</li>
             </ul>
           </div>
 
@@ -212,14 +210,14 @@ export default function Home() {
             <p className="text-gray-200">
               <strong>Từ Web Dashboard:</strong><br />
               • Thay đổi ngưỡng cảnh báo gas<br />
-              • Bật/tắt chế độ AUTO/MANUAL<br />
-              • Điều khiển Relay 1, Relay 2<br />
-              • Tắt buzzer khi cần<br />
+              • Xem lịch sử logs chi tiết<br />
+              • Tùy chỉnh giao diện (Light/Dark mode)<br />
+              • Quản lý tài khoản người dùng<br />
               <br />
               <strong>Từ phần cứng (ESP32 + LCD Shield):</strong><br />
-              • Dùng nút nhấn trên LCD 1602 Shield để tương tác trực tiếp<br />
               • Xem thông tin real-time trên màn hình LCD 1602<br />
-              • Buzzer phát cảnh báo âm thanh khi có nguy hiểm
+              • Giám sát trạng thái kết nối WiFi và Firebase<br />
+              • Theo dõi các thông số Gas, Nhiệt độ, Độ ẩm ngay tại chỗ
             </p>
           </div>
 
@@ -228,10 +226,10 @@ export default function Home() {
             <p className="text-gray-200">Hệ thống sẽ tự động:</p>
             <ul className="text-gray-200 ml-4 mt-2 space-y-1">
               <li>• <strong>LCD 1602:</strong> Hiển thị "⚠️ GAS HIGH!" hoặc "🔥 FIRE!"</li>
-              <li>• <strong>Buzzer:</strong> Kêu còi báo động liên tục</li>
-              <li>• <strong>Web:</strong> Hiển thị banner cảnh báo đỏ</li>
-              <li>• <strong>Relay:</strong> Kích hoạt thiết bị chữa cháy (nếu ở chế độ AUTO)</li>
-              <li>• <strong>Firebase:</strong> Lưu log sự kiện</li>
+              <li>• <strong>Web Dashboard:</strong> Hiển thị banner cảnh báo đỏ nổi bật</li>
+              <li>• <strong>Biểu đồ:</strong> Đánh dấu thời điểm nguy hiểm</li>
+              <li>• <strong>Firebase:</strong> Lưu log sự kiện chi tiết</li>
+              <li>• <strong>Nhật ký:</strong> Ghi nhận thời gian, mức độ nguy hiểm</li>
             </ul>
           </div>
 
@@ -239,9 +237,10 @@ export default function Home() {
             <h3 className="text-2xl font-bold mb-3 text-sky-300">5️⃣ Xử lý khi mất kết nối</h3>
             <p className="text-gray-200">
               Nếu ESP32 mất kết nối WiFi/Firebase:<br />
-              • Hệ thống vẫn hoạt động độc lập (LCD + Buzzer + Relay)<br />
+              • Hệ thống vẫn hoạt động độc lập tại chỗ (LCD 1602)<br />
               • LCD hiển thị "⚠️ WiFi Lost" hoặc "⚠️ Firebase Lost"<br />
               • ESP32 tự động kết nối lại sau 30 giây<br />
+              • Web Dashboard hiển thị trạng thái "Offline" + giá trị cuối cùng<br />
               • Kiểm tra Dashboard → Trạng thái hệ thống để xem tình trạng
             </p>
           </div>
@@ -263,9 +262,7 @@ export default function Home() {
               <li>• <strong>Flame Sensor (Lửa):</strong> Nhạy với ánh sáng mạnh, tránh đặt gần cửa sổ</li>
               <li>• <strong>DHT22 (Nhiệt độ & Độ ẩm):</strong> Cập nhật mỗi 2 giây, không được đọc quá nhanh</li>
               <li>• <strong>LCD 1602 Shield:</strong> Hiển thị tại chỗ, điều chỉnh độ tương phản bằng biến trở</li>
-              <li>• <strong>Relay 2 kênh:</strong> Tải tối đa 10A/250VAC mỗi kênh, điều khiển thiết bị chữa cháy</li>
-              <li>• <strong>Buzzer:</strong> Còi báo động tích hợp, âm lượng cao khi có cảnh báo</li>
-              <li>• <strong>Nút nhấn:</strong> Trên LCD Shield, cho phép tương tác trực tiếp với hệ thống</li>
+              <li>• <strong>Firebase Realtime DB:</strong> Lưu trữ dữ liệu và logs trên Cloud</li>
             </ul>
 
             <h3 className="text-xl font-bold text-sky-300 mb-3 mt-6">🔥 Về môi trường:</h3>
@@ -279,10 +276,9 @@ export default function Home() {
             <ul className="ml-6 space-y-2">
               <li>• <strong>LCD 1602 không hiển thị:</strong> Kiểm tra nguồn USB 5V, điều chỉnh biến trở độ tương phản</li>
               <li>• <strong>ESP32 không kết nối WiFi:</strong> Hệ thống tự kết nối lại sau 30s, kiểm tra thông tin WiFi</li>
-              <li>• <strong>Buzzer kêu liên tục:</strong> Nhấn nút trên LCD Shield hoặc tắt từ Dashboard</li>
-              <li>• <strong>Relay không hoạt động:</strong> Kiểm tra nguồn USB, chế độ AUTO/MANUAL và kết nối dây</li>
+              <li>• <strong>Web Dashboard offline:</strong> Kiểm tra kết nối mạng, ESP32 có đang bật không</li>
               <li>• <strong>MQ-2 đọc giá trị sai:</strong> Chờ làm nóng đủ 5-10 phút, hiệu chuẩn lại nếu cần</li>
-              <li>• <strong>Nút nhấn không phản hồi:</strong> Kiểm tra kết nối LCD Shield với ESP32</li>
+              <li>• <strong>Firebase không cập nhật:</strong> Kiểm tra thông tin đăng nhập và quyền truy cập</li>
             </ul>
           </div>
         </div>
