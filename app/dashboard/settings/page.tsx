@@ -6,7 +6,7 @@ import { useUI } from "@/contexts/UIContext";
 import { useToast } from "@/contexts/ToastContext";
 import { SettingsTab } from "@/types/settings";
 import { db } from "@/lib/firebase";
-import { ref, set, get } from "firebase/database";
+import { ref, set, get, update } from "firebase/database";
 
 import IoTSettingsTab from "@/components/settings/IoTSettingsTab";
 import LogsSettingsTab from "@/components/settings/LogsSettingsTab";
@@ -21,7 +21,7 @@ export default function SettingsPage() {
 
   // Fetch settings from Firebase on mount
   const [iotSettings, setIoTSettings] = useState({
-    threshold: 400,
+    threshold: 200, // 🔧 Đổi default từ 400 → 200
     dataInterval: 2 as 1 | 2 | 5 | 10,
   });
 
@@ -35,7 +35,7 @@ export default function SettingsPage() {
         if (snapshot.exists()) {
           const data = snapshot.val();
           setIoTSettings({
-            threshold: data.threshold || 400,
+            threshold: data.threshold || 200, // 🔧 Đổi default từ 400 → 200
             dataInterval: data.dataInterval || 2,
           });
         }
@@ -82,9 +82,9 @@ export default function SettingsPage() {
 
   const handleSaveIoT = async (settings: typeof iotSettings) => {
     try {
-      // Save to Firebase /settings node
+      // Update Firebase /settings node (giữ nguyên các field khác như mode)
       const settingsRef = ref(db, "/settings");
-      await set(settingsRef, {
+      await update(settingsRef, {
         threshold: settings.threshold,
         dataInterval: settings.dataInterval,
       });

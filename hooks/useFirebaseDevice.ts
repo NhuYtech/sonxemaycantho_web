@@ -12,7 +12,7 @@ export function useFirebaseDevice() {
     fire: false,
     temperature: 0,
     humidity: 0,
-    threshold: 400,
+    threshold: 200, // 🔧 Đổi default từ 400 → 200
     firebase: false,
     hasReceivedData: false, // 🆕 Ban đầu chưa có dữ liệu
     gasHistory: [],
@@ -195,17 +195,17 @@ export function useFirebaseDevice() {
         const logsRef = ref(db, "/logs");
         push(logsRef, {
           timestamp,
-          type: fire ? "fire_detected" : (gas > (data.threshold || 400) ? "gas_warning" : "system_event"),
+          type: fire ? "fire_detected" : (gas > (data.threshold || 200) ? "gas_warning" : "system_event"),
           gas,
           fire,
           temperature,
           humidity,
-          threshold: data.threshold || 400,
+          threshold: data.threshold || 200,
           user: "system",
           note: fire 
             ? `🔥 Phát hiện lửa! Gas: ${gas}ppm, Nhiệt độ: ${temperature}°C`
-            : gas > (data.threshold || 400)
-            ? `⚠️ Gas vượt ngưỡng! ${gas}ppm > ${data.threshold || 400}ppm`
+            : gas > (data.threshold || 200)
+            ? `⚠️ Gas vượt ngưỡng! ${gas}ppm > ${data.threshold || 200}ppm`
             : `📊 Dữ liệu định kỳ: Gas ${gas}ppm, Nhiệt độ ${temperature}°C, Độ ẩm ${humidity}%`,
         }).catch(err => console.error("❌ Failed to save log:", err));
 
@@ -258,7 +258,7 @@ export function useFirebaseDevice() {
 
       setData((prev) => ({
         ...prev,
-        threshold: val.threshold ?? 400,
+        threshold: val.threshold ?? 200, // 🔧 Đổi default từ 400 → 200
         autoManual: val.mode === 1 ? "AUTO" : "MANUAL",
       }));
     });
