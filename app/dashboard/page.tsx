@@ -89,17 +89,17 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <DashboardStatCard
           title="Trạng thái khí Gas"
-          value={getGasLevelText()}
+          value={state.firebase ? getGasLevelText() : "🟢 Bình thường"}
           icon={Wind}
-          status={getGasStatus()}
-          subtitle={`${state.gas} ppm ${getGasDescription()}`}
+          status={state.firebase ? getGasStatus() : "safe"}
+          subtitle={state.firebase ? `${state.gas} ppm ${getGasDescription()}` : "Không có dữ liệu realtime"}
         />
         <DashboardStatCard
           title="Phát hiện nguồn nhiệt"
-          value={state.fire ? "🔥 Phát hiện lửa" : "✅ An toàn"}
+          value={state.firebase ? (state.fire ? "🔥 Phát hiện lửa" : "✅ An toàn") : "✅ An toàn"}
           icon={Flame}
-          status={getFireStatus()}
-          subtitle={state.fire ? "Cảm biến phát hiện nguồn nhiệt/ánh sáng bất thường" : "Không phát hiện nguồn lửa"}
+          status={state.firebase ? getFireStatus() : "safe"}
+          subtitle={state.firebase ? (state.fire ? "Cảm biến phát hiện nguồn nhiệt/ánh sáng bất thường" : "Không phát hiện nguồn lửa") : "Không có dữ liệu realtime"}
         />
         <DashboardStatCard
           title="Trạng thái hệ thống"
