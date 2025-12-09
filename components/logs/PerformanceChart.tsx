@@ -15,8 +15,17 @@ export default function PerformanceChart({ logs, timeFilter }: PerformanceChartP
     const oneHourMs = 60 * 60 * 1000;
     const oneDayMs = 24 * 60 * 60 * 1000;
 
-    let buckets;
-    let maxValue;
+    type BucketData = {
+      label: string;
+      fire: number;
+      gas: number;
+      tempHigh: number;
+      humidityLow: number;
+      connection: number;
+    };
+
+    let buckets: BucketData[];
+    let maxValue: number;
 
     // Xử lý filter theo giờ - chia thành 12 khoảng 5 phút
     if (timeFilter === "hour") {
