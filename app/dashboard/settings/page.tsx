@@ -6,7 +6,7 @@ import { useUI } from "@/contexts/UIContext";
 import { useToast } from "@/contexts/ToastContext";
 import { SettingsTab } from "@/types/settings";
 import { db } from "@/lib/firebase";
-import { ref, set, get, update } from "firebase/database";
+import { ref, set, get, update, onValue } from "firebase/database";
 
 import IoTSettingsTab from "@/components/settings/IoTSettingsTab";
 import LogsSettingsTab from "@/components/settings/LogsSettingsTab";
@@ -27,26 +27,26 @@ export default function SettingsPage() {
 
   // Load IoT settings from Firebase
   useEffect(() => {
-    const loadSettings = async () => {
-      try {
-        const settingsRef = ref(db, "/settings");
-        const snapshot = await get(settingsRef);
-        
-        if (snapshot.exists()) {
-          const data = snapshot.val();
-          setIoTSettings({
-            threshold: data.threshold || 200, // 🔧 Đổi default từ 400 → 200
-            dataInterval: data.dataInterval || 2,
-          });
-        }
-      } catch (error) {
-        console.error("Error loading settings:", error);
-      } finally {
-        setLoading(false);
+    const settingsRef = ref(db, "/settings");
+    
+    // 🔥 Sử dụng realtime listener thay vì get() 1 lần
+    const unsubscribe = onValue(settingsRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        setIoTSettings({
+          threshold: data.threshold || 200,
+          dataInterval: data.dataInterval || 2,
+        });
+        console.log("✅ Settings loaded from Firebase:", data);
       }
-    };
+      setLoading(false);
+    }, (error) => {
+      console.error("Error loading settings:", error);
+      setLoading(false);
+    });
 
-    loadSettings();
+    // Cleanup listener khi component unmount
+    return () => unsubscribe();
   }, []);
 
   const [logsSettings, setLogsSettings] = useState({
