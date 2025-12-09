@@ -33,15 +33,17 @@ export default function SettingsPage() {
     const unsubscribe = onValue(settingsRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
+        console.log("📥 Firebase realtime update:", data);
         setIoTSettings({
           threshold: data.threshold || 200,
           dataInterval: data.dataInterval || 2,
         });
-        console.log("✅ Settings loaded from Firebase:", data);
+      } else {
+        console.warn("⚠️ No settings found in Firebase, using defaults");
       }
       setLoading(false);
     }, (error) => {
-      console.error("Error loading settings:", error);
+      console.error("❌ Error loading settings:", error);
       setLoading(false);
     });
 
@@ -82,6 +84,8 @@ export default function SettingsPage() {
 
   const handleSaveIoT = async (settings: typeof iotSettings) => {
     try {
+      console.log("🔄 Saving to Firebase:", settings);
+      
       // Update Firebase /settings node (giữ nguyên các field khác như mode)
       const settingsRef = ref(db, "/settings");
       await update(settingsRef, {
@@ -89,9 +93,14 @@ export default function SettingsPage() {
         dataInterval: settings.dataInterval,
       });
       
+      console.log("✅ Successfully saved to Firebase:", settings);
+      
+      // Đọc lại để verify
+      const snapshot = await get(settingsRef);
+      console.log("🔍 Verify Firebase data:", snapshot.val());
+      
       setIoTSettings(settings);
-      toast.success("Đã lưu cài đặt IoT thành công!");
-      console.log("✅ IoT settings saved to Firebase:", settings);
+      toast.success(`Đã lưu: Ngưỡng ${settings.threshold}ppm`);
     } catch (error) {
       console.error("❌ Error saving IoT settings:", error);
       toast.error("Lỗi khi lưu cài đặt. Vui lòng thử lại!");
