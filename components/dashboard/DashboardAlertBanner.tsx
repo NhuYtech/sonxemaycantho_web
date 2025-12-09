@@ -1,14 +1,34 @@
 "use client";
 
-import { AlertTriangle, CheckCircle } from "lucide-react";
+import { AlertTriangle, CheckCircle, WifiOff } from "lucide-react";
 
 interface DashboardAlertBannerProps {
   fire: boolean;
   gas: number;
   threshold: number;
+  isOnline: boolean;
 }
 
-export default function DashboardAlertBanner({ fire, gas, threshold }: DashboardAlertBannerProps) {
+export default function DashboardAlertBanner({ fire, gas, threshold, isOnline }: DashboardAlertBannerProps) {
+  // Priority 0: Offline - Không có dữ liệu realtime => Hiển thị bình thường
+  if (!isOnline) {
+    return (
+      <div className="bg-green-700 border-2 border-green-600 rounded-xl p-4 shadow-[0_0_25px_rgba(34,197,94,0.3)]">
+        <div className="flex items-center gap-4">
+          <CheckCircle size={32} className="text-white" />
+          <div className="flex-1">
+            <h2 className="text-2xl font-bold text-white">🟢 HỆ THỐNG BÌNH THƯỜNG</h2>
+            <p className="text-green-100">Không có dữ liệu realtime - Hiển thị giá trị cuối cùng</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <WifiOff size={20} className="text-green-200" />
+            <p className="text-sm text-green-100">Offline</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Priority 1: Fire detection
   if (fire) {
     return (
