@@ -19,6 +19,7 @@ export function useFirebaseDevice() {
     humidityHistory: [],
     lastUpdate: 0,
     lastDHT22Update: 0,
+    autoManual: "AUTO",
   });
 
   const lastSaveTime = useRef<number>(0);
@@ -256,6 +257,7 @@ export function useFirebaseDevice() {
       setData((prev) => ({
         ...prev,
         threshold: val.threshold ?? 400,
+        autoManual: val.mode === 1 ? "AUTO" : "MANUAL",
       }));
     });
 
