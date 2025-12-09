@@ -14,6 +14,7 @@ export function useFirebaseDevice() {
     humidity: 0,
     threshold: 400,
     firebase: false,
+    hasReceivedData: false, // 🆕 Ban đầu chưa có dữ liệu
     gasHistory: [],
     tempHistory: [],
     humidityHistory: [],
@@ -245,6 +246,7 @@ export function useFirebaseDevice() {
           lastUpdate: Date.now(),
           lastDHT22Update: Date.now(),
           firebase: true,
+          hasReceivedData: true, // 🆕 Đánh dấu đã nhận được dữ liệu
         };
       });
     });
