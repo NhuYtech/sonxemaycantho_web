@@ -15,10 +15,10 @@ export default function FireAlertsTimeline({ history, threshold, tempHistory = [
     return history.map((item, index) => ({
       time: item.time,       // Full datetime for tooltip
       day: item.day,         // Day number for X axis
-      gas: item.value,
+      gas: item.value || 0,
       alert: item.value > threshold ? 1 : 0,
-      temp: tempHistory[index]?.value || 0,
-      humidity: humidityHistory[index]?.value || 0,
+      temp: tempHistory[index]?.value ?? 0,
+      humidity: humidityHistory[index]?.value ?? 0,
     }));
   }, [history, threshold, tempHistory, humidityHistory]);
 

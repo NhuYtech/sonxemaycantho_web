@@ -157,7 +157,6 @@ T+0.5s:  UI re-render, hiển thị "Gas: 320 ppm"
 | `/sensor/temp` | Nhiệt độ | ESP32 | Web (Dashboard) |
 | `/sensor/humi` | Độ ẩm | ESP32 | Web (Dashboard) |
 | `/history/{date}` | Lịch sử append | ESP32 + Web | Web (Chart) |
-| `/control/relay1` | Điều khiển relay | Web | ESP32 |
 | `/settings/threshold` | Ngưỡng cảnh báo | Web | ESP32 |
 
 ---

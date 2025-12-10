@@ -8,7 +8,7 @@
 {
   "sensor": {
     "mq2": 320,
-    "fire": 0,    // 0 = fire, 1 = normal
+    "fire": 0,    // 0 = CÓ CHÁY, 1 = BÌNH THƯỜNG (Flame sensor logic)
     "temp": 28,
     "humi": 65
   }
@@ -20,7 +20,7 @@
 {
   "sensor": {
     "mq2": 0,
-    "fire": 1,           // 1 = fire, 0 = normal (ĐÃ ĐỔI)
+    "fire": 1,           // 0 = CÓ CHÁY, 1 = BÌNH THƯỜNG (Flame sensor logic)
     "temp": -1,          // deprecated field
     "temperature": 31.1, // field mới
     "humi": -1,          // deprecated field  
@@ -31,10 +31,10 @@
 
 ## Chi tiết thay đổi
 
-### 1. Fire Detection Logic (ĐÃ ĐỔI)
-- **Trước**: `fire: 0` = có cháy, `fire: 1` = bình thường
-- **Sau**: `fire: 1` = có cháy, `fire: 0` = bình thường
-- **Code update**: `const fire = val.fire === 1;`
+### 1. Fire Detection Logic (LOGIC ĐÚNG)
+- **Flame Sensor**: Output LOW (0) khi phát hiện lửa/ánh sáng
+- **Logic đúng**: `fire: 0` = CÓ CHÁY, `fire: 1` = BÌNH THƯỜNG
+- **Code update**: `const fire = val.fire === 0;` // 0 means fire detected
 
 ### 2. Temperature & Humidity Fields
 - **Thêm mới**: `temperature` và `humidity` (tên đầy đủ)
@@ -71,7 +71,7 @@ Giờ lưu cả 2 format để đảm bảo tương thích:
 ## Files đã cập nhật
 
 ### 1. `hooks/useFirebaseDevice.ts`
-- ✅ Đổi logic fire detection: `val.fire === 1`
+- ✅ SỬA logic fire detection: `val.fire === 0` (0 = fire detected, 1 = normal)
 - ✅ Ưu tiên đọc `temperature`/`humidity`
 - ✅ Fallback về `temp`/`humi` nếu cần
 - ✅ Xử lý giá trị -1 (sensor lỗi)
@@ -100,9 +100,9 @@ Giờ lưu cả 2 format để đảm bảo tương thích:
 
 ## Lưu ý cho ESP32
 
-Cập nhật code ESP32 để:
+Code ESP32 cần:
 1. Ghi vào cả 2 field: `temperature`/`temp` và `humidity`/`humi`
-2. Đổi logic fire: gửi `1` khi phát hiện lửa, `0` khi bình thường
+2. Gửi giá trị thô từ Flame Sensor: `0` = phát hiện lửa, `1` = bình thường
 3. Gửi giá trị -1 khi sensor chưa sẵn sàng hoặc lỗi
 
 ### Ví dụ code ESP32:
@@ -117,6 +117,8 @@ Firebase.setFloat(firebaseData, "/sensor/humi", dht.humidity); // backward compa
 Firebase.setInt(firebaseData, "/sensor/temperature", -1);
 Firebase.setInt(firebaseData, "/sensor/temp", -1);
 
-// Fire detection (ĐỔI LOGIC)
+// Fire detection (GỬI GIÁ TRỊ THẬT TỪ SENSOR)
+int fireDetected = digitalRead(FLAME_PIN); // 0 = fire, 1 = normal
+Firebase.setInt(firebaseData, "/sensor/fire", fireDetected);
 Firebase.setInt(firebaseData, "/sensor/fire", fireDetected ? 1 : 0);
 ```

@@ -172,12 +172,13 @@ export default function GasPerformanceChart({ history, threshold, mode, isOnline
   // Calculate stats
   const stats = useMemo(() => {
     if (chartData.length === 0) return { min: 0, max: 0, avg: 0, current: 0 };
-    const values = chartData.map(d => d.gas);
+    const values = chartData.map(d => d.gas).filter(v => typeof v === 'number' && !isNaN(v));
+    if (values.length === 0) return { min: 0, max: 0, avg: 0, current: 0 };
     return {
       min: Math.min(...values),
       max: Math.max(...values),
       avg: Math.round(values.reduce((a, b) => a + b, 0) / values.length),
-      current: values[values.length - 1]
+      current: values[values.length - 1] || 0
     };
   }, [chartData]);
 

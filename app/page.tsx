@@ -304,7 +304,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-blue-900/30 bg-[#152A45]/60 py-8">
         <div className="container mx-auto px-6 text-center text-gray-400">
-          <p>Được phát triển bởi <span className="text-blue-400 font-semibold">NHƯ Ý</span></p>
+          {/* <p>Được phát triển bởi <span className="text-blue-400 font-semibold">NHƯ Ý</span></p> */}
           <p className="mt-2 text-sm">© 2025 CanTho FireGuard. All rights reserved.</p>
         </div>
       </footer>

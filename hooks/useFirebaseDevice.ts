@@ -156,7 +156,7 @@ export function useFirebaseDevice() {
       if (!val) return;
 
       const gas = val.mq2 ?? 0;
-      const fire = val.fire === 1; // fire=1 means fire detected, fire=0 means normal
+      const fire = val.fire === 0; // 🔥 fire=0 means FIRE DETECTED, fire=1 means NORMAL (Flame sensor logic)
       // Ưu tiên đọc temperature/humidity, fallback về temp/humi nếu không có hoặc = -1
       let temperature = val.temperature ?? val.temp ?? 0;
       let humidity = val.humidity ?? val.humi ?? 0;

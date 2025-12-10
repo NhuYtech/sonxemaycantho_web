@@ -76,7 +76,7 @@ export default function FireAlertLogin() {
           </button>
 
           {/* Link to Register */}
-          <div className="text-center mt-6 text-sm text-gray-300">
+          {/* <div className="text-center mt-6 text-sm text-gray-300">
             Chưa có tài khoản?{" "}
             <a
               href="/register"
@@ -84,14 +84,14 @@ export default function FireAlertLogin() {
             >
               Đăng ký ngay
             </a>
-          </div>
+          </div> */}
         </div>
 
         {/* Footer */}
-        <div className="text-center mt-8 text-xs text-gray-400">
+        {/* <div className="text-center mt-8 text-xs text-gray-400">
           Được phát triển bởi{" "}
           <span className="text-sky-400 font-semibold">NHƯ Ý</span>
-        </div>
+        </div> */}
       </div>
     </div>
   );
