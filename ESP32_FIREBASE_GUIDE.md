@@ -13,8 +13,6 @@ firebase-root/
 │   └── humi: 65        (Humidity %)
 │
 ├── control/             ← Điều khiển thiết bị
-│   ├── relay1: 0       (0=OFF, 1=ON)
-│   ├── relay2: 0
 │   └── buzzer: 0
 │
 ├── settings/            ← Cài đặt hệ thống
@@ -48,8 +46,6 @@ firebase-root/
 #define MQ2_PIN 34        // Analog pin for MQ-2
 #define FIRE_PIN 35       // Digital pin for Fire sensor
 #define DHT_PIN 4         // DHT22 data pin
-#define RELAY1_PIN 26
-#define RELAY2_PIN 27
 #define BUZZER_PIN 25
 
 // ===== OBJECTS =====
@@ -74,8 +70,6 @@ void setup() {
   // Setup pins
   pinMode(MQ2_PIN, INPUT);
   pinMode(FIRE_PIN, INPUT);
-  pinMode(RELAY1_PIN, OUTPUT);
-  pinMode(RELAY2_PIN, OUTPUT);
   pinMode(BUZZER_PIN, OUTPUT);
   
   // Start DHT22
@@ -185,18 +179,6 @@ void saveHistory() {
 
 // ===== LẮNG NGHE LỆNH ĐIỀU KHIỂN =====
 void listenControl() {
-  // Read relay1 state
-  if (Firebase.getInt(firebaseData, "/control/relay1")) {
-    int relay1 = firebaseData.intData();
-    digitalWrite(RELAY1_PIN, relay1);
-  }
-  
-  // Read relay2 state
-  if (Firebase.getInt(firebaseData, "/control/relay2")) {
-    int relay2 = firebaseData.intData();
-    digitalWrite(RELAY2_PIN, relay2);
-  }
-  
   // Read buzzer state
   if (Firebase.getInt(firebaseData, "/control/buzzer")) {
     int buzzer = firebaseData.intData();

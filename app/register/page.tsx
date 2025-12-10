@@ -107,10 +107,10 @@ export default function RegisterPage() {
         </div>
 
         {/* Footer */}
-        <div className="text-center mt-8 text-xs text-gray-400">
+        {/* <div className="text-center mt-8 text-xs text-gray-400">
           Được phát triển bởi{" "}
           <span className="text-sky-400 font-semibold">NHƯ Ý</span>
-        </div>
+        </div> */}
       </div>
 
       {/* Modal - Tài khoản đã tồn tại */}

@@ -12,10 +12,10 @@ interface DHT22SensorPanelProps {
 export default function DHT22SensorPanel({ temperature, humidity, tempHistory, humidityHistory }: DHT22SensorPanelProps) {
   // Calculate trends
   const tempTrend = tempHistory.length > 1 
-    ? temperature - tempHistory[tempHistory.length - 2].value 
+    ? temperature - (tempHistory[tempHistory.length - 2]?.value ?? temperature)
     : 0;
   const humidityTrend = humidityHistory.length > 1 
-    ? humidity - humidityHistory[humidityHistory.length - 2].value 
+    ? humidity - (humidityHistory[humidityHistory.length - 2]?.value ?? humidity)
     : 0;
 
   const getTempStatus = () => {

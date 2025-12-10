@@ -13,8 +13,8 @@ export default function TemperatureHumidityChart({ tempHistory, humidityHistory 
     return tempHistory.map((item, index) => ({
       time: item.time,       // Full datetime for tooltip
       day: item.day,         // Day number for X axis
-      temperature: item.value,
-      humidity: humidityHistory[index]?.value || 0,
+      temperature: item.value ?? 0,
+      humidity: humidityHistory[index]?.value ?? 0,
     }));
   }, [tempHistory, humidityHistory]);
 

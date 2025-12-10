@@ -6,7 +6,7 @@
 {
   "sensor": {
     "mq2": 0,             // Nồng độ gas (ppm) từ cảm biến MQ-2
-    "fire": 1,            // Cảm biến lửa: 1 = có cháy, 0 = không cháy
+    "fire": 1,            // Cảm biến lửa: 0 = CÓ CHÁY, 1 = BÌNH THƯỜNG (Flame sensor logic)
     "temp": -1,           // Nhiệt độ cũ (°C) - deprecated, dùng temperature
     "temperature": 31.1,  // Nhiệt độ mới (°C) từ DHT22
     "humi": -1,           // Độ ẩm cũ (%) - deprecated, dùng humidity
@@ -14,8 +14,6 @@
   },
   
   "control": {
-    "relay1": 0,          // Relay 1: 0 = TẮT, 1 = BẬT
-    "relay2": 0,          // Relay 2: 0 = TẮT, 1 = BẬT
     "buzzer": 0           // Còi báo động: 0 = TẮT, 1 = BẬT
   },
   
@@ -63,7 +61,7 @@
 - Web hiển thị giá trị gas, fire, temperature, humidity ngay lập tức
 
 ### 2. Từ Web → Firebase → IoT Device
-- User thay đổi relay/mode trên web
+- User thay đổi cài đặt trên web
 - Web ghi vào `/control` hoặc `/settings`
 - ESP32 lắng nghe và thực hiện điều khiển phần cứng
 
@@ -137,17 +135,6 @@ void loop() {
   int fireValue = digitalRead(35); // GPIO 35
   Firebase.setInt(fbdo, "/sensor/fire", fireValue);
   
-  // Đọc lệnh điều khiển từ Firebase
-  if (Firebase.getInt(fbdo, "/control/relay1")) {
-    int relay1 = fbdo.intData();
-    digitalWrite(25, relay1); // GPIO 25
-  }
-  
-  if (Firebase.getInt(fbdo, "/control/relay2")) {
-    int relay2 = fbdo.intData();
-    digitalWrite(26, relay2); // GPIO 26
-  }
-  
   delay(1000); // Cập nhật mỗi giây
 }
 ```
@@ -169,11 +156,9 @@ void loop() {
    }
    ```
 5. Mở web dashboard → Xem dữ liệu hiển thị ngay lập tức
-6. Thay đổi relay trên web → Xem giá trị trong Firebase Database thay đổi
 
 ## Notes
 
 - Hook `useFirebaseDevice` tự động subscribe realtime changes
 - Khi slider threshold thay đổi → tự động ghi vào `/settings/threshold`
-- Khi toggle relay → tự động ghi vào `/control/relay1` hoặc `/control/relay2`
 - Gas history được tạo local trên web (20 điểm gần nhất)
